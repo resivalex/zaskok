@@ -1,0 +1,88 @@
+$nav-color: #88f;
+$hover-color: #66f;
+$light-color: #ccf;
+$text-color: #445;
+
+body {
+	color: $text-color;
+	font-family: Verdana;
+	font-size: 20px;
+	margin: 0;
+}
+
+// navigation menu
+nav {
+	background-color: $nav-color;
+	box-shadow: 0 0 5px black;
+	text-align: center;
+	top: 0;
+	width: 100%;
+	min-width: 960px;
+	z-index: 1000;
+
+	ul {
+		display: table;
+		list-style-type: none;
+		margin: 0 auto;
+		padding: 0;
+	}
+
+	li {
+		float: left;
+		margin: 0;
+		padding: 0;
+	}
+
+	a {
+		background: $nav-color;
+		color: white;
+		display: block;
+		margin: 0;
+		padding: 10px 20px;
+		text-decoration: none;
+
+		&:hover {
+			background: $hover-color;
+			border-bottom: solid 3px white;
+		}
+
+		&.active {
+			background: #235;
+			border-bottom: solid 3px white;
+		}
+	}
+}
+
+// landing sections
+section.card {
+	display: block;
+	// clearfix effect
+	overflow: hidden;
+
+	&:nth-of-type(even) {
+		background-color: #eee;
+	}
+}
+
+h2 {
+	border-bottom: solid 1px gray;
+	font-size: 36px;
+	margin: 0 auto 20px;
+	padding-top: 30px;
+	padding-bottom: 20px;
+	text-align: center;
+	width: 960px;
+}
+
+h3 {
+	margin: 0 auto;
+	text-align: center;
+}
+
+@import "summary";
+@import "programs";
+@import "prices";
+@import "about";
+@import "order";
+@import "contacts";
+@import "footer";

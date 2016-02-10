@@ -1,0 +1,42 @@
+.youtube {
+	margin: 0 auto;
+	width: 800px;
+
+	position: relative;
+
+	&::before {
+		content: '';
+		display: block;
+		width: 100%;
+		padding-top: 56.3%;
+	}
+
+	.player {
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		iframe {
+			width: 100%;
+			height: 100%;
+		}
+	}
+}
+
+.about-info {
+	margin: 0 auto;
+	width: 960px;
+
+	.col {
+		box-sizing: border-box;
+		float: left;
+		padding: 2%;
+		text-align: justify;
+		width: 33.333%;
+
+		.picture {
+			text-align: center;
+		}
+	}
+}

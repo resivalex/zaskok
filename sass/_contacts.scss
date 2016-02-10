@@ -1,0 +1,32 @@
+.contacts-container {
+	display: table;
+	margin: 0 auto;
+
+	table.contacts {
+		display: inline-block;
+		font-size: 20px;
+		margin: 0 20px 20px;
+
+		img {
+			height: 35px;
+			top: 2px;
+			position: relative;
+			width: 35px;
+		}
+
+		td {
+
+			&:first-child {
+				font-size: 2em;
+			}
+		}
+	}
+
+	a {
+		color: $text-color;
+	}
+}
+
+#map {
+	height: 400px;
+}

@@ -1,0 +1,117 @@
+#order-content {
+	display: table;
+	margin: 0 auto;
+
+	.control {
+		margin: 0 0 20px;
+		width: 100%;
+	}
+
+	.control-header {
+		@extend .control;
+
+		font-size: 30px;
+		margin-bottom: 10px;
+	}
+
+	.control-group {
+		float: left;
+		margin-bottom: 30px;
+		padding: 0 10px;
+	}
+
+	.ui-state-active {
+		background: $nav-color;
+		border-color: $nav-color;
+		color: white;
+	}
+
+	.ui-state-hover {
+		background: $hover-color;
+		border-color: $nav-color;
+		color: white;
+	}
+
+	.recall, .date-container {
+		@extend .control-group;
+	}
+
+	.date-title {
+		@extend .control-header;
+	}
+
+	#datepicker {
+		.ui-widget-header {
+			background: $nav-color;
+		}
+
+		.ui-datepicker-next, .ui-datepicker-prev {
+			background: $nav-color;
+			border-color: white;
+		}
+
+		.ui-datepicker-title {
+			color: white;
+		}
+
+		th {
+			color: $text-color;
+		}
+	}
+
+	.recall {
+		#guests-count {
+			@extend .control;
+
+			input[type=radio] {
+				display: none;
+			}
+		}
+
+		.time-display, .guests-title {
+			@extend .control-header;
+		}
+
+		#time-slider {
+			@extend .control;
+
+			.ui-slider-handle {
+				border-radius: 50%;
+			}
+		}
+	}
+
+	input {
+		@extend .control;
+
+		box-sizing: border-box;
+		font-size: 24px;
+		height: 50px;
+		padding: 5px;
+		display: block;
+		border-radius: 3px;
+
+		&[type=text] {
+			border: solid 3px $light-color;
+
+			&:focus {
+				border-color: $nav-color;
+			}
+
+			&:hover {
+				border-color: $hover-color;
+			}
+		}
+
+		&[type=button] {
+			background-color: $nav-color;
+			border: none;
+			color: white;
+			cursor: pointer;
+
+			&:hover {
+				background-color: $hover-color;
+			}
+		}
+	}
+}

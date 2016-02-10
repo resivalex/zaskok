@@ -1,0 +1,275 @@
+body {
+  color: #445;
+  font-family: Verdana;
+  font-size: 20px;
+  margin: 0; }
+
+nav {
+  background-color: #88f;
+  box-shadow: 0 0 5px black;
+  text-align: center;
+  top: 0;
+  width: 100%;
+  min-width: 960px;
+  z-index: 1000; }
+  nav ul {
+    display: table;
+    list-style-type: none;
+    margin: 0 auto;
+    padding: 0; }
+  nav li {
+    float: left;
+    margin: 0;
+    padding: 0; }
+  nav a {
+    background: #88f;
+    color: white;
+    display: block;
+    margin: 0;
+    padding: 10px 20px;
+    text-decoration: none; }
+    nav a:hover {
+      background: #66f;
+      border-bottom: solid 3px white; }
+    nav a.active {
+      background: #235;
+      border-bottom: solid 3px white; }
+
+section.card {
+  display: block;
+  overflow: hidden; }
+  section.card:nth-of-type(even) {
+    background-color: #eee; }
+
+h2 {
+  border-bottom: solid 1px gray;
+  font-size: 36px;
+  margin: 0 auto 20px;
+  padding-top: 30px;
+  padding-bottom: 20px;
+  text-align: center;
+  width: 960px; }
+
+h3 {
+  margin: 0 auto;
+  text-align: center; }
+
+.programs-info {
+  margin: 0 auto;
+  width: 960px; }
+  .programs-info h3 {
+    font-size: 30px; }
+  .programs-info .col {
+    box-sizing: border-box;
+    float: left;
+    padding: 2%;
+    text-align: justify;
+    width: 33.333%; }
+    .programs-info .col .picture {
+      text-align: center; }
+
+#prices .container {
+  display: table;
+  margin: 0 auto;
+  padding-bottom: 20px;
+  width: 960px; }
+#prices .stars {
+  color: black; }
+
+.pricelist {
+  box-sizing: border-box;
+  float: left;
+  position: relative;
+  top: 20px;
+  width: 33.33%; }
+  .pricelist table {
+    border: solid 3px #88f;
+    border-collapse: collapse;
+    margin: 0 auto;
+    padding: 5px;
+    width: 90%; }
+    .pricelist table tr:nth-child(odd) {
+      background-color: #eef; }
+    .pricelist table th {
+      background-color: #88f;
+      color: white;
+      padding: 10px;
+      font-size: 24px; }
+    .pricelist table td {
+      font-size: 20px;
+      padding: 4px 20px; }
+      .pricelist table td:first-child {
+        padding-right: 5px; }
+      .pricelist table td:last-child {
+        text-align: right;
+        padding-left: 5px; }
+  .pricelist.sertificate {
+    top: 0; }
+    .pricelist.sertificate table {
+      width: 100%; }
+    .pricelist.sertificate img {
+      width: 100%; }
+    .pricelist.sertificate td.picture {
+      padding: 0;
+      padding-top: 5px; }
+
+p.note {
+  clear: both;
+  margin: 0;
+  padding: 0 0 5px;
+  text-align: center;
+  width: 960px; }
+  p.note:first-of-type {
+    padding-top: 20px; }
+
+.youtube {
+  margin: 0 auto;
+  width: 800px;
+  position: relative; }
+  .youtube::before {
+    content: '';
+    display: block;
+    width: 100%;
+    padding-top: 56.3%; }
+  .youtube .player {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0; }
+    .youtube .player iframe {
+      width: 100%;
+      height: 100%; }
+
+.about-info {
+  margin: 0 auto;
+  width: 960px; }
+  .about-info .col {
+    box-sizing: border-box;
+    float: left;
+    padding: 2%;
+    text-align: justify;
+    width: 33.333%; }
+    .about-info .col .picture {
+      text-align: center; }
+
+#order-content {
+  display: table;
+  margin: 0 auto; }
+  #order-content .control, #order-content .control-header, #order-content .date-title, #order-content .recall .time-display, #order-content .recall .guests-title, #order-content .recall #guests-count, #order-content .recall #time-slider, #order-content input {
+    margin: 0 0 20px;
+    width: 100%; }
+  #order-content .control-header, #order-content .date-title, #order-content .recall .time-display, #order-content .recall .guests-title {
+    font-size: 30px;
+    margin-bottom: 10px; }
+  #order-content .control-group, #order-content .recall, #order-content .date-container {
+    float: left;
+    margin-bottom: 30px;
+    padding: 0 10px; }
+  #order-content .ui-state-active {
+    background: #88f;
+    border-color: #88f;
+    color: white; }
+  #order-content .ui-state-hover {
+    background: #66f;
+    border-color: #88f;
+    color: white; }
+  #order-content #datepicker .ui-widget-header {
+    background: #88f; }
+  #order-content #datepicker .ui-datepicker-next, #order-content #datepicker .ui-datepicker-prev {
+    background: #88f;
+    border-color: white; }
+  #order-content #datepicker .ui-datepicker-title {
+    color: white; }
+  #order-content #datepicker th {
+    color: #445; }
+  #order-content .recall #guests-count input[type=radio] {
+    display: none; }
+  #order-content .recall #time-slider .ui-slider-handle {
+    border-radius: 50%; }
+  #order-content input {
+    box-sizing: border-box;
+    font-size: 24px;
+    height: 50px;
+    padding: 5px;
+    display: block;
+    border-radius: 3px; }
+    #order-content input[type=text] {
+      border: solid 3px #ccf; }
+      #order-content input[type=text]:focus {
+        border-color: #88f; }
+      #order-content input[type=text]:hover {
+        border-color: #66f; }
+    #order-content input[type=button] {
+      background-color: #88f;
+      border: none;
+      color: white;
+      cursor: pointer; }
+      #order-content input[type=button]:hover {
+        background-color: #66f; }
+
+.contacts-container {
+  display: table;
+  margin: 0 auto; }
+  .contacts-container table.contacts {
+    display: inline-block;
+    font-size: 20px;
+    margin: 0 20px 20px; }
+    .contacts-container table.contacts img {
+      height: 35px;
+      top: 2px;
+      position: relative;
+      width: 35px; }
+    .contacts-container table.contacts td:first-child {
+      font-size: 2em; }
+  .contacts-container a {
+    color: #445; }
+
+#map {
+  height: 400px; }
+
+.partners {
+  text-align: center;
+  padding-top: 10px; }
+  .partners .container {
+    display: inline-block;
+    margin: 0 auto; }
+    .partners .container .a {
+      float: left;
+      width: 100px; }
+      .partners .container .a:hover img {
+        border-color: white; }
+      .partners .container .a:hover .title span {
+        text-decoration: underline; }
+      .partners .container .a img {
+        background-color: white;
+        border-radius: 50%;
+        border: solid 5px black;
+        height: 60px;
+        padding: 10px;
+        width: 60px;
+        transition: border-color;
+        transition-duration: 500ms; }
+      .partners .container .a .title {
+        font-size: 14px;
+        margin: 0;
+        position: relative;
+        text-align: center;
+        top: -5px; }
+        .partners .container .a .title span {
+          border-radius: 5px;
+          background-color: rgba(0, 0, 0, 0.8);
+          color: white;
+          padding: 5px; }
+
+footer {
+  background-color: #111;
+  text-align: center; }
+  footer .copy {
+    background-color: rgba(0, 0, 0, 0.8);
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    color: white;
+    display: inline-block;
+    padding: 5px 15px;
+    text-align: center; }

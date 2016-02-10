@@ -1,0 +1,20 @@
+.programs-info {
+	margin: 0 auto;
+	width: 960px;
+
+	h3 {
+		font-size: 30px;
+	}
+
+	.col {
+		box-sizing: border-box;
+		float: left;
+		padding: 2%;
+		text-align: justify;
+		width: 33.333%;
+
+		.picture {
+			text-align: center;
+		}
+	}
+}
