@@ -1,4 +1,20 @@
+.about-container {
+	margin: 0 auto;
+	padding-bottom: 30px;
+	width: 960px;
+}
+
+.sample {
+	background-image: url("../img/sample.jpg");
+	background-size: cover;
+	box-shadow: 3px 3px 10px black;
+	float: right;
+	height: 400px;
+	width: 19.5%;
+}
+
 .youtube {
+	clear: both;
 	margin: 0 auto;
 	width: 800px;
 
@@ -24,19 +40,83 @@
 	}
 }
 
-.about-info {
-	margin: 0 auto;
-	width: 960px;
+.fact-container {
+	margin-bottom: 30px;
 
-	.col {
-		box-sizing: border-box;
-		float: left;
-		padding: 2%;
-		text-align: justify;
-		width: 33.333%;
+	&::after {
+		content: ' ';
+		clear: both;
+		display: table;
+		height: 0;
+	}
+}
 
-		.picture {
-			text-align: center;
+.fact {
+	float: left;
+	clear: both;
+	width: 100%;
+
+	&:nth-child(even) {
+		padding-left: 5%;
+
+		.image {
+			// float: right;
 		}
+
+		.text {
+			// float: left;
+			width: 75%;
+		}
+	}
+
+	h3 {
+		// border-bottom: solid 1px gray;
+		font-size: 20px;
+		text-align: left;
+	}
+
+	ul {
+		list-style-type: none;
+		padding: 0 0 20px;
+	}
+
+	li {
+		font-size: 16px;
+		padding: 2px 0;
+	}
+
+	.image {
+		background-size: auto 100%;
+		background-position: center center;
+		background-repeat: no-repeat;
+		float: left;
+		height: 150px;
+		width: 19.9%;
+	}
+
+	.text {
+		float: right;
+		width: 80%;
+	}
+
+	.children-image {
+		background-image: url("../img/children.png");
+	}
+
+	.gift-image {
+		background-image: url("../img/gift-box.png");
+	}
+
+	.house-image {
+		background-image: url("../img/house.png");
+	}
+
+	.leaf-image {
+		background-image: url("../img/leaf.png");
+	}
+
+	.ball-image {
+		background-image: url("../img/ball.png");
+		background-size: auto 80%;
 	}
 }

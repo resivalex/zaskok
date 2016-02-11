@@ -14,9 +14,10 @@
 .pricelist {
 	box-sizing: border-box;
 	float: left;
-	position: relative;
-	top: 20px;
-	width: 33.33%;
+	margin-bottom: 30px;
+	// position: relative;
+	// top: 20px;
+	width: 49.9%;
 
 	table {
 		border: solid 3px $nav-color;
@@ -25,8 +26,21 @@
 		padding: 5px;
 		width: 90%;
 
-		tr:nth-child(odd) {
-			background-color: #eef;
+		tr {
+			&:nth-child(odd) {
+				background-color: $light-color;
+			}
+
+			&.time td {
+				background-color: $hover-color;
+				color: white;
+				font-size: 14px;
+				text-align: center;
+			}
+
+			&:hover {
+				color: black;
+			}
 		}
 
 		th {
@@ -48,24 +62,32 @@
 				text-align: right;
 				padding-left: 5px;
 			}
+
+			sup {
+				font-size: 0.8em;
+			}
 		}
 	}
 
 	&.sertificate {
-		top: 0;
+		// top: 0;
 		
-		table {
-			width: 100%;
-		}
+		// table {
+		// 	// width: 100%;
+		// }
 
 		img {
 			width: 100%;
 		}
 
-		td.picture {
-			padding: 0;
-			padding-top: 5px;
-		}
+		// td.picture {
+		// 	padding: 0;
+		// 	padding-top: 5px;
+		// }
+	}
+
+	&.holidays {
+		float: right;
 	}
 }
 

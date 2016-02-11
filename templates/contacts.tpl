@@ -1,18 +1,18 @@
 <div class="contacts-container">
 	<table class="contacts">
 		<tr>
-			<td><!--➤⚑⚐--><img src="img/location.png"></td><td>г. Псков, Октябрьский проспект, д. 54</td>
+			<td><!--➤⚑⚐--><img src="img/location.png"></td><td>ТРЦ "Омега", 3-ий этаж<br/>г.Ижевск, ул. 10 лет Октября, д.32</td>
 		</tr>
 		<tr>
-			<td><!--☎-->✆</td><td>+7-911-382-81-66</td>
+			<td><!--☎-->✆</td><td>8-(3412)-64-15-90</td>
 		</tr>
 	</table>
 	<table class="contacts">
 		<tr>
-			<td>✉</td><td>airplaza60@gmail.com</td>
+			<td><img src="img/vk.png"></td><td><a href="http://vk.com/zaskok18">vk.com/zaskok18</a></td>
 		</tr>
 		<tr>
-			<td><img src="img/vk.png"></td><td><a href="http://vk.com/airplaza">vk.com/airplaza</a></td>
+			<td>✉</td><td>zaskok18@bk.ru</td>
 		</tr>
 	</table>
 </div>

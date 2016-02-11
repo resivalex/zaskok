@@ -1,5 +1,5 @@
 <footer>
-	<div class="partners">
+{* 	<div class="partners">
 		<div class="container">
 			{foreach $partners as $partner}
 				<a href="{$partner.url}">
@@ -13,8 +13,11 @@
 			{/foreach}
 		</div>
 	</div>
-
+ *}
 	<div class="copy">
-		Все права защищены &copy; Air Plaza 2015-{date('Y')}
-	</div>  
+		&copy; Батутный центр ZAскок 2015-{date('Y')}
+	</div>
+	<div class="developer">
+		разработка сайта: Решетников И. А. 
+	</div>
 </footer>

@@ -17,13 +17,18 @@
 		td {
 
 			&:first-child {
-				font-size: 2em;
+				color: black;
+				font-size: 40px;
 			}
 		}
 	}
 
 	a {
 		color: $text-color;
+
+		&:hover {
+			color: black;
+		}
 	}
 }
 

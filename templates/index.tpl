@@ -4,7 +4,8 @@
   <meta charset="utf-8">
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
   <link rel="stylesheet" type="text/css" href="css/landing.css">
-  <title>Air Plaza - Батутный парк</title>
+  <link type="text/css" rel="stylesheet" href="light-gallery/css/lightgallery.css" /> 
+  <title>ZAскок - Батутный центр</title>
 </head>
 <body>
 
@@ -25,14 +26,23 @@
   <script type="text/javascript" src="js/map.js" charset="utf-8"></script>
   <!-- Landing interactions -->
   <script type="text/javascript" src="js/landing.js"></script>
-  <!-- Slider setup -->
-  <script type="text/javascript" src="js/slider.js"></script>
+  <!-- jQuery version must be >= 1.8.0; -->
+  <script src="light-gallery/js/lightgallery.min.js"></script>
+  <!-- A jQuery plugin that adds cross-browser mouse wheel support. (Optional) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js"></script>
+  <!-- lightgallery plugins -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/1.2.14/js/lg-thumbnail.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/1.2.14/js/lg-fullscreen.min.js"></script>
+
   <!-- LiveReload -->
   <script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
 
   <div class="under-nav"></div>
   <nav>
     <ul>
+      <li>
+        <a class="menu-logo">&nbsp;</a>
+      </li>
       {foreach $sections as $section}
         <li>
           <a href="#{$section.id}">{$section.title}</a>
@@ -40,12 +50,15 @@
       {/foreach}
     </ul>
   </nav>
+  <header>
+    {include file='header.tpl'}
+  </header>
   {foreach $sections as $section}
     <section id="{$section.id}" class="card">
       {* First section hasn't header *}
-      {if $section@iteration != 1}
+      {* {if $section@iteration != 1} *}
         <h2>{$section.title}</h2>
-      {/if}
+      {* {/if} *}
       {include file={$section.file} }
     </section>
   {/foreach}

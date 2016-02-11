@@ -1,14 +1,11 @@
 <div class="container">
-	<div class="pricelist popup">
+	<div class="pricelist workdays rand-popup">
 		<table>
 			<tr>
-				<th colspan="2">РАЗОВЫЕ ПОСЕЩЕНИЯ</th>
+				<th colspan="2">Будние дни</th>
 			</tr>
-			<tr>
-				<td>1 час</td><td>300 рублей</td>
-			</tr>
-			<tr>
-				<td>2 часа<span class="stars">*</span></td><td>500 рублей</td>
+			<tr class="time">
+				<td colspan="2">10<sup>00</sup>-22<sup>00</sup></td>
 			</tr>
 			<tr>
 				<td>10 минут</td><td>100 рублей</td>
@@ -16,41 +13,75 @@
 			<tr>
 				<td>30 минут</td><td>200 рублей</td>
 			</tr>
+			<tr>
+				<td>60 минут</td><td>300 рублей</td>
+			</tr>
+			<tr>
+				<td>Аренда зала</td><td>3000 рублей</td>
+			</tr>
 		</table>
 	</div>
 
-	<div class="pricelist sertificate popup">
+	<div class="pricelist holidays rand-popup">
 		<table>
 			<tr>
-				<th colspan="2">CЕРТИФИКАТ</th>
+				<th colspan="2">Выходные и<br/>праздничные дни</th>
+			</tr>
+			<tr class="time">
+				<td colspan="2">10<sup>00</sup>-12<sup>00</sup></td>
 			</tr>
 			<tr>
-				<td>стоимость</td><td>600 рублей</td>
+				<td>10 минут</td><td>100 рублей</td>
 			</tr>
+			<tr>
+				<td>30 минут</td><td>200 рублей</td>
+			</tr>
+			<tr>
+				<td>60 минут</td><td>300 рублей</td>
+			</tr>
+			<tr class="time">
+				<td colspan="2">12<sup>00</sup>-20<sup>00</sup></td>
+			</tr>
+			<tr>
+				<td>10 минут</td><td>100 рублей</td>
+			</tr>
+			<tr>
+				<td>30 минут</td><td>250 рублей</td>
+			</tr>
+			<tr>
+				<td>60 минут</td><td>400 рублей</td>
+			</tr>
+			<tr class="time">
+				<td colspan="2">20<sup>00</sup>-22<sup>00</sup></td>
+			</tr>
+			<tr>
+				<td>10 минут</td><td>100 рублей</td>
+			</tr>
+			<tr>
+				<td>30 минут</td><td>200 рублей</td>
+			</tr>
+			<tr>
+				<td>60 минут</td><td>300 рублей</td>
+			</tr>
+			<tr>
+				<td>Аренда зала</td><td>4000 рублей</td>
+			</tr>
+		</table>
+	</div>
+
+	<div class="pricelist sertificate rand-popup">
+		<table>
+			<tr>
+				<th colspan="2">Сертификаты</th>
+			</tr>
+			{* <tr> *}
+				{* <td>стоимость</td><td>600 рублей</td> *}
+			{* </tr> *}
 			<tr>
 				<td class="picture" colspan="2">
-					<img src="img/gift.png" />
+					<img src="img/sertificate.jpg" />
 				</td>
 			</tr>
 		</table>
 	</div>
-
-	<div class="pricelist popup">
-		<table>
-			<tr>
-				<th colspan="2">АБОНЕМЕНТЫ</th>
-			</tr>
-			<tr>
-				<td>5 занятий<span class="stars">**</span></td><td>1350 рублей</td>
-			</tr>
-			<tr>
-				<td>10 занятий</td><td>2550 рублей</td>
-			</tr>
-			<tr>
-				<td>20 занятий</td><td>4800 рублей</td>
-			</tr>
-		</table>
-	</div>
-	<p class="note"><span class="stars">*</span>Цена за 2 часа тарифицируется, если Вы прыгаете 2 часа подряд в одно посещение; </p>
-	<p class="note"><span class="stars">**</span>1 занятие по абонементу - это 1 час прыжков за одно посещение.</p>
 </div>

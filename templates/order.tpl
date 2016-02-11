@@ -19,7 +19,8 @@ VK.UI.button('vk-login-button');
 </script> *}
 
 <div id="order-content">
-	<div class="recall popup">
+	<p>Не реализовано</p>
+{* 	<div class="recall popup">
 		<div class="guests-title">Количество человек</div>
 		<div id="guests-count">
 			<input type="radio" id="radio1" name="radio" checked="checked"><label for="radio1">1</label>
@@ -38,4 +39,4 @@ VK.UI.button('vk-login-button');
 		<div class="date-title">Дата</div>
 		<div id="datepicker"></div>
 	</div>
-</div>
+ *}</div>

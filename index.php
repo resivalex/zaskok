@@ -10,28 +10,28 @@ $smarty->setConfigDir('smarty/config');
 
 $sections = [];
 
-$sections['summary'] = array(
-	'title' => 'Наверх',
-	'id' => 'summary',
-	'file' => 'summary.tpl'
+// $sections['summary'] = array(
+// 	'title' => 'Наверх',
+// 	'id' => 'summary',
+// 	'file' => 'summary.tpl'
+// );
+
+$sections['about'] = array(
+	'title' => 'О нас',
+	'id' => 'about',
+	'file' => 'about.tpl'
 );
 
-$sections['programs'] = array(
-	'title' => 'Наши программы',
-	'id' => 'programs',
-	'file' => 'programs.tpl'
+$sections['gallery'] = array(
+	'title' => 'Галерея',
+	'id' => 'gallery',
+	'file' => 'gallery.tpl'
 );
 
 $sections['prices'] = array(
 	'title' => 'Цены',
 	'id' => 'prices',
 	'file' => 'prices.tpl'
-);
-
-$sections['about'] = array(
-	'title' => 'О нас',
-	'id' => 'about',
-	'file' => 'about.tpl'
 );
 
 $sections['order'] = array(
@@ -48,30 +48,65 @@ $sections['contacts'] = array(
 
 $partners = [];
 
-$partners['pwp'] = array(
-	'url' => 'http://pwp.club/',
-	'img' => 'img/partners/pwp.png',
-	'title' => 'Вэй Парк'
-);
+$files = scandir('img/slider');
+$thumbs = [];
+$slides = [];
+foreach ($files as $file) {
+	if (!is_dir('img/slider/'.$file)) {
+		$thumbs[] = 'img/slider/thumbnails/'.$file;
+		$slides[] = 'img/slider/'.$file;
+	}
+}
+// print_r($slides);
 
-$partners['rabbit'] = array(
-	'url' => 'http://www.wrmedia.ru/',
-	'img' => 'img/partners/rabbit.png',
-	'title' => 'Дизайн&nbsp;студия'
-);
+$facts = [
+	'we_are' => [
+		'title' => 'Зал',
+		'image_class' => 'ball-image',
+		'lines' => [
+			'Мы находимся на третьем этаже торгового центра "Омега"',
+			'В нашем зале 8 батутов',
+			'Зал открыт с 10 до 22 часов',
+			'Наши тренеры помогут вам отработать акробатические трюки'
+		]
+	],
+	'wealth' => [
+		'title' => 'О пользе батута',
+		'image_class' => 'leaf-image',
+		'lines' => [
+			'Повышает выносливость',
+			'Тренирует все группы мышц',
+			'Развивает вестибулярный аппарат',
+			'Ускоряет процесс обмена веществ в организме',
+			'Улучшает эмоциональное состояние',
+			'Превосходная подготовка к другим экстремальным видам спорта'
+		]
+	],
+	'children' => [
+		'title' => 'Дети',
+		'image_class' => 'children-image',
+		'lines' => [
+			'Батут - это особенно большая радость для детей',
+			'Способствует правильному развитию опорно-двигательного аппарата',
+			'Улучшаются двигательные навыки и координация',
+			'Воспитывает любовь к спорту'			
+		]
+	],
+	'celebration' => [
+		'title' => 'Праздники',
+		'image_class' => 'gift-image',
+		'lines' => [
+			'Хорошее место, чтобы прийти на праздники с друзьями',
+			'Можно арендовать зал полностью'	
+		]
+	]
+];
 
-$partners['taboo'] = array(
-	'url' => 'https://vk.com/taboopskov',
-	'img' => 'img/partners/taboo.png',
-	'title' => 'Кальянная'
-);
+// print_r($facts);
 
-$partners['spectr'] = array(
-	'url' => 'http://www.gpspectr.ru/',
-	'img' => 'img/partners/spectr.png',
-	'title' => 'ООО"Спектр"'
-);
-
+$smarty->assign('facts', $facts);
+$smarty->assign('slides', $slides);
+$smarty->assign('thumbs', $thumbs);
 $smarty->assign('sections', $sections);
 $smarty->assign('partners', $partners);
 $smarty->display('index.tpl');

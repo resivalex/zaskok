@@ -1,4 +1,4 @@
-$nav-color: #88f;
+$nav-color: #000;//#88f;
 $hover-color: #66f;
 $light-color: #ccf;
 $text-color: #445;
@@ -20,6 +20,22 @@ nav {
 	min-width: 960px;
 	z-index: 1000;
 
+	a.menu-logo {
+		background-image: url("../img/small-logo.png");
+		background-size: 80%;
+		background-position: center center;
+		background-repeat: no-repeat;
+		cursor: pointer;
+		color: rgba(0, 0, 0, 0);
+		// height: 44px;
+		// margin: 0 20px;
+		width: 120px;
+
+		&:hover, &.active {
+			background-color: $nav-color;
+		}
+	}
+
 	ul {
 		display: table;
 		list-style-type: none;
@@ -35,19 +51,23 @@ nav {
 
 	a {
 		background: $nav-color;
+		box-sizing: border-box;
 		color: white;
 		display: block;
 		margin: 0;
 		padding: 10px 20px;
 		text-decoration: none;
 
+		transition: background-color;
+		transition-duration: 0.3s;
+
 		&:hover {
-			background: $hover-color;
+			background-color: $hover-color;
 			border-bottom: solid 3px white;
 		}
 
 		&.active {
-			background: #235;
+			background-color: $hover-color;
 			border-bottom: solid 3px white;
 		}
 	}
@@ -59,7 +79,7 @@ section.card {
 	// clearfix effect
 	overflow: hidden;
 
-	&:nth-of-type(even) {
+	&:nth-of-type(odd) {
 		background-color: #eee;
 	}
 }
@@ -80,9 +100,9 @@ h3 {
 }
 
 @import "summary";
-@import "programs";
-@import "prices";
 @import "about";
+@import "gallery";
+@import "prices";
 @import "order";
 @import "contacts";
 @import "footer";

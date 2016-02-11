@@ -5,13 +5,23 @@ body {
   margin: 0; }
 
 nav {
-  background-color: #88f;
+  background-color: #000;
   box-shadow: 0 0 5px black;
   text-align: center;
   top: 0;
   width: 100%;
   min-width: 960px;
   z-index: 1000; }
+  nav a.menu-logo {
+    background-image: url("../img/small-logo.png");
+    background-size: 80%;
+    background-position: center center;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    color: transparent;
+    width: 120px; }
+    nav a.menu-logo:hover, nav a.menu-logo.active {
+      background-color: #000; }
   nav ul {
     display: table;
     list-style-type: none;
@@ -22,23 +32,26 @@ nav {
     margin: 0;
     padding: 0; }
   nav a {
-    background: #88f;
+    background: #000;
+    box-sizing: border-box;
     color: white;
     display: block;
     margin: 0;
     padding: 10px 20px;
-    text-decoration: none; }
+    text-decoration: none;
+    transition: background-color;
+    transition-duration: 0.3s; }
     nav a:hover {
-      background: #66f;
+      background-color: #66f;
       border-bottom: solid 3px white; }
     nav a.active {
-      background: #235;
+      background-color: #66f;
       border-bottom: solid 3px white; }
 
 section.card {
   display: block;
   overflow: hidden; }
-  section.card:nth-of-type(even) {
+  section.card:nth-of-type(odd) {
     background-color: #eee; }
 
 h2 {
@@ -54,75 +67,24 @@ h3 {
   margin: 0 auto;
   text-align: center; }
 
-.programs-info {
+img.logo {
+  width: 100%; }
+
+.about-container {
   margin: 0 auto;
+  padding-bottom: 30px;
   width: 960px; }
-  .programs-info h3 {
-    font-size: 30px; }
-  .programs-info .col {
-    box-sizing: border-box;
-    float: left;
-    padding: 2%;
-    text-align: justify;
-    width: 33.333%; }
-    .programs-info .col .picture {
-      text-align: center; }
 
-#prices .container {
-  display: table;
-  margin: 0 auto;
-  padding-bottom: 20px;
-  width: 960px; }
-#prices .stars {
-  color: black; }
-
-.pricelist {
-  box-sizing: border-box;
-  float: left;
-  position: relative;
-  top: 20px;
-  width: 33.33%; }
-  .pricelist table {
-    border: solid 3px #88f;
-    border-collapse: collapse;
-    margin: 0 auto;
-    padding: 5px;
-    width: 90%; }
-    .pricelist table tr:nth-child(odd) {
-      background-color: #eef; }
-    .pricelist table th {
-      background-color: #88f;
-      color: white;
-      padding: 10px;
-      font-size: 24px; }
-    .pricelist table td {
-      font-size: 20px;
-      padding: 4px 20px; }
-      .pricelist table td:first-child {
-        padding-right: 5px; }
-      .pricelist table td:last-child {
-        text-align: right;
-        padding-left: 5px; }
-  .pricelist.sertificate {
-    top: 0; }
-    .pricelist.sertificate table {
-      width: 100%; }
-    .pricelist.sertificate img {
-      width: 100%; }
-    .pricelist.sertificate td.picture {
-      padding: 0;
-      padding-top: 5px; }
-
-p.note {
-  clear: both;
-  margin: 0;
-  padding: 0 0 5px;
-  text-align: center;
-  width: 960px; }
-  p.note:first-of-type {
-    padding-top: 20px; }
+.sample {
+  background-image: url("../img/sample.jpg");
+  background-size: cover;
+  box-shadow: 3px 3px 10px black;
+  float: right;
+  height: 400px;
+  width: 19.5%; }
 
 .youtube {
+  clear: both;
   margin: 0 auto;
   width: 800px;
   position: relative; }
@@ -141,21 +103,125 @@ p.note {
       width: 100%;
       height: 100%; }
 
-.about-info {
-  margin: 0 auto;
-  width: 960px; }
-  .about-info .col {
-    box-sizing: border-box;
+.fact-container {
+  margin-bottom: 30px; }
+  .fact-container::after {
+    content: ' ';
+    clear: both;
+    display: table;
+    height: 0; }
+
+.fact {
+  float: left;
+  clear: both;
+  width: 100%; }
+  .fact:nth-child(even) {
+    padding-left: 5%; }
+    .fact:nth-child(even) .text {
+      width: 75%; }
+  .fact h3 {
+    font-size: 20px;
+    text-align: left; }
+  .fact ul {
+    list-style-type: none;
+    padding: 0 0 20px; }
+  .fact li {
+    font-size: 16px;
+    padding: 2px 0; }
+  .fact .image {
+    background-size: auto 100%;
+    background-position: center center;
+    background-repeat: no-repeat;
     float: left;
-    padding: 2%;
-    text-align: justify;
-    width: 33.333%; }
-    .about-info .col .picture {
+    height: 150px;
+    width: 19.9%; }
+  .fact .text {
+    float: right;
+    width: 80%; }
+  .fact .children-image {
+    background-image: url("../img/children.png"); }
+  .fact .gift-image {
+    background-image: url("../img/gift-box.png"); }
+  .fact .house-image {
+    background-image: url("../img/house.png"); }
+  .fact .leaf-image {
+    background-image: url("../img/leaf.png"); }
+  .fact .ball-image {
+    background-image: url("../img/ball.png");
+    background-size: auto 80%; }
+
+.gallery {
+  margin: 0 auto 20px;
+  width: 960px; }
+  .gallery .thumb {
+    border-radius: 5px;
+    border: solid 3px white;
+    width: 120px;
+    height: 120px; }
+  .gallery a {
+    text-decoration: none; }
+
+#prices .container {
+  display: table;
+  margin: 0 auto;
+  padding-bottom: 20px;
+  width: 960px; }
+#prices .stars {
+  color: black; }
+
+.pricelist {
+  box-sizing: border-box;
+  float: left;
+  margin-bottom: 30px;
+  width: 49.9%; }
+  .pricelist table {
+    border: solid 3px #000;
+    border-collapse: collapse;
+    margin: 0 auto;
+    padding: 5px;
+    width: 90%; }
+    .pricelist table tr:nth-child(odd) {
+      background-color: #ccf; }
+    .pricelist table tr.time td {
+      background-color: #66f;
+      color: white;
+      font-size: 14px;
       text-align: center; }
+    .pricelist table tr:hover {
+      color: black; }
+    .pricelist table th {
+      background-color: #000;
+      color: white;
+      padding: 10px;
+      font-size: 24px; }
+    .pricelist table td {
+      font-size: 20px;
+      padding: 4px 20px; }
+      .pricelist table td:first-child {
+        padding-right: 5px; }
+      .pricelist table td:last-child {
+        text-align: right;
+        padding-left: 5px; }
+      .pricelist table td sup {
+        font-size: 0.8em; }
+  .pricelist.sertificate img {
+    width: 100%; }
+  .pricelist.holidays {
+    float: right; }
+
+p.note {
+  clear: both;
+  margin: 0;
+  padding: 0 0 5px;
+  text-align: center;
+  width: 960px; }
+  p.note:first-of-type {
+    padding-top: 20px; }
 
 #order-content {
   display: table;
-  margin: 0 auto; }
+  margin: 0 auto;
+  height: 400px; }
   #order-content .control, #order-content .control-header, #order-content .date-title, #order-content .recall .time-display, #order-content .recall .guests-title, #order-content .recall #guests-count, #order-content .recall #time-slider, #order-content input {
     margin: 0 0 20px;
     width: 100%; }
@@ -167,17 +233,17 @@ p.note {
     margin-bottom: 30px;
     padding: 0 10px; }
   #order-content .ui-state-active {
-    background: #88f;
-    border-color: #88f;
+    background: #000;
+    border-color: #000;
     color: white; }
   #order-content .ui-state-hover {
     background: #66f;
-    border-color: #88f;
+    border-color: #000;
     color: white; }
   #order-content #datepicker .ui-widget-header {
-    background: #88f; }
+    background: #000; }
   #order-content #datepicker .ui-datepicker-next, #order-content #datepicker .ui-datepicker-prev {
-    background: #88f;
+    background: #000;
     border-color: white; }
   #order-content #datepicker .ui-datepicker-title {
     color: white; }
@@ -197,11 +263,11 @@ p.note {
     #order-content input[type=text] {
       border: solid 3px #ccf; }
       #order-content input[type=text]:focus {
-        border-color: #88f; }
+        border-color: #000; }
       #order-content input[type=text]:hover {
         border-color: #66f; }
     #order-content input[type=button] {
-      background-color: #88f;
+      background-color: #000;
       border: none;
       color: white;
       cursor: pointer; }
@@ -221,9 +287,12 @@ p.note {
       position: relative;
       width: 35px; }
     .contacts-container table.contacts td:first-child {
-      font-size: 2em; }
+      color: black;
+      font-size: 40px; }
   .contacts-container a {
     color: #445; }
+    .contacts-container a:hover {
+      color: black; }
 
 #map {
   height: 400px; }
@@ -266,10 +335,12 @@ footer {
   background-color: #111;
   text-align: center; }
   footer .copy {
-    background-color: rgba(0, 0, 0, 0.8);
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
     color: white;
     display: inline-block;
     padding: 5px 15px;
     text-align: center; }
+  footer .developer {
+    color: white;
+    font-size: 12px; }
