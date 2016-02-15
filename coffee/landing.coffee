@@ -176,18 +176,30 @@ $ ->
 	$('.fact').each ->
 		el = @
 		onVisibilityChanged(@,
-			-> TweenMax.to el, 1, x: 0,
-			-> TweenMax.to el, 0, x: $(document).width() / 3
+			# -> TweenMax.to el, 1, x: 0,
+			# -> TweenMax.to el, 0, x: $(document).width() / 4
+			-> TweenMax.to el, 1, css: opacity: 1,
+			-> TweenMax.to el, 0, css: opacity: 0
 		)
+
+	$('.fade-out').each ->
+		el = @
+		onVisibilityChanged(@,
+			-> TweenMax.to el, 1, css: opacity: 1,
+			-> TweenMax.to el, 0, css: opacity: 0
+		)
+
+	# # youtube
+	# $('.youtube').each ->
+	# 	el = @
+	# 	onVisibilityChanged(@,
+	# 		-> TweenMax.to el, 1, css: opacity: 1,
+	# 		-> TweenMax.to el, 0, css: opacity: 0
+	# 	)
 		
 
 	# hover logo element
 	$('.menu-logo')
-		.on 'mouseenter', ->
-			console.log 'enter'
-			TweenMax.to '.menu-logo', 0.1, css: scale: 1
-		.on 'mouseout', ->
-			TweenMax.to '.menu-logo', 0.1, css: scale: 1
 		.on 'click', ->
 			$('html, body').animate scrollTop: 0, 500
 

@@ -1,25 +1,10 @@
-{* <!-- Авторизация ВКонтакте -->
+<!-- Авторизация ВКонтакте -->
 <script src="//vk.com/js/api/openapi.js" type="text/javascript"></script>
-
-<div id="vk-login-button" onclick="VK.Auth.login(authInfo);"></div>
-
-<script language="javascript">
-VK.init({
-  apiId: 5273336
-});
-function authInfo(response) {
-  if (response.session) {
-    console.log('user: '+response.session.mid);
-  } else {
-    console.log('not auth');
-  }
-}
-VK.Auth.getLoginStatus(authInfo);
-VK.UI.button('vk-login-button');
-</script> *}
+<script src="js/vk.js" language="javascript"></script>
 
 <div id="order-content">
-	<p>Не реализовано</p>
+	<div class="vk-button">Загрузка...</div>
+	<p>Вас зовут <span class="user-name"></span></p>
 {* 	<div class="recall popup">
 		<div class="guests-title">Количество человек</div>
 		<div id="guests-count">

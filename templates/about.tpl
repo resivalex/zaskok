@@ -16,7 +16,7 @@
 		{/foreach}
 	</div>
 
-	<div class="youtube rand-popup">
+	<div class="youtube fade-out">
 		<div class="player">
 			<iframe src="https://www.youtube.com/embed/dzsJaPDiUR8" frameborder="0" allowfullscreen></iframe>
 		</div>

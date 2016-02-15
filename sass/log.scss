@@ -1,0 +1,12 @@
+@import "common";
+
+.login-form {
+	background-color: $light-color;
+	display: table;
+	margin: 10px auto;
+	padding: 10px;
+
+	input {
+		font-size: 20px;
+	}
+}

@@ -1,5 +1,5 @@
 <div class="container">
-	<div class="pricelist workdays rand-popup">
+	<div class="pricelist workdays fade-out">
 		<table>
 			<tr>
 				<th colspan="2">Будние дни</th>
@@ -22,7 +22,7 @@
 		</table>
 	</div>
 
-	<div class="pricelist holidays rand-popup">
+	<div class="pricelist holidays fade-out">
 		<table>
 			<tr>
 				<th colspan="2">Выходные и<br/>праздничные дни</th>
@@ -69,7 +69,7 @@
 		</table>
 	</div>
 
-	<div class="pricelist sertificate rand-popup">
+	<div class="pricelist sertificate fade-out">
 		<table>
 			<tr>
 				<th colspan="2">Сертификаты</th>

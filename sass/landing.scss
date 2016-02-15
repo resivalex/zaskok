@@ -1,14 +1,4 @@
-$nav-color: #000;//#88f;
-$hover-color: #66f;
-$light-color: #ccf;
-$text-color: #445;
-
-body {
-	color: $text-color;
-	font-family: Verdana;
-	font-size: 20px;
-	margin: 0;
-}
+@import "common";
 
 // navigation menu
 nav {

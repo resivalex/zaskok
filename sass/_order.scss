@@ -115,4 +115,17 @@
 			}
 		}
 	}
+
+	.vk-button {
+		background-color: #46a;
+		border: solid 3px #359;
+		color: white;
+		cursor: pointer;
+		font-size: 20px;
+		padding: 5px;
+
+		&:hover {
+			background-color: #57b;
+		}
+	}
 }

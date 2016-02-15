@@ -1,0 +1,13 @@
+body {
+  color: #445;
+  font-family: Verdana;
+  font-size: 20px;
+  margin: 0; }
+
+.login-form {
+  background-color: #ccf;
+  display: table;
+  margin: 10px auto;
+  padding: 10px; }
+  .login-form input {
+    font-size: 20px; }

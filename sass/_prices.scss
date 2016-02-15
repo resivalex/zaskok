@@ -20,7 +20,7 @@
 	width: 49.9%;
 
 	table {
-		border: solid 3px $nav-color;
+		border: solid 3px $hover-color;
 		border-collapse: collapse;
 		margin: 0 auto;
 		padding: 5px;
@@ -35,6 +35,7 @@
 				background-color: $hover-color;
 				color: white;
 				font-size: 14px;
+				font-weight: bold;
 				text-align: center;
 			}
 
@@ -44,7 +45,7 @@
 		}
 
 		th {
-			background-color: $nav-color;
+			background-color: $hover-color;
 			color: white;
 			padding: 10px;
 			font-size: 24px;
@@ -88,6 +89,12 @@
 
 	&.holidays {
 		float: right;
+	}
+
+	&.holidays, &.workdays {
+		tr:last-child {
+			border-top: solid 1px $hover-color;
+		}
 	}
 }
 

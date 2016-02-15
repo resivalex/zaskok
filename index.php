@@ -104,6 +104,7 @@ $facts = [
 
 // print_r($facts);
 
+$smarty->assign('title', 'ZAскок - Батутный центр');
 $smarty->assign('facts', $facts);
 $smarty->assign('slides', $slides);
 $smarty->assign('thumbs', $thumbs);

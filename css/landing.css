@@ -175,7 +175,7 @@ img.logo {
   margin-bottom: 30px;
   width: 49.9%; }
   .pricelist table {
-    border: solid 3px #000;
+    border: solid 3px #66f;
     border-collapse: collapse;
     margin: 0 auto;
     padding: 5px;
@@ -186,11 +186,12 @@ img.logo {
       background-color: #66f;
       color: white;
       font-size: 14px;
+      font-weight: bold;
       text-align: center; }
     .pricelist table tr:hover {
       color: black; }
     .pricelist table th {
-      background-color: #000;
+      background-color: #66f;
       color: white;
       padding: 10px;
       font-size: 24px; }
@@ -208,6 +209,8 @@ img.logo {
     width: 100%; }
   .pricelist.holidays {
     float: right; }
+  .pricelist.holidays tr:last-child, .pricelist.workdays tr:last-child {
+    border-top: solid 1px #66f; }
 
 p.note {
   clear: both;
@@ -273,6 +276,15 @@ p.note {
       cursor: pointer; }
       #order-content input[type=button]:hover {
         background-color: #66f; }
+  #order-content .vk-button {
+    background-color: #46a;
+    border: solid 3px #359;
+    color: white;
+    cursor: pointer;
+    font-size: 20px;
+    padding: 5px; }
+    #order-content .vk-button:hover {
+      background-color: #57b; }
 
 .contacts-container {
   display: table;
