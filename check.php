@@ -3,7 +3,7 @@
 const APP_ID = '5297183';
 const APP_SHARED_SECRET = 'KO05YsUJ4mZPtxispmeh';
 
-function authOpenAPIMember() {
+function auth_open_api_member() {
   $session = array();
   $member = false;
   $valid_keys = array('expire', 'mid', 'secret', 'sid', 'sig');
@@ -39,12 +39,4 @@ function authOpenAPIMember() {
     }
   }
   return $member;
-}
-
-$member = authOpenAPIMember();
-
-if($member !== false) {
-  echo 'Auth';
-} else {
-  echo 'Not auth';
 }

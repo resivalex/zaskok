@@ -1,5 +1,4 @@
 <div class="about-container">
-	{* <div class="sample"></div> *}
 	<div class="fact-container">
 		{foreach $facts as $fact}
 			<div class="fact">

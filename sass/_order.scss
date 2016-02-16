@@ -1,37 +1,28 @@
 #order-content {
-	display: table;
 	margin: 0 auto;
-	height: 400px;
-
-	.control {
-		margin: 0 0 20px;
-		width: 100%;
-	}
+	width: 960px;
 
 	.control-header {
-		@extend .control;
-
 		font-size: 30px;
 		margin-bottom: 10px;
 	}
 
 	.control-group {
 		float: left;
-		margin-bottom: 30px;
-		padding: 0 10px;
+		margin: 0 10px;
 	}
 
 	.ui-state-active {
-		background: $nav-color;
-		border-color: $nav-color;
+		background: #58c;
+		border-color: #445;
 		color: white;
 	}
 
-	.ui-state-hover {
-		background: $hover-color;
-		border-color: $nav-color;
-		color: white;
-	}
+	// .ui-state-hover {
+	// 	background: $hover-color;
+	// 	border-color: $nav-color;
+	// 	color: white;
+	// }
 
 	.recall, .date-container {
 		@extend .control-group;
@@ -42,90 +33,106 @@
 	}
 
 	#datepicker {
-		.ui-widget-header {
-			background: $nav-color;
-		}
+		// .ui-widget-header {
+		// 	background: $nav-color;
+		// }
 
-		.ui-datepicker-next, .ui-datepicker-prev {
-			background: $nav-color;
-			border-color: white;
-		}
+		// .ui-datepicker-next, .ui-datepicker-prev {
+		// 	background: $nav-color;
+		// 	border-color: white;
+		// }
 
-		.ui-datepicker-title {
-			color: white;
-		}
+		// .ui-datepicker-title {
+		// 	color: white;
+		// }
 
 		th {
 			color: $text-color;
 		}
 	}
 
-	.recall {
-		#guests-count {
-			@extend .control;
+	#guests-count {
+		margin-bottom: 0;
 
-			input[type=radio] {
-				display: none;
-			}
-		}
-
-		.time-display, .guests-title {
-			@extend .control-header;
-		}
-
-		#time-slider {
-			@extend .control;
-
-			.ui-slider-handle {
-				border-radius: 50%;
-			}
+		input[type=radio] {
+			display: none;
 		}
 	}
 
-	input {
-		@extend .control;
+	.duration-title, .time-title, .guests-title {
+		@extend .control-header;
+	}
 
+	#guests-count, #more-count, #duration-count {
+		font-size: 16px;
+	}
+
+	.order-button {
 		box-sizing: border-box;
 		font-size: 24px;
 		height: 50px;
 		padding: 5px;
 		display: block;
 		border-radius: 3px;
+	}
 
-		&[type=text] {
-			border: solid 3px $light-color;
+	#time-table {
+		@extend .to-center;
 
-			&:focus {
-				border-color: $nav-color;
-			}
-
-			&:hover {
-				border-color: $hover-color;
-			}
+		border-collapse: collapse;
+		margin-bottom: 30px;
+		font-size: 14px;
+		
+		td {
+			padding: 0;
 		}
 
-		&[type=button] {
-			background-color: $nav-color;
-			border: none;
-			color: white;
-			cursor: pointer;
-
-			&:hover {
-				background-color: $hover-color;
-			}
+		button {
+			padding: 5px;
 		}
+	}
+
+	.login-container {
+		@extend .clearfix;
+		@extend .to-center;
+
+		padding: 20px;
 	}
 
 	.vk-button {
 		background-color: #46a;
 		border: solid 3px #359;
+		box-sizing: border-box;
 		color: white;
 		cursor: pointer;
-		font-size: 20px;
-		padding: 5px;
+		display: inline-block;
+		float: left;
+		font-size: 24px;
+		height: 50px;
+		padding: 8px;
 
 		&:hover {
 			background-color: #57b;
 		}
+	}
+
+	.phone {
+		background-color: #eee;
+		border: solid 3px #359;
+		border-left: none;
+		box-sizing: border-box;
+		float: left;
+		font-size: 24px;
+		height: 50px;
+		padding: 5px;
+		text-align: center;
+		
+		&:focus {
+			background-color: white;
+		}
+	}
+
+	.order-note {
+		font-size: 14px;
 	}
 }

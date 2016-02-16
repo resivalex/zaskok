@@ -8,6 +8,7 @@
 	<!-- lightgallery plugins -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/1.2.14/js/lg-thumbnail.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/1.2.14/js/lg-fullscreen.min.js"></script>
+	<script src="js/order.js"></script>
 {/block}
 {block name=body}
 <div class="under-nav"></div>

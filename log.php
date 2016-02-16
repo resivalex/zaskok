@@ -1,5 +1,6 @@
 <?php
 require('../smarty/libs/Smarty.class.php');
+include('debug.php');
 
 $smarty = new Smarty();
 
@@ -7,11 +8,6 @@ $smarty->setTemplateDir('templates');
 $smarty->setCompileDir('smarty/compile');
 $smarty->setCacheDir('smarty/cache');
 $smarty->setConfigDir('smarty/config');
-
-ini_set('display_errors', '1');
-ini_set('display_startup_errors', '1');
-ini_set('error_reporting', E_ALL);
-date_default_timezone_set('Europe/Moscow');
 
 session_start();
 

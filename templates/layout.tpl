@@ -30,9 +30,9 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js"></script>
 	{block name=body_includes}{/block}
 
-	<!-- LiveReload -->
+{* 	<!-- LiveReload -->
 	<script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
-
+ *}
 	{block name=body}{/block}
 
 </body>

@@ -9,3 +9,15 @@ body {
 	font-size: 20px;
 	margin: 0;
 }
+
+.clearfix {
+	display: table;
+	clear: both;
+	content: ' ';
+}
+
+.to-center {
+	display: table;
+	margin-left: auto;
+	margin-right: auto;
+}

@@ -1,39 +1,54 @@
+apiId = 5297183
+
 loggedIn = false
 
-authInfo = (response) ->
-	loggedIn = !!response.session
-	if loggedIn
-		# for i of response.session.user
-		# 	console.log i, response.session.user[i]
+checkLoginStatus = (onlineHandler, offlineHandler) ->
+	VK.Auth.getLoginStatus (response) ->
+		if response.session
+			console.log response
+			onlineHandler(response.session)
+		else
+			offlineHandler()
 
-		user = response.session.user
-		# # console.log user.first_name, user.last_name
-		try
-			$('#order-content .vk-button').text "#{user.first_name} #{user.last_name}"
-		catch e
-			$('#order-content .vk-button').text "Can't get name"
-		
-	else
-		$('#order-content .vk-button').text "Войти через VK"
+getSessionUser = (session, func) ->
+	VK.Api.call 'users.get', {user_ids: session.mid, fields: ['domain']}, (r) ->
+		user = null
+		if r.response
+			user = r.response[0]
+		func(user)
 
-VK.Auth.getLoginStatus authInfo
+refreshButton = ->
+	$button = $('#order-content .vk-button')
+	checkLoginStatus (session) ->
+			$button.text 'Загрузка...'
+			getSessionUser session, (user) ->
+				text =
+					if user then "#{user.first_name} #{user.last_name} (выход)"
+					else 'Ошибка'
+				$button.text text
+		, ->
+			$button.text 'Войти через VK'
 
 VK.init
-	apiId: 5297183
-	status: true
+	apiId: apiId
+	# status: true
 
-VK.Auth.getLoginStatus authInfo
+refreshButton()
 
-# $(document).ready ->
-	# VK.Auth.getLoginStatus(authInfo);
-# VK.UI.button('vk-login-button');
+VK.Observer.subscribe 'auth.statusChange', refreshButton
+VK.Observer.subscribe 'auth.login', ->
+	checkLoginStatus (session) ->
+		getSessionUser session, (user) ->
+			console.log user
+			$.ajax
+				method: 'post',
+				url: '/auth.php',
+				data: user
+			.done (response) -> console.log response
+			.fail -> console.log 'fail'
 
 $(document).on 'click', '.vk-button', ->
-	if loggedIn
-		VK.Auth.logout ->
-			# VK.Auth.getLoginStatus authInfo 
-	else
-		VK.Auth.login (response) ->
-			if response.session
-				console.log 'ok'
-				# VK.Auth.getLoginStatus authInfo
+	checkLoginStatus ->
+			VK.Auth.logout()
+		, ->
+			VK.Auth.login()
