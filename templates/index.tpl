@@ -8,6 +8,8 @@
 	<!-- lightgallery plugins -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/1.2.14/js/lg-thumbnail.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/1.2.14/js/lg-fullscreen.min.js"></script>
+	<!-- Авторизация ВКонтакте -->
+	<script src="//vk.com/js/api/openapi.js"></script>
 	<script src="js/order.js"></script>
 {/block}
 {block name=body}

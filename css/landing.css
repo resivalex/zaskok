@@ -9,7 +9,7 @@ body {
   clear: both;
   content: ' '; }
 
-.to-center, #order-content #time-table, #order-content .login-container {
+.to-center, #order-content .login-container {
   display: table;
   margin-left: auto;
   margin-right: auto; }
@@ -57,6 +57,9 @@ nav {
     nav a.active {
       background-color: #66f;
       border-bottom: solid 3px white; }
+
+.rand-popup {
+  position: relative; }
 
 section.card {
   display: block;
@@ -233,10 +236,14 @@ p.note {
 
 #order-content {
   margin: 0 auto;
-  width: 960px; }
+  width: 960px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none; }
   #order-content .control-header, #order-content .date-title, #order-content .duration-title, #order-content .time-title, #order-content .guests-title {
     font-size: 30px;
-    margin-bottom: 10px; }
+    margin-top: 5px;
+    margin-bottom: 5px; }
   #order-content .control-group, #order-content .recall, #order-content .date-container {
     float: left;
     margin: 0 10px; }
@@ -259,6 +266,20 @@ p.note {
     padding: 5px;
     display: block;
     border-radius: 3px; }
+  #order-content .time-table-container {
+    position: relative; }
+    #order-content .time-table-container .loading {
+      background-color: rgba(255, 255, 255, 0.5);
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      position: absolute; }
+      #order-content .time-table-container .loading .text {
+        position: absolute;
+        text-align: center;
+        top: 33%;
+        width: 100%; }
   #order-content #time-table {
     border-collapse: collapse;
     margin-bottom: 30px;
@@ -267,6 +288,9 @@ p.note {
       padding: 0; }
     #order-content #time-table button {
       padding: 5px; }
+    #order-content #time-table .ui-button-text {
+      padding-left: 5px;
+      padding-right: 5px; }
   #order-content .login-container {
     padding: 20px; }
   #order-content .vk-button {
@@ -287,15 +311,18 @@ p.note {
     border: solid 3px #359;
     border-left: none;
     box-sizing: border-box;
+    color: #444;
     float: left;
     font-size: 24px;
+    font-weight: bold;
     height: 50px;
     padding: 5px;
     text-align: center; }
     #order-content .phone:focus {
       background-color: white; }
   #order-content .order-note {
-    font-size: 14px; }
+    font-size: 14px;
+    max-width: 400px; }
 
 .contacts-container {
   display: table;

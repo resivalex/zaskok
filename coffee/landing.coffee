@@ -87,22 +87,24 @@ $ ->
 
 	# animate elements with class 'popup'
 	popupShift = 100
-	$('.popup').each ->
-		el = @
-		onVisibilityChanged(@,
-			-> TweenMax.to el, 0.6 + Math.random() * 0.4, y: 0,
-			-> TweenMax.to el, 0, y: popupShift,
-		)
+	# $('.popup').each ->
+	# 	el = @
+	# 	onVisibilityChanged(@,
+	# 		-> TweenMax.to el, 0.6 + Math.random() * 0.4, y: 0,
+	# 		-> TweenMax.to el, 0, y: popupShift,
+	# 	)
 
-	xyRandOffset = ->
-		x: (Math.random() - 0.5) * popupShift
-		y: (Math.random() - 0.5) * popupShift
+	xyRandOffset = (popupShift) ->
+		css:
+			left: (Math.random() - 0.5) * popupShift
+			top: (Math.random() - 0.5) * popupShift
 
 	$('.rand-popup').each ->
 		el = @
 		onVisibilityChanged(el,
-			-> TweenMax.to el, 0.6 + Math.random() * 0.4, {x: 0, y: 0},
-			-> TweenMax.to el, 0.6 + Math.random() * 0.4, xyRandOffset()
+			-> TweenMax.to el, 0.6 + Math.random() * 0.4, xyRandOffset(0)
+			,
+			-> TweenMax.to el, 0.6 + Math.random() * 0.4, xyRandOffset(100)
 		)
 
 	# animate facts

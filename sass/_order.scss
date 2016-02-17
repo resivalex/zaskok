@@ -1,10 +1,14 @@
 #order-content {
 	margin: 0 auto;
 	width: 960px;
-
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+  
 	.control-header {
 		font-size: 30px;
-		margin-bottom: 10px;
+		margin-top: 5px;
+		margin-bottom: 5px;
 	}
 
 	.control-group {
@@ -18,34 +22,11 @@
 		color: white;
 	}
 
-	// .ui-state-hover {
-	// 	background: $hover-color;
-	// 	border-color: $nav-color;
-	// 	color: white;
-	// }
-
 	.recall, .date-container {
 		@extend .control-group;
 	}
 
-	.date-title {
-		@extend .control-header;
-	}
-
 	#datepicker {
-		// .ui-widget-header {
-		// 	background: $nav-color;
-		// }
-
-		// .ui-datepicker-next, .ui-datepicker-prev {
-		// 	background: $nav-color;
-		// 	border-color: white;
-		// }
-
-		// .ui-datepicker-title {
-		// 	color: white;
-		// }
-
 		th {
 			color: $text-color;
 		}
@@ -59,7 +40,7 @@
 		}
 	}
 
-	.duration-title, .time-title, .guests-title {
+	.date-title, .duration-title, .time-title, .guests-title {
 		@extend .control-header;
 	}
 
@@ -76,9 +57,24 @@
 		border-radius: 3px;
 	}
 
-	#time-table {
-		@extend .to-center;
+	.time-table-container {
+		position: relative;
 
+		.loading {
+			background-color: rgba(255, 255, 255, 0.5);
+			left: 0; right: 0; top: 0; bottom: 0;
+			position: absolute;
+
+			.text {
+				position: absolute;
+				text-align: center;
+				top: 33%;
+				width: 100%;
+			}
+		}
+	}
+
+	#time-table {
 		border-collapse: collapse;
 		margin-bottom: 30px;
 		font-size: 14px;
@@ -89,6 +85,11 @@
 
 		button {
 			padding: 5px;
+		}
+
+		.ui-button-text {
+			padding-left: 5px;
+			padding-right: 5px;
 		}
 	}
 
@@ -121,8 +122,10 @@
 		border: solid 3px #359;
 		border-left: none;
 		box-sizing: border-box;
+		color: #444;
 		float: left;
 		font-size: 24px;
+		font-weight: bold;
 		height: 50px;
 		padding: 5px;
 		text-align: center;
@@ -134,5 +137,6 @@
 
 	.order-note {
 		font-size: 14px;
+		max-width: 400px;
 	}
 }
