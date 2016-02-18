@@ -1,7 +1,6 @@
 <?php
 
-const APP_ID = '5297183';
-const APP_SHARED_SECRET = 'KO05YsUJ4mZPtxispmeh';
+require_once('../keys.php');
 
 function auth_open_api_member() {
   $session = array();

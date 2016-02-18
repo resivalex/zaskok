@@ -8,6 +8,8 @@ closeTime = 22 * 60 # 22:00
 timeDelta = 10 # minutes
 maxGuests = 10
 durationIntervals = [10, 30, 60, 120]
+formatError = 'Не удалось распознать ответ'
+serverError = 'Ошибка сервера'
 
 msInDay = 1000 * 3600 * 24
 maxOrderIntervalDays = 7
@@ -69,25 +71,27 @@ VK.init
 ###
 Data functions
 ###
-addRecordRequest = (record, onApply, onFail) ->
-	$.ajax
-		method: 'post'
-		url: '/record.php'
-		data: record
-	.done (response) ->
-		if response == ''
-			onApply()
-		else
-			onFail response
-	.fail -> onFail 'Ошибка'
 
-createRecord = (guests, duration, datetime, phone) ->
-	{
-		guests
-		duration
-		datetime
-		phone
-	}
+requestJSON = (url, data, onSuccess, onFail) ->
+	$.ajax {method: 'post', url, data}
+	.done (response) ->
+		try
+			result = $.parseJSON response
+		catch e
+			onFail formatError
+			console.log formatError, response
+			return
+		onSuccess result
+	.fail -> onFail serverError
+
+addUserInfo = (user, onSuccess, onFail) ->
+	requestJSON '/auth.php', user, onSuccess, onFail
+
+addRecordRequest = (record, onSuccess, onFail) ->
+	requestJSON '/record.php', record, onSuccess, onFail
+
+removeRecordRequest = (token, onSuccess, onFail) ->
+	requestJSON '/unrecord.php', token: token, onSuccess, onFail
 
 validateRecord = (record, onSuccess, onFail) ->
 	typeConditions = [
@@ -105,7 +109,6 @@ validateRecord = (record, onSuccess, onFail) ->
 			msg: "Неверно указана длительность"
 		,
 			func: ->
-				console.log 'first line'
 				nowPosixMsec = (new Date()).getTime()
 				recordMs = record.datetime * 1000
 				min = Math.floor(nowPosixMsec / msInDay) * msInDay
@@ -116,7 +119,7 @@ validateRecord = (record, onSuccess, onFail) ->
 			func: -> record.phone != ''
 			msg: 'Не указан номер телефона'
 		,
-			func: -> record.phone.match /([0-9].*){4,}/
+			func: -> record.phone.match /([0-9].*){5,}/
 			msg: 'Некорректный номер телефона'
 	]
 	for condition in typeConditions
@@ -130,18 +133,7 @@ validateRecord = (record, onSuccess, onFail) ->
 	onSuccess()
 
 getPlaceInformation = (posixDate, onSuccess, onFail) ->
-	$.ajax
-		method: 'post'
-		url: '/place.php'
-		data: posixDate
-	.done (response) ->
-		try
-			place = $.parseJSON(response)
-		catch e
-			onFail()
-			return
-		onSuccess(place)
-	.fail onFail
+	requestJSON '/place.php', date: posixDate, onSuccess, onFail
 
 ###
 GUI functions
@@ -160,18 +152,17 @@ refreshButton = ->
 			$button.text 'Войти через VK'
 
 placeGlobal = []
+recordGlobal = null
 
 getSelectedGuests = -> parseInt($('#order-content input[name=guests]:checked').val())
 getSelectedDuration = -> parseInt($('#order-content input[name=duration]:checked').val())
 getSelectedDate = -> $('#datepicker').datepicker('getDate')
 
 highlightPlace = ->
-	console.log 'highlightPlace'
 	guests = getSelectedGuests()
 	duration = getSelectedDuration()
 	date = getSelectedDate()
 	isToday = date.getDate() == (new Date()).getDate() && date.getMonth() == (new Date()).getMonth()
-	console.log date, new Date()
 	minutesNow = (new Date()).getHours() * 60 + (new Date()).getMinutes()
 
 	$buttons = $('#time-table input[name=time]')
@@ -196,25 +187,51 @@ reloadTimeTable = (date) ->
 	$('#order-content .loading').css display: 'block'
 	getPlaceInformation Math.floor(date.getTime() / 1000),
 		(place) ->
+			console.log place
 			$('#order-content .loading').css display: 'none'
 			$('#time-table input[name=time]').button('enable')
 			placeGlobal = place
 			highlightPlace()
-		, -> $('#order-content .loading .text').text 'Ошибка'
+		, (msg) -> $('#order-content .loading .text').text msg
 
 refreshButton()
 
+displayRecord = (record) ->
+	console.log 'display', record.guests, record.duration, record.datetime, record.phone, record.token
+	$record = $('#order-content .record')
+	$record.css display: 'table'
+
+	datetime = new Date(record.datetime * 1000)
+	$record.find('.date').text datetime.getDate() + ' ' + monthNameOf(monthNames[datetime.getMonth()])
+	$record.find('.guests').text if record.guests == '10' then 'Аренда' else record.guests
+	$record.find('.time').text datetime.getHours() + ':' + (if datetime.getMinutes() < 10 then '0' else '') + datetime.getMinutes()
+	$record.find('.duration').text if record.duration <= 60 then "#{record.duration} минут" else "#{record.duration / 60} часа"
+	$record.find('.phone').text record.phone
+	$record.find('#token').val record.token
+
+	recordGlobal = record
+	reloadTimeTable getSelectedDate()
+
+hideRecord = ->
+	$('#order-content .record').css display: 'none'
+	recordGlobal = null
+	reloadTimeTable getSelectedDate()
+
 VK.Observer.subscribe 'auth.statusChange', refreshButton
+VK.Observer.subscribe 'auth.logout', hideRecord
 VK.Observer.subscribe 'auth.login', ->
 	checkLoginStatus (session) ->
 		getSessionUser session, (user) ->
-			console.log user
-			$.ajax
-				method: 'post',
-				url: '/auth.php',
-				data: user
-			.done (response) -> console.log response
-			.fail -> console.log 'fail'
+			console.log 'user', user
+			addUserInfo user,
+					(response) ->
+						if typeof(response) == 'object'
+							console.log response
+							$('#order-content input[name=phone]').val response.phone
+							if response.token != undefined
+								displayRecord response
+				,
+					(msg) -> console.log msg
 
 $(document).on 'click', '.vk-button', ->
 	checkLoginStatus ->
@@ -273,6 +290,7 @@ $ ->
 	$('#more-count').buttonset()
 	$('#duration-count').buttonset()
 	$('#order-button').button()
+	$('#cancel-button').button()
 	$('#time-table input[name=time]').button()
 
 	setOrderNote = (text) -> $('#order-content .order-note').text text
@@ -282,17 +300,26 @@ $ ->
 			guests: getSelectedGuests()
 			duration: getSelectedDuration()
 			datetime: Math.round(getSelectedDate().getTime() / 1000) +
-				parseInt($('#order-content input[name=time]:checked').val())
+				parseInt($('#order-content input[name=time]:checked').val() * 60)
 			phone: $('#order-content input[name=phone]').val()
 		console.log record
+		if recordGlobal
+			setOrderNote 'Вы уже оставили заявку'
+			return
+
 		validateRecord record,
 			->
 				setOrderNote 'Проверка авторизации...'
 				checkLoginStatus ->
 						$('#order-button').button('disable')
 						setOrderNote 'Отправка...'
-						addRecordRequest record, ->
-								setOrderNote 'Запись успешно произведена!'
+						addRecordRequest record, (record) ->
+								if typeof(record) == 'object'
+									setOrderNote 'Запись успешно произведена!'
+									displayRecord record
+								else
+									setOrderNote record
+								$('#order-button').button('enable')
 							,
 								(msg) ->
 									setOrderNote msg
@@ -301,3 +328,9 @@ $ ->
 						-> setOrderNote 'Необходима авторизация через VK'
 			,
 			(msg) -> setOrderNote msg
+
+	$('#cancel-button').on 'click', ->
+		token = $('#token').val()
+		removeRecordRequest token,
+				-> hideRecord()
+				(msg) -> console.log msg

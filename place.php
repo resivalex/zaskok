@@ -1,9 +1,9 @@
 <?php
 
+require_once('database.php');
+
 $place = [];
 
-for ($i = 0; $i < 72; $i++) {
-	$place[] = 0;
-}
+$date = date('Y-m-d', $_POST['date']);
 
-echo json_encode($place);
+echo json_encode($db->place_map_by_date($date));

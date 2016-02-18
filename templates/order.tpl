@@ -52,8 +52,31 @@
 			<p class="order-note">Чтобы оставить заявку необходимо<br>авторизоваться и заполнить номер телефона</p>
 		</div>
 	</div>
+	<table class="record">
+		<tr>
+			<td colspan="2">Вы записаны</td>
+		</tr>
+		<tr>
+			<td>Дата</td><td class="date">------</td>
+		</tr>
+		<tr>
+			<td>Количество человек</td><td class="guests">------</td>
+		</tr>
+		<tr>
+			<td>Время</td><td class="time">------</td>
+		</tr>
+		<tr>
+			<td>Длительность</td><td class="duration">------</td>
+		</tr>
+		<tr>
+			<td>Контактный телефон</td><td class="phone">------</td>
+		</tr>
+		<tr>
+			<td colspan="2"><input id="token" type="hidden" value=""><button id="cancel-button">Отменить заявку</button></td>
+		</tr>
+	</table>
 	<div class="login-container">
-		<div class="vk-button">Загрузка...</div>
+		<div class="vk-button">Войти через VK</div>
 		<input class="phone" type="text" name="phone" placeholder="Номер телефона"/>
 	</div>
 </div>

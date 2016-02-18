@@ -1,9 +1,6 @@
 #order-content {
 	margin: 0 auto;
 	width: 960px;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
   
 	.control-header {
 		font-size: 30px;
@@ -24,6 +21,12 @@
 
 	.recall, .date-container {
 		@extend .control-group;
+	}
+
+	#datepicker, #time-table, #guests-count, #more-count, #duration-count {
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
 	}
 
 	#datepicker {
@@ -98,45 +101,95 @@
 		@extend .to-center;
 
 		padding: 20px;
-	}
 
-	.vk-button {
-		background-color: #46a;
-		border: solid 3px #359;
-		box-sizing: border-box;
-		color: white;
-		cursor: pointer;
-		display: inline-block;
-		float: left;
-		font-size: 24px;
-		height: 50px;
-		padding: 8px;
+		.vk-button {
+			background-color: #46a;
+			border: solid 3px #359;
+			box-sizing: border-box;
+			color: white;
+			cursor: pointer;
+			display: inline-block;
+			float: left;
+			font-size: 24px;
+			height: 50px;
+			padding: 8px;
 
-		&:hover {
-			background-color: #57b;
+			&:hover {
+				background-color: #57b;
+			}
 		}
-	}
 
-	.phone {
-		background-color: #eee;
-		border: solid 3px #359;
-		border-left: none;
-		box-sizing: border-box;
-		color: #444;
-		float: left;
-		font-size: 24px;
-		font-weight: bold;
-		height: 50px;
-		padding: 5px;
-		text-align: center;
-		
-		&:focus {
-			background-color: white;
+		.phone {
+			background-color: #eee;
+			border: solid 3px #359;
+			border-left: none;
+			box-sizing: border-box;
+			color: #444;
+			float: left;
+			font-size: 24px;
+			font-weight: bold;
+			height: 50px;
+			padding: 5px;
+			text-align: center;
+			
+			&:focus {
+				background-color: white;
+			}
 		}
 	}
 
 	.order-note {
 		font-size: 14px;
 		max-width: 400px;
+	}
+
+	.record {
+		border: solid 3px $hover-color;
+		border-collapse: collapse;
+		display: none;
+		margin: 20px auto 0;
+
+		td:last-child {
+			text-align: right;
+		}
+
+		tr:first-of-type td {
+			background-color: $hover-color;
+			color: white;
+			text-align: center;
+		}
+
+		tr:last-of-type td {
+			padding: 0;
+		}
+
+		tr {
+			padding: 0;
+
+			&:nth-child(odd) {
+				background-color: $light-color;
+			}
+
+			&:hover {
+				color: black;
+			}
+		}
+
+		td {
+			padding: 5px 15px;
+			width: 50%;
+		}
+
+		button {
+			display: block;
+			// font-size: 30px;
+			width: 100%;
+		}
+
+		.ui-button-text {
+			color: #600;
+			font-size: 16px;
+			text-decoration: underline;
+		}
 	}
 }

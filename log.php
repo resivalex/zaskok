@@ -1,6 +1,6 @@
 <?php
 require('../smarty/libs/Smarty.class.php');
-include('debug.php');
+require_once('debug.php');
 
 $smarty = new Smarty();
 

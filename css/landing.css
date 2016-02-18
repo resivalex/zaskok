@@ -236,10 +236,7 @@ p.note {
 
 #order-content {
   margin: 0 auto;
-  width: 960px;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none; }
+  width: 960px; }
   #order-content .control-header, #order-content .date-title, #order-content .duration-title, #order-content .time-title, #order-content .guests-title {
     font-size: 30px;
     margin-top: 5px;
@@ -251,6 +248,10 @@ p.note {
     background: #58c;
     border-color: #445;
     color: white; }
+  #order-content #datepicker, #order-content #time-table, #order-content #guests-count, #order-content #more-count, #order-content #duration-count {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none; }
   #order-content #datepicker th {
     color: #445; }
   #order-content #guests-count {
@@ -293,36 +294,65 @@ p.note {
       padding-right: 5px; }
   #order-content .login-container {
     padding: 20px; }
-  #order-content .vk-button {
-    background-color: #46a;
-    border: solid 3px #359;
-    box-sizing: border-box;
-    color: white;
-    cursor: pointer;
-    display: inline-block;
-    float: left;
-    font-size: 24px;
-    height: 50px;
-    padding: 8px; }
-    #order-content .vk-button:hover {
-      background-color: #57b; }
-  #order-content .phone {
-    background-color: #eee;
-    border: solid 3px #359;
-    border-left: none;
-    box-sizing: border-box;
-    color: #444;
-    float: left;
-    font-size: 24px;
-    font-weight: bold;
-    height: 50px;
-    padding: 5px;
-    text-align: center; }
-    #order-content .phone:focus {
-      background-color: white; }
+    #order-content .login-container .vk-button {
+      background-color: #46a;
+      border: solid 3px #359;
+      box-sizing: border-box;
+      color: white;
+      cursor: pointer;
+      display: inline-block;
+      float: left;
+      font-size: 24px;
+      height: 50px;
+      padding: 8px; }
+      #order-content .login-container .vk-button:hover {
+        background-color: #57b; }
+    #order-content .login-container .phone {
+      background-color: #eee;
+      border: solid 3px #359;
+      border-left: none;
+      box-sizing: border-box;
+      color: #444;
+      float: left;
+      font-size: 24px;
+      font-weight: bold;
+      height: 50px;
+      padding: 5px;
+      text-align: center; }
+      #order-content .login-container .phone:focus {
+        background-color: white; }
   #order-content .order-note {
     font-size: 14px;
     max-width: 400px; }
+  #order-content .record {
+    border: solid 3px #66f;
+    border-collapse: collapse;
+    display: none;
+    margin: 20px auto 0; }
+    #order-content .record td:last-child {
+      text-align: right; }
+    #order-content .record tr:first-of-type td {
+      background-color: #66f;
+      color: white;
+      text-align: center; }
+    #order-content .record tr:last-of-type td {
+      padding: 0; }
+    #order-content .record tr {
+      padding: 0; }
+      #order-content .record tr:nth-child(odd) {
+        background-color: #ccf; }
+      #order-content .record tr:hover {
+        color: black; }
+    #order-content .record td {
+      padding: 5px 15px;
+      width: 50%; }
+    #order-content .record button {
+      display: block;
+      width: 100%; }
+    #order-content .record .ui-button-text {
+      color: #600;
+      font-size: 16px;
+      text-decoration: underline; }
 
 .contacts-container {
   display: table;
