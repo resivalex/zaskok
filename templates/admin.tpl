@@ -4,6 +4,8 @@
 	<link rel="stylesheet" type="text/css" href="css/log.css">
 {/block}
 {block name=body_includes}
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+	<script src="js/log.js"></script>
 {/block}
 {block name=body}
 {if $is_admin}

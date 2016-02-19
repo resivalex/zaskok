@@ -11,6 +11,10 @@
 	<!-- Авторизация ВКонтакте -->
 	<script src="//vk.com/js/api/openapi.js"></script>
 	<script src="js/order.js"></script>
+	<!-- Подключаем API карт -->
+	<script src="http://api-maps.yandex.ru/2.1/?load=package.map,package.search&lang=ru-RU" type="text/javascript"></script>
+	<!-- ZAskok on Yandex.Map -->
+	<script type="text/javascript" src="js/map.js" charset="utf-8"></script>
 {/block}
 {block name=body}
 <div class="under-nav"></div>

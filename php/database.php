@@ -1,6 +1,6 @@
 <?php
 
-require_once('../keys.php');
+require_once('../../keys.php');
 
 class Database {
 	var $sql;
@@ -124,15 +124,25 @@ SQL
 			VALUES ($user_id, '$date', '$time', '$guests', '$duration', '$phone', '$token')
 SQL
 		);
-		$esc_phone = $this->escape($phone);
 		$this->query(
 <<<SQL
 			UPDATE users
-			SET last_record_token='$token', phone='$esc_phone'
+			SET last_record_token='$token', phone='$phone'
 			WHERE id=$user_id
 SQL
 		);
 		return $record;
+	}
+
+	function all_records() {
+		return $this->fetch_assoc_array($this->query(
+<<<SQL
+			SELECT date, time, guests, duration, first_name, last_name,
+					domain, records.phone AS phone, token, user_name
+			FROM records
+			LEFT JOIN users ON user_id = users.id
+SQL
+		));
 	}
 
 	function records_by_date($date) {

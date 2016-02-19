@@ -85,13 +85,13 @@ requestJSON = (url, data, onSuccess, onFail) ->
 	.fail -> onFail serverError
 
 addUserInfo = (user, onSuccess, onFail) ->
-	requestJSON '/auth.php', user, onSuccess, onFail
+	requestJSON '/php/auth.php', user, onSuccess, onFail
 
 addRecordRequest = (record, onSuccess, onFail) ->
-	requestJSON '/record.php', record, onSuccess, onFail
+	requestJSON '/php/record.php', record, onSuccess, onFail
 
 removeRecordRequest = (token, onSuccess, onFail) ->
-	requestJSON '/unrecord.php', token: token, onSuccess, onFail
+	requestJSON '/php/unrecord.php', token: token, onSuccess, onFail
 
 validateRecord = (record, onSuccess, onFail) ->
 	typeConditions = [
@@ -133,7 +133,7 @@ validateRecord = (record, onSuccess, onFail) ->
 	onSuccess()
 
 getPlaceInformation = (posixDate, onSuccess, onFail) ->
-	requestJSON '/place.php', date: posixDate, onSuccess, onFail
+	requestJSON '/php/place.php', date: posixDate, onSuccess, onFail
 
 ###
 GUI functions

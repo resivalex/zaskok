@@ -11,8 +11,6 @@
 	<script type="text/javascript" src="js/lib/es5-sham.min.js"></script>
 	<!-- jQuery -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
-	<!-- Подключаем API карт -->
-	<script src="http://api-maps.yandex.ru/2.1/?load=package.map,package.search&lang=ru-RU" type="text/javascript"></script>
 	<!-- jQuery UI -->
 	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
@@ -20,8 +18,6 @@
 	<script type="text/javascript" src="js/lib/jquery.waypoints.min.js"></script>
 	<!-- Animation TweenMax -->
 	<script src="js/lib/tween-max.min.js"></script>
-	<!-- AirPlaza on Yandex.Map -->
-	<script type="text/javascript" src="js/map.js" charset="utf-8"></script>
 	<!-- Landing interactions -->
 	<script type="text/javascript" src="js/landing.js"></script>
 	<!-- jQuery version must be >= 1.8.0; -->

@@ -1,6 +1,6 @@
 <?php
 
-require_once('../keys.php');
+require_once('../../keys.php');
 
 function auth_open_api_member() {
   $session = array();

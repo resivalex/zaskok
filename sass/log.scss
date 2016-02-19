@@ -1,5 +1,9 @@
 @import "common";
 
+body {
+	font-size: 16px;
+}
+
 .login-form {
 	background-color: $light-color;
 	display: table;
@@ -8,5 +12,41 @@
 
 	input {
 		font-size: 20px;
+	}
+}
+
+header {
+	@extend .clearfix;
+
+	width: 100%;
+
+	.page-title {
+		float: left;
+	}
+
+	.logout {
+		float: right;
+	}
+}
+
+.report {
+	@extend .to-center;
+	display: table;
+}
+
+.records {
+	border-collapse: collapse;
+
+	td {
+		border: solid 1px black;
+		padding: 3px;
+
+		&.delete {
+			padding: 0;
+		}
+	}
+
+	button {
+		font-size: 16px;
 	}
 }
