@@ -5,7 +5,7 @@ require_once('database.php');
 
 const MAX_GUESTS = 10;
 
-if ($member = auth_open_api_member()) {
+if ($member = getAuthOpenApiMember()) {
 	$token = '';
 	for ($i = 0; $i < 8; $i++) {
 		$token .= 'abcdefghigklmnopqrstuvwxyzABCDEFGHIGKLMNOPQRSTUVWXYZ'[rand(0, 26 * 2 - 1)];

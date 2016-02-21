@@ -24,6 +24,8 @@
 	<script src="light-gallery/js/lightgallery.min.js"></script>
 	<!-- A jQuery plugin that adds cross-browser mouse wheel support. (Optional) -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js"></script>
+	<!-- AngularJS -->
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
 	{block name=body_includes}{/block}
 
 {* 	<!-- LiveReload -->

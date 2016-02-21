@@ -1,9 +1,10 @@
 <?php
 
+require_once('debug.php');
 require_once('check.php');
 require_once('database.php');
 
-if ($member = auth_open_api_member()) {
+if ($member = getAuthOpenApiMember()) {
 	$info = [];
 	foreach ($_POST as $key => $value) {
 		$info[$key] = $value;
@@ -12,7 +13,7 @@ if ($member = auth_open_api_member()) {
 	unset($info['uid']);
 	$info['vk_id'] = $vk_id;
 
-	$response = $db->add_user_info($info);
+	$response = $db->addUserInfo($info);
 	if (isset($response['date'])) {
 		$date = $response['date'];
 		$time = $response['time'];

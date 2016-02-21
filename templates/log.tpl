@@ -33,7 +33,7 @@
  *}
 
 {literal}
-<div ng-app="app">
+<div ng-app="adminApp">
 
 
 <div class="report" ng-controller="ReportCtrl">

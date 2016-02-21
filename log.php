@@ -10,22 +10,22 @@ $smarty->setConfigDir('smarty/config');
 
 session_start();
 
-$is_admin = false;
-$is_wrong_password = false;
+$isAdmin = false;
+$isWrongPassword = false;
 
-if (isset($_SESSION['is_admin'])) {
-	$is_admin = true;
+if (isset($_SESSION['isAdmin'])) {
+	$isAdmin = true;
 } else {
 	if (isset($_POST['password'])) {
 		if ($_POST['password'] == 'patented') {
-	    	$_SESSION['is_admin'] = true;
+	    	$_SESSION['isAdmin'] = true;
 	    	header('Location: /log.php');
 	    } else {
-	    	$is_wrong_password = true;
+	    	$isWrongPassword = true;
 	    }
 	}
 }
 
-$smarty->assign('is_wrong_password', $is_wrong_password);
-$smarty->assign('is_admin', $is_admin);
+$smarty->assign('isWrongPassword', $isWrongPassword);
+$smarty->assign('isAdmin', $isAdmin);
 $smarty->display('admin.tpl');

@@ -1,5 +1,5 @@
 <form class="login-form" method="post">
-	{if $is_wrong_password}
+	{if $isWrongPassword}
 		<label>Неверный пароль!</label><br>
 	{/if}
 	<input type="password" name="password" placeholder="Пароль" />

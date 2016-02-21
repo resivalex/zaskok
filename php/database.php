@@ -1,165 +1,116 @@
 <?php
 
 require_once('../../keys.php');
+require_once('./lib/safemysql.class.php');
 
-class Database {
+class Repository {
 	var $sql;
 
 	function __construct() {
-		$this->sql = new mysqli("p:localhost", DB_USER, DB_PASSWORD, DB_NAME);
-		$this->sql->query("SET NAMES 'utf8'");
+		$this->sql = new SafeMysql([
+			'user' => DB_USER,
+			'pass' => DB_PASSWORD,
+			'db' => DB_NAME,
+			'charset' => 'utf8']);
 	}
 
-	private function query($str) {
-		return $this->sql->query($str);
+	private function getRecordByToken($token) {
+		return $this->sql->getRow('SELECT * FROM records WHERE token=?s', $token);
 	}
 
-	private function escape($str) {
-		return $this->sql->escape_string($str);
-	}
-
-	private function fetch_assoc_array($sql_result) {
-		if ($sql_result == false) {
-			return Array();
-		}
-		$arr = [];
-		while ($row = $sql_result->fetch_array(MYSQLI_ASSOC)) {
-			$arr[] = $row;
-		}
-
-		return $arr;
-	}
-
-	private function record_by_token($token) {
-		$result = $this->query(
-<<<SQL
-			SELECT date, time, guests, duration, phone, token
-			FROM records
-			WHERE token='$token'
-SQL
-		);
-
-		$rec_arr = $this->fetch_assoc_array($result);
-		if (isset($rec_arr[0])) {
-			return $rec_arr[0];
-		} else {
-			return false;
-		}
-	}
-
-	private function actual_record_by_token($token) {
-		if ($record = $this->record_by_token($token)) {
+	private function getActualRecordByToken($token) {
+		if ($record = $this->getRecordByToken($token)) {
 			$datetime = strtotime($record['date'].' '.$record['time']);
-			if ($datetime < time()) {
-				return false;
-			} else {
+			if ($datetime > time()) {
 				return $record;
 			}
-		} else {
-			return false;
 		}
+
+		return false;
 	}
 
-	function add_user_info($info) {
-		$keys = ['vk_id', 'first_name', 'last_name', 'domain'];
-		foreach ($keys as $key) {
-			$temp = $this->escape($info[$key]);
-			eval('$'.$key.' = $temp;');
+	function getRecordByVkId($vkId) {
+		if ($user = $this->getUserByVkId($vkId)) {
+			return $this->getActualRecordByToken($user['token']);
 		}
-		$this->query(
-<<<SQL
-			INSERT INTO users
-			(vk_id, first_name, last_name, domain)
-			VALUES ('$vk_id', '$first_name', '$last_name', '$domain');
-SQL
-		);
-		$users_result = $this->query(
-<<<SQL
-			SELECT id, phone, last_record_token
-			FROM users
-			WHERE vk_id='$vk_id'
-SQL
-		);
-		$user = $this->fetch_assoc_array($users_result)[0];
+
+		return false;
+	}
+
+	function getUserPhoneByVkId($vkId) {
+		if ($user = $this->getUserByVkId($vkId)) {
+			return $user['phone'];
+		}
+
+		return false;
+	}
+
+	function addUserInfo($info) {
+		$data = $this->sql->filterArray($info, ['vk_id', 'first_name', 'last_name', 'domain']);
+		$this->sql->query('INSERT IGNORE INTO users SET ?u', $data);
+
+		$user = $this->getUserByVkId($data['vk_id']);
+
 		$phone = $user['phone'];
 		$token = $user['last_record_token'];
 
-		$record = $this->actual_record_by_token($token);
-		if (!$record) {
-			$record = [];
-			$record['phone'] = $phone;
+		if (!($record = $this->getActualRecordByToken($token))) {
+			$record = ['phone' => $phone];
 		}
 
 		return $record;
 	}
 
-	function add_record($record, $vk_id) {
-		$esc_vk_id = $this->escape($vk_id);
-		$result = $this->query(
-<<<SQL
-			SELECT id, last_record_token
-			FROM users
-			WHERE vk_id='$esc_vk_id'
-SQL
-		);
-		$row = $result->fetch_array(MYSQLI_ASSOC);
-		if (!$row) {
+	private function getUserByVkId($vkId) {
+		return $this->sql->getRow('SELECT * FROM users WHERE vk_id=?s', $vkId);
+	}
+
+	function addRecord($record, $vkId) {
+		if (!($user = $this->getUserByVkId($vkId))) {
 			return "Не найден пользователь. Вы авторизованы?";
 		}
-		$token = $row['last_record_token'];
+		$token = $user['last_record_token'];
 
-		if ($this->actual_record_by_token($token)) {
+		if ($this->getActualRecordByToken($token)) {
 			return "Вы уже оставили заявку. Обновите страницу.";
 		}
-		$user_id = $row['id'];
-		$keys = ['guests', 'duration', 'phone', 'date', 'time', 'token'];
-		foreach ($keys as $key) {
-			$temp = $this->escape($record[$key]);
-			eval('$'.$key.' = $temp;');
-		}
-		$this->query(
-<<<SQL
-			INSERT INTO records
-			(user_id, date, time, guests, duration, phone, token)
-			VALUES ($user_id, '$date', '$time', '$guests', '$duration', '$phone', '$token')
-SQL
-		);
-		$this->query(
-<<<SQL
-			UPDATE users
-			SET last_record_token='$token', phone='$phone'
-			WHERE id=$user_id
-SQL
-		);
+		$userId = $user['id'];
+		$data = $this->sql->filterArray($record,
+			['guests', 'duration', 'phone', 'date', 'time', 'token']);
+
+		$this->sql->query('UPDATE users SET ?u WHERE user_id=?i',
+			['last_record_token' => $token, 'phone' => $phone], $userId);
+
 		return $record;
 	}
 
-	function all_records() {
-		return $this->fetch_assoc_array($this->query(
+	function getAllRecords() {
+		return $this->sql->getAll(
 <<<SQL
-			SELECT date, time, guests, duration, first_name, last_name,
-					domain, records.phone AS phone, token, user_name
+			SELECT date, time, guests, duration,
+				first_name AS firstName,
+				last_name AS lastName,
+				domain,
+				records.phone AS phone,
+				token, user_name AS userName
 			FROM records
 			LEFT JOIN users ON user_id = users.id
 SQL
-		));
+		);
 	}
 
-	function records_by_date($date) {
-		$esc_date = $this->escape($date);
-		$result = $this->query(
+	function getRecordsByDate($date) {
+		return $this->sql->getAll(
 <<<SQL
 			SELECT guests, time, duration
 			FROM records
-			WHERE date='$esc_date'
+			WHERE date=?s
 SQL
-		);
-
-		return $this->fetch_assoc_array($result);
+		, $date);
 	}
 
-	function place_map_by_date($date) {
-		$records = $this->records_by_date($date);
+	function getPlaceMapByDate($date) {
+		$records = $this->getRecordsByDate($date);
 
 		for ($i = 0; $i < 72; $i++) {
 			$place[] = 0;
@@ -175,15 +126,15 @@ SQL
 		return $place;
 	}
 
-	function remove_record($token) {
-		$esc_token = $this->escape($token);
-		$this->query(
-<<<SQL
-			DELETE FROM records
-			WHERE token='$esc_token'
-SQL
-		);
+	function removeRecordByToken($token) {
+		return $this->sql->query('DELETE FROM records WHERE token=?s' , $token);
+	}
+
+	function addAdminRecord($record) {
+		$data = $this->sql->filterArray($record, []);
 	}
 };
 
-$db = new Database();
+function repository() {
+	return new Repository();
+}

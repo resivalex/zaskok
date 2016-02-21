@@ -1,18 +1,18 @@
-app = angular.module 'app', []
+app = angular.module 'adminApp', []
 
 app.controller 'ReportCtrl', ($scope, $http) ->
 	$scope.records = []
 
 	refreshReport = ->
-		$http.post '/php/angular.php', report: 'all_records'
+		$http.post '/php/admin.php', action: 'getAllRecords'
 			.success (data) ->
 				console.log data
 				records = []
 				for index, record of data
-					if record.first_name != null
-						record['user'] = "#{record.first_name} #{record.last_name}"
+					if record.firstName != null
+						record['user'] = "#{record.firstName} #{record.lastName}"
 					else
-						record['user'] = record.user_name
+						record['user'] = record.userName
 
 					records.push record
 				$scope.records = records
@@ -21,8 +21,8 @@ app.controller 'ReportCtrl', ($scope, $http) ->
 	refreshReport()
 
 	$scope.removeRecord = ->
-		$http.post '/php/angular.php',
-				action: 'remove_record'
+		$http.post '/php/admin.php',
+				action: 'removeRecordByToken'
 				token: @.record.token
 			.success (data) -> console.log data; refreshReport()
 			.error (data) -> console.log 'error'
@@ -32,3 +32,15 @@ app.controller 'AddRecordCtrl', ($scope, $http) ->
 	console.log $scope.timeOptions
 	$scope.save = ->
 		console.log @.phone
+		$http.post '/php/admin.php',
+			action: 'addRecord'
+			record:
+				date: @.date
+				time: @.time
+				guests: @.guests
+				duration: @.duration
+				userName: @.userName
+				phone: @.phone
+		.success ->
+			refreshReport()
+		.error (data) -> console.log 'error'

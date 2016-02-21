@@ -1,54 +1,56 @@
-<div id="order-content">
+{literal}
+<div id="order-content" ng-app="orderApp" ng-controller="OrderCtrl">
 	<div class="to-center clearfix">
 		<div class="date-container">
-			<div class="guests-title">Количество человек</div>
-			<div class="guests-container">
+			<div class="guests-title">Количество человек - {{order.guests}}</div>
+			<div class="guests-container" my-buttonset>
 				<div id="guests-count">
-	 				<input type="radio" id="radio1" name="guests" value="1" checked="checked"><label for="radio1">1</label>
-					{for $i = 2 to 6}
-						<input type="radio" id="radio{$i}" name="guests" value="{$i}"><label for="radio{$i}">{$i}</label>
-					{/for}
+	 				<input type="radio" id="radio1" ng-model="order.guests" value="1">
+	 				<label for="radio1">1</label>
+	 				<div ng-repeat="i in arr1" style="display:inline-block;">
+						<input type="radio" id="radio{{i}}" ng-model="order.guests" value="{{i}}">
+						<label for="radio{{i}}">{{i}}</label>
+					</div>
 				</div>
 				<div id="more-count">
-					{for $i = 7 to 9}
-						<input type="radio" id="radio{$i}" name="guests" value="{$i}"><label for="radio{$i}">{$i}</label>
-					{/for}
-					<input type="radio" id="radio10" name="guests" value="10"><label for="radio10">Аренда</label>
+					<div ng-repeat="i in arr2" style="display:inline-block;">
+						<input type="radio" id="radio{{i}}" ng-model="order.guests" value="{{i}}">
+						<label for="radio{{i}}">{{i}}</label>
+					</div>
+					<input type="radio" id="radio10" ng-model="order.guests" value="10">
+					<label for="radio10">Аренда</label>
 				</div>
 			</div>
-			<div class="duration-title">Длительность</div>
+			<div class="duration-title">Длительность - {{order.duration}}</div>
 			<div class="duration-container">
-				<div id="duration-count">
-					<input type="radio" id="radioo1" name="duration" value="10"><label for="radioo1">10 минут</label>
-					<input type="radio" id="radioo2" name="duration" value="30" checked="checked"><label for="radioo2">30 минут</label>
-					<input type="radio" id="radioo3" name="duration" value="60"><label for="radioo3">60 минут</label>
-					<input type="radio" id="radioo4" name="duration" value="120"><label for="radioo4">2 часа</label>
+				<div id="duration-count" my-buttonset>
+					<div style="display:inline-block;" ng-repeat="opt in durationOptions">
+						<input id="dur-{{opt.value}}"
+								type="radio" ng-model="order.duration" value="{{opt.value}}">
+						<label for="dur-{{opt.value}}">{{opt.name}}</label>
+					</div>
 				</div>
 			</div>
-			<div class="date-title">Дата</div>
+			<div class="date-title">{{selectedDate | dateFormat}}</div>
 			<div id="datepicker"></div>
 		</div>
 		<div class="recall">
-			<div class="time-title">Время</div>
+			<div class="time-title">Время - {{order.time}}</div>
 			<div class="time-table-container">
-				<table id="time-table">
-					{for $i = 10 to 21}
-						<tr>
-							{$lead = '0'}
-							{for $j = 0 to 50 step=10}
-								<td>
-									<input type="radio" id="radi-{$i}-{$j}" name="time" value="{$i * 60 + $j}"><label for="radi-{$i}-{$j}">{$i}:{$lead}{$j}</label>
-								</td>
-								{$lead = ''}
-							{/for}
-						</tr>
-					{/for}
+				<table id="time-table" my-buttonfield="availableTime" ng-model="order.time">
+					<tr ng-repeat="hour in hours" ng-model="availableTime">
+						<td ng-repeat="minute in minutes">
+							<input type="radio" id="radi-{{hour}}-{{minute}}"
+									ng-model="order.time" value="{{hour * 60 + minute}}" disabled="disabled">
+							<label for="radi-{{hour}}-{{minute}}">{{timeFormat(hour, minute)}}</label>
+						</td>
+					</tr>
 				</table>
-				<div class="loading">
+				<div class="loading" ng-show="placeIsLoading">
 					<div class="text">Загрузка...</div>
 				</div>
 			</div>
-			<input id="order-button" type="button" value="Оставить заявку" />
+			<input id="order-button" type="button" ng-click="addRecord()" value="Оставить заявку" my-button/>
 			<p class="order-note">Чтобы оставить заявку необходимо<br>авторизоваться и заполнить номер телефона</p>
 		</div>
 	</div>
@@ -72,11 +74,13 @@
 			<td>Контактный телефон</td><td class="phone">------</td>
 		</tr>
 		<tr>
-			<td colspan="2"><input id="token" type="hidden" value=""><button id="cancel-button">Отменить заявку</button></td>
+			<td colspan="2"><input id="token" type="hidden" value="">
+			<button id="cancel-button" my-button>Отменить заявку</button></td>
 		</tr>
 	</table>
 	<div class="login-container">
 		<div class="vk-button">Войти через VK</div>
-		<input class="phone" type="text" name="phone" placeholder="Номер телефона"/>
+		<input class="phone" type="text" name="phone" placeholder="Номер телефона" ng-model="availableTime"/>
 	</div>
 </div>
+{/literal}
