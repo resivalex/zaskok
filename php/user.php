@@ -9,7 +9,7 @@ $repository = new Repository();
 $postdata = file_get_contents("php://input");
 $request = json_decode($postdata);
 
-echo json_encode(executeRequest($request));
+echo json_encode(['data' => executeRequest($request)]);
 
 function executeRequest($param) {
 	global $openApiMember;

@@ -291,18 +291,28 @@ app.controller 'OrderCtrl', ($scope, $http) ->
 
 	$scope.placeIsLoading = true
 
+	postRequest = (requestOptions) ->
+		$http.post '/php/user.php', requestOptions.data
+		.then (response) ->
+			if requestOptions.success
+				requestOptions.success response.data.data
+		.catch (response) ->
+			if requestOptions.error
+				requestOptions.error response
+		.finally ->
+			if requestOptions.finally
+				requestOptions.finally()
+
 	reloadTimeTable = (date) ->
 		$scope.placeIsLoading = true
 		posixDate = Math.round date.getTime() / 1000
-		$http.post '/php/user.php',
-			action: 'getPlaceMapByDate'
-			date: posixDate
-
-		.success (response) ->
-			$scope.place = response
-			$scope.placeIsLoading = false
-
-		.error (err) -> console.log err
+		postRequest
+			data:
+				action: 'getPlaceMapByDate'
+				date: posixDate
+			success: (response) ->
+				$scope.place = response
+				$scope.placeIsLoading = false
 
 	$scope.$watchGroup ['order.date', 'record'], -> reloadTimeTable $scope.order.date
 
@@ -341,22 +351,20 @@ app.controller 'OrderCtrl', ($scope, $http) ->
 				->
 					$('#order-button').button('disable')
 					$scope.orderNote = 'Отправка...'
-					$http.post '/php/user.php',
-						action: 'addRecord'
-						record: record
-
-					.success (response) ->
+					postRequest
+						data:
+							action: 'addRecord'
+							record: record
+						success: (response) ->
 							if typeof(response) == 'object'
 								$scope.orderNote = 'Запись успешно произведена!'
 								setRecord response
 							else
-								console.log response
-								$scope.orderNote = $.parseJSON(response)
+								$scope.orderNote = response
+						error: (response) ->
+							$scope.orderNote = response
+						finally: ->
 							$('#order-button').button('enable')
-						,
-							(msg) ->
-								$scope.orderNote = msg
-								$('#order-button').button('enable')
 			,
 				(msg) -> $scope.orderNote = msg
 		,
@@ -364,13 +372,13 @@ app.controller 'OrderCtrl', ($scope, $http) ->
 
 	$scope.removeRecord = ->
 		if confirm 'Удалить заявку?'
-			$http.post '/php/user.php',
-				action: 'removeRecord'
-				token: $scope.record.token
-			.success (response) ->
-				console.log response
-				$scope.record = null
-			.error (response) -> console.log response
+			postRequest
+				data:
+					action: 'removeRecord'
+					token: $scope.record.token
+				success: (response) ->
+					console.log response
+					$scope.record = null
 
 	dateDaysLater = (days) ->
 		msNow = (new Date()).getTime()
@@ -406,29 +414,28 @@ app.controller 'OrderCtrl', ($scope, $http) ->
 					$scope.$apply ($scope) ->
 						$scope.vkButtonText = text
 
-					$http.post '/php/user.php', action: 'getUserPhone'
-					.success (response) ->
-						console.log response
-						if response.phone
-							$scope.order.phone = response.phone
-					.error (response) ->
-						console.log response
+					postRequest
+						data: action: 'getUserPhone'
+						success: (response) ->
+							console.log response
+							if response.phone
+								$scope.order.phone = response.phone
 
-					$http.post '/php/user.php', action: 'getUserRecord'
-					.success (response) ->
-						console.log response
-						setRecord response
+					postRequest
+						data: action: 'getUserRecord'
+						success: (response) ->
+							console.log response
+							setRecord response
 
-					$http.post '/php/user.php',
-						action: 'addUser'
-						user:
-							firstName: user.first_name
-							lastName: user.last_name
-							domain: user.domain
-					.success (response) ->
-						console.log 'addUser', response
-					.error (response) ->
-						console.log 'fail', response
+					postRequest
+						data:
+							action: 'addUser'
+							user:
+								firstName: user.first_name
+								lastName: user.last_name
+								domain: user.domain
+						success: (response) ->
+							console.log 'addUser', response
 			, ->
 				$scope.record = null
 				$scope.vkButtonText = 'Войти через VK'
