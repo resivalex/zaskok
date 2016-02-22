@@ -3,8 +3,8 @@
 	width: 960px;
   
 	.control-header {
-		font-size: 30px;
-		margin-top: 5px;
+		font-size: 24px;
+		margin-top: 15px;
 		margin-bottom: 5px;
 	}
 
@@ -30,6 +30,8 @@
 	}
 
 	#datepicker {
+		font-size: 0.9em;
+
 		th {
 			color: $text-color;
 		}
@@ -140,13 +142,12 @@
 
 	.order-note {
 		font-size: 14px;
-		max-width: 400px;
+		max-width: 350px;
 	}
 
 	.record {
 		border: solid 3px $hover-color;
 		border-collapse: collapse;
-		display: none;
 		margin: 20px auto 0;
 
 		td:last-child {

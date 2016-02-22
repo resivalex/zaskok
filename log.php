@@ -28,4 +28,4 @@ if (isset($_SESSION['isAdmin'])) {
 
 $smarty->assign('isWrongPassword', $isWrongPassword);
 $smarty->assign('isAdmin', $isAdmin);
-$smarty->display('admin.tpl');
+$smarty->display('log.tpl');

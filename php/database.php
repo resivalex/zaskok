@@ -3,6 +3,8 @@
 require_once('../../keys.php');
 require_once('./lib/safemysql.class.php');
 
+const MAX_GUESTS = 10;
+
 class Repository {
 	var $sql;
 
@@ -31,7 +33,16 @@ class Repository {
 
 	function getRecordByVkId($vkId) {
 		if ($user = $this->getUserByVkId($vkId)) {
-			return $this->getActualRecordByToken($user['token']);
+			if ($record = $this->getActualRecordByToken($user['last_record_token'])) {
+				$date = $record['date'];
+				$time = $record['time'];
+				unset($record['date']);
+				unset($record['time']);
+				$datetime = strtotime($date) + (strtotime($time) - strtotime('00:00:00'));
+				$record['datetime'] = $datetime;
+
+				return $record;
+			}
 		}
 
 		return false;
@@ -45,24 +56,50 @@ class Repository {
 		return false;
 	}
 
-	function addUserInfo($info) {
-		$data = $this->sql->filterArray($info, ['vk_id', 'first_name', 'last_name', 'domain']);
-		$this->sql->query('INSERT IGNORE INTO users SET ?u', $data);
+	private function replaceKey(&$arr, $from, $to) {
+		$val = $arr[$from];
+		unset($arr[$from]);
+		$arr[$to] = $val;
+	}
 
-		$user = $this->getUserByVkId($data['vk_id']);
+	function addUser($user, $vkId) {
+		$info = $user;
+		$this->replaceKey($info, 'firstName', 'first_name');
+		$this->replaceKey($info, 'lastName', 'last_name');
+		$data = $this->sql->filterArray($info, ['first_name', 'last_name', 'domain']);
+		$data['vk_id'] = $vkId;
 
-		$phone = $user['phone'];
-		$token = $user['last_record_token'];
-
-		if (!($record = $this->getActualRecordByToken($token))) {
-			$record = ['phone' => $phone];
-		}
-
-		return $record;
+		return $this->sql->query('INSERT IGNORE INTO users SET ?u', $data);
 	}
 
 	private function getUserByVkId($vkId) {
 		return $this->sql->getRow('SELECT * FROM users WHERE vk_id=?s', $vkId);
+	}
+
+	private function getRandomToken() {
+		$token = '';
+		for ($i = 0; $i < 8; $i++) {
+			$token .= 'abcdefghigklmnopqrstuvwxyzABCDEFGHIGKLMNOPQRSTUVWXYZ'[rand(0, 26 * 2 - 1)];
+		}
+		return $token;
+	}
+
+	private function separateDateTime(&$arr) {
+		$datetime = $arr['datetime'];
+		unset($arr['datetime']);
+		$arr['date'] = date('Y-m-d', $datetime);
+		$arr['time'] = date('H:i:s', $datetime);
+	}
+
+	private function areRecordsOverflow($posixDate) {
+		$place = $this->getPlaceMapByDate($posixDate);
+		foreach ($place as $cell) {
+			if ($cell > MAX_GUESTS) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	function addRecord($record, $vkId) {
@@ -75,13 +112,26 @@ class Repository {
 			return "Вы уже оставили заявку. Обновите страницу.";
 		}
 		$userId = $user['id'];
-		$data = $this->sql->filterArray($record,
-			['guests', 'duration', 'phone', 'date', 'time', 'token']);
+		$phone = $record['phone'];
+		$token = $this->getRandomToken();
 
-		$this->sql->query('UPDATE users SET ?u WHERE user_id=?i',
+		$data = $this->sql->filterArray($record, ['guests', 'duration', 'phone', 'datetime']);
+		$datetime = $data['datetime'];
+		$this->separateDateTime($data);
+		$data['token'] = $token;
+		$data['user_id'] = $userId;
+
+		$this->sql->query('INSERT INTO records SET ?u', $data);
+
+		if ($this->areRecordsOverflow($datetime)) {
+			$this->removeRecordByToken($token);
+			return "Выбранное место уже занято.";
+		}
+
+		$this->sql->query('UPDATE users SET ?u WHERE id=?i',
 			['last_record_token' => $token, 'phone' => $phone], $userId);
 
-		return $record;
+		return $record + ['token' => $token];
 	}
 
 	function getAllRecords() {
@@ -109,7 +159,8 @@ SQL
 		, $date);
 	}
 
-	function getPlaceMapByDate($date) {
+	function getPlaceMapByDate($posixDate) {
+		$date = date('Y-m-d', $posixDate);
 		$records = $this->getRecordsByDate($date);
 
 		for ($i = 0; $i < 72; $i++) {

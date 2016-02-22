@@ -40,7 +40,8 @@ russianDayNames = [
 ]
 
 # месяц в родительном падеже
-monthNameOf = (monthName) ->
+monthNameOf = (index) ->
+	monthName = monthNames[index]
 	switch monthName
 		when "Март", "Август" then monthName + 'а'
 		else monthName.substring(0, monthName.length - 1) + 'я'
@@ -64,37 +65,13 @@ getSessionUser = (session, func) ->
 			user = r.response[0]
 		func(user)
 
-VK.init
-	apiId: apiId
-	# status: true
+initVk = ->
+	VK.init
+		apiId: apiId
 
 ###
 Data functions
 ###
-
-requestJSON = (url, data, onSuccess, onFail) ->
-	$.ajax {method: 'post', url, data}
-	.done (response) ->
-		try
-			result = $.parseJSON response
-		catch e
-			onFail formatError
-			console.log formatError, response
-			return
-		onSuccess result
-	.fail -> onFail serverError
-
-getUserRecord = (onSuccess, onFail) ->
-	requestJSON '/php/user.php', action: 'getUserRecord', onSuccess, onFail
-
-getUserPhone = (user, onSuccess, onFail) ->
-	requestJSON '/php/user.php', action: 'getUserPhone', onSuccess, onFail
-
-addRecordRequest = (record, onSuccess, onFail) ->
-	requestJSON '/php/record.php', record, onSuccess, onFail
-
-removeRecordRequest = (token, onSuccess, onFail) ->
-	requestJSON '/php/unrecord.php', token: token, onSuccess, onFail
 
 validateRecord = (record, onSuccess, onFail) ->
 	typeConditions = [
@@ -135,181 +112,48 @@ validateRecord = (record, onSuccess, onFail) ->
 			return
 	onSuccess()
 
-getPlaceInformation = (posixDate, onSuccess, onFail) ->
-	requestJSON '/php/user.php', {action: 'getPlaceMapByDate', date: posixDate}, onSuccess, onFail
-
 ###
 GUI functions
 ###
 
-refreshButton = ->
-	$button = $('#order-content .vk-button')
-	checkLoginStatus (session) ->
-			$button.text 'Загрузка...'
-			getSessionUser session, (user) ->
-				text =
-					if user then "#{user.first_name} #{user.last_name} (выход)"
-					else 'Ошибка'
-				$button.text text
-		, ->
-			$button.text 'Войти через VK'
-
-placeGlobal = []
-recordGlobal = null
-
-getSelectedGuests = -> parseInt($('#order-content input[name=guests]:checked').val())
-getSelectedDuration = -> parseInt($('#order-content input[name=duration]:checked').val())
-getSelectedDate = -> $('#datepicker').datepicker('getDate')
-
-refreshButton()
-
-VK.Observer.subscribe 'auth.statusChange', refreshButton
-VK.Observer.subscribe 'auth.logout', hideRecord
-VK.Observer.subscribe 'auth.login', ->
-	checkLoginStatus (session) ->
-			getSessionUser session, (user) ->
-				console.log 'user', user
-				getUserPhone user, (response) ->
-						console.log 'phone', response.phone
-						$('#order-content input[name=phone]').val response.phone
-					,
-						(msg) -> console.log msg
-
-			getUserRecord (response) ->
-					if typeof(response) == 'object'
-						console.log 'record', response
-						if response.token != undefined
-							displayRecord response
-				,
-					(msg) -> console.log msg
-
-		, (msg) -> console.log 'Must be loggined, but isn\'t'
-
-
-
-$(document).on 'click', '.vk-button', ->
-	checkLoginStatus ->
-			VK.Auth.logout()
-		, ->
-			VK.Auth.login()
-
-$ ->
-
-	# $('#order-content .duration-container').on 'click', highlightPlace
-	# $('#order-content .guests-container').on 'click', highlightPlace
-	$('#order-content input[name=guests][value='+maxGuests+']').on 'change', ->
-		recheck = false
-		if $(@).is(':checked')
-			$durationButtons = $('#order-content input[name=duration]')
-			$durationButtons.each ->
-				if $(@).val() < 60 # hour
-					$(@).button('disable')
-					if $(@).is(':checked')
-						recheck = true
-				else
-					if recheck
-						$(@).prop checked: true
-						recheck = false
-			$durationButtons.each ->
-				$(@).button('refresh')
-
-	$('#order-content input[name=guests][value!='+maxGuests+']').on 'change', ->
-		$('#order-content input[name=duration]').each ->
-			$(@).button('enable')
-
-	outDate = (date) ->
-		dateVar = new Date(date)
-		dateStr = "#{dateVar.getDate()} #{monthNameOf(monthNames[dateVar.getMonth()])}"
-		dateStr = 'Завтра' if dateVar.getTime() - new Date().getTime() < msInDay
-		dateStr = 'Сегодня' if dateVar.getTime() - new Date().getTime() < 0
-		$('#order-content .date-title').text dateStr
-
-	dayNames = russianDayNames
-	dayNames.unshift dayNames[dayNames.length - 1]
-	now = new Date()
-	$('#datepicker').datepicker(
-		monthNames: monthNames
-		dayNamesMin: dayNames
-		firstDay: 1
-		minDate: new Date(now.getTime() + if now.getHours() * 60 + now.getMinutes() >= closeTime then msInDay else 0)
-		maxDate: new Date(now.getTime() + maxOrderIntervalDays * msInDay)
-		onSelect: (date) ->
-			console.log date
-			$scope = $(@).scope()
-			$scope.$apply ->
-				$scope.selectDate new Date(date)
-			# outDate date
-			# reloadTimeTable new Date(date)
-	)
-
-	setOrderNote = (text) -> $('#order-content .order-note').text text
-
-	$('#order-button').on 'click', ->
-		# record =
-		# 	guests: getSelectedGuests()
-		# 	duration: getSelectedDuration()
-		# 	datetime: Math.round(getSelectedDate().getTime() / 1000) +
-		# 		parseInt($('#order-content input[name=time]:checked').val() * 60)
-		# 	phone: $('#order-content input[name=phone]').val()
-		# console.log record
-		# if recordGlobal
-		# 	setOrderNote 'Вы уже оставили заявку'
-		# 	return
-
-		# validateRecord record,
-		# 	->
-		# 		setOrderNote 'Проверка авторизации...'
-		# 		checkLoginStatus ->
-		# 				$('#order-button').button('disable')
-		# 				setOrderNote 'Отправка...'
-		# 				addRecordRequest record, (record) ->
-		# 						if typeof(record) == 'object'
-		# 							setOrderNote 'Запись успешно произведена!'
-		# 							displayRecord record
-		# 						else
-		# 							setOrderNote record
-		# 						$('#order-button').button('enable')
-		# 					,
-		# 						(msg) ->
-		# 							setOrderNote msg
-		# 							$('#order-button').button('enable')
-		# 			,
-		# 				-> setOrderNote 'Необходима авторизация через VK'
-		# 	,
-		# 	(msg) -> setOrderNote msg
-
-	$('#cancel-button').on 'click', ->
-		token = $('#token').val()
-		removeRecordRequest token,
-				-> hideRecord()
-				(msg) -> console.log msg
-
-
-
 app = angular.module 'orderApp', []
 	.filter 'dateFormat', ->
-		(input) ->
-			dateStr = "#{input.getDate()} #{monthNameOf(monthNames[input.getMonth()])}"
-			dateStr = 'Завтра' if input.getTime() - new Date().getTime() < msInDay
-			dateStr = 'Сегодня' if input.getTime() - new Date().getTime() < 0
-			dateStr
-	.filter 'checkmark', ->
-		(input) ->
-			if input then '\u2713' else '\u2718'
-	.directive 'datepicker', ->
-		restrict: 'A'
-		require: 'ngModel'
-		link: (scope, elem, attrs, ngModelCtrl) ->
-			updateModel = (dateText) ->
-				scope.$apply ->
-					ngModelCtrl.$setViewValue dateText
+		(input, aliases = false) ->
+			if input
+				dateStr = "#{input.getDate()} #{monthNameOf(input.getMonth())}"
+				if aliases
+					dateStr = 'Завтра' if input.getTime() - new Date().getTime() < msInDay
+					dateStr = 'Сегодня' if input.getTime() - new Date().getTime() < 0
+				dateStr
+			else
+				'?'
 
-			options
-				dateFormat: "dd/mm/yy"
-				onSelect: (dateText) ->
-					updateModel dateText
+	.filter 'timeFormat', ->
+		(input) ->
+			if input
+				temp = parseInt(input)
+				hour = Math.floor temp / 60
+				minute = temp - 60 * hour
+				"#{hour}:" + if minute == 0 then "00" else "#{minute}"
+			else
+				'?'
 
-			elem.datepicker options
+	.filter 'durationFormat', ->
+		(input) ->
+			if input
+				if input <= 60
+					"#{input} минут"
+				else
+					"#{input / 60} часа"
+			else
+				'?'
+
+	.filter 'guestsRentFormat', ->
+		(input) ->
+			if parseInt(input) == 10
+				'Аренда'
+			else
+				input
 
 	.directive 'myButtonfield', ($parse) ->
 		(scope, element, attrs, controller) ->
@@ -356,15 +200,36 @@ app = angular.module 'orderApp', []
 			console.log 'scope', scope
 			$ ->
 				element.datepicker
-					showOn:"both",
-					changeYear:true,
-					changeMonth:true,
-					dateFormat:'yy-mm-dd',
-					maxDate: new Date(),
-					yearRange: '1920:2012',
+					showOn:"both"
+					changeYear:true
+					changeMonth:true
+					dateFormat:'yy-mm-dd'
+					maxDate: new Date()
+					yearRange: '1920:2012'
 					onSelect: (dateText, inst) ->
 						scope.$apply (scope) ->
-							ngModel.assign(scope, dateText);
+							ngModel.assign(scope, dateText)
+
+	.directive 'myVk', ($parse) ->
+		(scope, element, attrs) ->
+			ngModel = $parse(attrs.ngModel)
+			$ ->
+				initVk()
+
+				element.on 'click', ->
+					checkLoginStatus ->
+							VK.Auth.logout()
+						, ->
+							VK.Auth.login()
+	
+				VK.Observer.subscribe 'auth.logout', ->
+					scope.$apply (scope) ->
+						ngModel.assign scope, false
+
+				VK.Observer.subscribe 'auth.login', ->
+					scope.$apply (scope) ->
+						ngModel.assign scope, true
+
 
 
 
@@ -372,33 +237,12 @@ app.controller 'OrderCtrl', ($scope, $http) ->
 	$scope.hours = [10..21]
 	$scope.minutes = (i * 10 for i in [0..5])
 
-	$scope.timeFormat = (hour, minute) -> "#{hour}:" + if minute == 0 then "00" else "#{minute}"
-
-	$scope.selectedDate = $('#datepicker').datepicker('getDate')
-	$scope.arr1 = [2, 3, 4, 5, 6]
-	$scope.arr2 = [7, 8, 9]
-
-	$scope.selectedDate = new Date('01/01/2015')
-
-	$scope.durationOptions = [
-			value: 10
-			name: '10 минут'
-		,
-			value: 30
-			name: '30 минут'
-		,
-			value: 60
-			name: '60 минут'
-		,
-			value: 120
-			name: '2 часа'
-	]
-
 	$scope.order =
 		guests: 2
 		duration: 30
 		date: new Date()
 		time: null
+		phone: ''
 
 	$scope.availableTime = (false for i in [1..72])
 
@@ -406,10 +250,7 @@ app.controller 'OrderCtrl', ($scope, $http) ->
 
 	$scope.$watchGroup ['order.guests', 'order.duration', 'place'], ->
 		temp = new Array(72, false)
-		for i in [0...72]
-			temp[i] = Math.round Math.random()
-		console.log $scope.order
-		console.log $scope.place
+
 		guests = $scope.order.guests
 		duration = parseInt $scope.order.duration
 		date = $scope.order.date
@@ -417,7 +258,7 @@ app.controller 'OrderCtrl', ($scope, $http) ->
 		minutesNow = (new Date()).getHours() * 60 + (new Date()).getMinutes()
 
 		for index in [0...72]
-			enabled = on
+			enabled = on 
 			time = openTime + index * timeDelta
 			if time + duration > closeTime
 				enabled = off
@@ -428,19 +269,29 @@ app.controller 'OrderCtrl', ($scope, $http) ->
 				if $scope.place[i] + guests > maxGuests
 					enabled = off
 			temp[index] = enabled
+
 		$scope.availableTime = temp
 
-	$scope.$watchCollections
+	$scope.$watch 'order.duration', (duration) ->
+		$('#duration-count').buttonset()
+		$('#duration-count').buttonset 'refresh'
+
+	$scope.$watch 'order.guests', (guests) ->
+		if guests == 10
+			$scope.order.duration = Math.max $scope.order.duration, 60
+			$('#duration-count input[type=radio]').each ->
+				if $(@).val() < 60
+					$(@).attr 'disabled', true
+		else
+			$('#duration-count input[type=radio]').each ->
+				$(@).attr 'disabled', false
+		$('#duration-count').buttonset 'refresh'
 
 	$scope.duration = value: 30
 
 	$scope.placeIsLoading = true
 
-	$scope.selectDate = (date) ->
-		$scope.selectedDate = date
-		$scope.reloadTimeTable(date)
-
-	$scope.reloadTimeTable = (date) ->
+	reloadTimeTable = (date) ->
 		$scope.placeIsLoading = true
 		posixDate = Math.round date.getTime() / 1000
 		$http.post '/php/user.php',
@@ -448,13 +299,136 @@ app.controller 'OrderCtrl', ($scope, $http) ->
 			date: posixDate
 
 		.success (response) ->
-			console.log 'place', response
 			$scope.place = response
 			$scope.placeIsLoading = false
 
 		.error (err) -> console.log err
 
+	$scope.$watchGroup ['order.date', 'record'], -> reloadTimeTable $scope.order.date
+
+	$scope.record = null
+
+	setRecord = (record) ->
+		if typeof(record) == 'object'
+			dt = new Date(record.datetime * 1000)
+			$scope.record =
+				date: dt
+				time: dt.getHours() * 60 + dt.getMinutes()
+				guests: record.guests
+				duration: record.duration
+				phone: record.phone
+				token: record.token
+		else
+			$scope.record = null
+
 	$scope.addRecord = ->
 		console.log 'order', $scope.order
+		record =
+			guests: $scope.order.guests
+			duration: $scope.order.duration
+			datetime: if $scope.order.date and $scope.order.time
+					Math.round($scope.order.date.getTime() / 1000) + $scope.order.time * 60
+				else 0
+			phone: $scope.order.phone
+		console.log record
+		if $scope.record
+			$scope.orderNote = 'Вы уже оставили заявку'
+			return
 
-	$scope.reloadTimeTable(new Date())
+		$scope.orderNote = 'Проверка авторизации...'
+		checkLoginStatus ->
+			validateRecord record,
+				->
+					$('#order-button').button('disable')
+					$scope.orderNote = 'Отправка...'
+					$http.post '/php/user.php',
+						action: 'addRecord'
+						record: record
+
+					.success (response) ->
+							if typeof(response) == 'object'
+								$scope.orderNote = 'Запись успешно произведена!'
+								setRecord response
+							else
+								console.log response
+								$scope.orderNote = $.parseJSON(response)
+							$('#order-button').button('enable')
+						,
+							(msg) ->
+								$scope.orderNote = msg
+								$('#order-button').button('enable')
+			,
+				(msg) -> $scope.orderNote = msg
+		,
+			-> $scope.orderNote = 'Необходима авторизация через VK'
+
+	$scope.removeRecord = ->
+		if confirm 'Удалить заявку?'
+			$http.post '/php/user.php',
+				action: 'removeRecord'
+				token: $scope.record.token
+			.success (response) ->
+				console.log response
+				$scope.record = null
+			.error (response) -> console.log response
+
+	dateDaysLater = (days) ->
+		msNow = (new Date()).getTime()
+		new Date(msNow + days * msInDay)
+
+	dayNames = russianDayNames
+	dayNames.unshift dayNames[dayNames.length - 1]
+	now = new Date()
+	closed = now.getHours() * 60 + now.getMinutes() >= closeTime
+	$('#datepicker').datepicker(
+		monthNames: monthNames
+		dayNamesMin: dayNames
+		firstDay: 1
+		minDate: dateDaysLater(if closed then 1 else 0)
+		maxDate: dateDaysLater(maxOrderIntervalDays)
+		onSelect: (date) ->
+			$scope.$apply ($scope) ->
+				$scope.order.date = new Date(date)
+	)
+
+	$scope.order.date = $('#datepicker').datepicker 'getDate'
+
+	$scope.vkLoggedIn = false
+	$scope.vkButtonText = 'Войти через VK'
+
+	$scope.$watch 'vkLoggedIn', (logged) ->
+		checkLoginStatus (session) ->
+				$scope.vkButtonText = 'Загрузка...'
+				getSessionUser session, (user) ->
+					text =
+						if user then "#{user.first_name} #{user.last_name} (выход)"
+						else 'Ошибка'
+					$scope.$apply ($scope) ->
+						$scope.vkButtonText = text
+
+					$http.post '/php/user.php', action: 'getUserPhone'
+					.success (response) ->
+						console.log response
+						if response.phone
+							$scope.order.phone = response.phone
+					.error (response) ->
+						console.log response
+
+					$http.post '/php/user.php', action: 'getUserRecord'
+					.success (response) ->
+						console.log response
+						setRecord response
+
+					$http.post '/php/user.php',
+						action: 'addUser'
+						user:
+							firstName: user.first_name
+							lastName: user.last_name
+							domain: user.domain
+					.success (response) ->
+						console.log 'addUser', response
+					.error (response) ->
+						console.log 'fail', response
+			, ->
+				$scope.record = null
+				$scope.vkButtonText = 'Войти через VK'

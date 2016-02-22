@@ -21,11 +21,12 @@ app.controller 'ReportCtrl', ($scope, $http) ->
 	refreshReport()
 
 	$scope.removeRecord = ->
-		$http.post '/php/admin.php',
-				action: 'removeRecordByToken'
-				token: @.record.token
-			.success (data) -> console.log data; refreshReport()
-			.error (data) -> console.log 'error'
+		if confirm 'Удалить?'
+			$http.post '/php/admin.php',
+					action: 'removeRecordByToken'
+					token: @.record.token
+				.success (data) -> console.log data; refreshReport()
+				.error (data) -> console.log 'error'
 
 app.controller 'AddRecordCtrl', ($scope, $http) ->
 	$scope.timeOptions = ("#{Math.floor(time / 60)}:#{time % 60}" for time in [10 * 60 ... 22 * 60] by 10)

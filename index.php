@@ -10,12 +10,6 @@ $smarty->setConfigDir('smarty/config');
 
 $sections = [];
 
-// $sections['summary'] = array(
-// 	'title' => 'Наверх',
-// 	'id' => 'summary',
-// 	'file' => 'summary.tpl'
-// );
-
 $sections['about'] = array(
 	'title' => 'О нас',
 	'id' => 'about',

@@ -22,7 +22,10 @@ function executeRequest($param) {
 		];
 		$actions = [
 			'getUserRecord' => [],
-			'getUserPhone' => []
+			'getUserPhone' => [],
+			'addRecord' => ['record'],
+			'removeRecord' => ['token'],
+			'addUser' => ['user']
 		];
 		$actions += $publicActions;
 
@@ -48,18 +51,35 @@ function executeRequest($param) {
 	}
 }
 
+function toAssoc($obj) {
+	return json_decode(json_encode($obj), true);
+}
+
 function getPlaceMapByDate($date) {
-	return repository()->getPlaceMapByDate(date('YY-mm-dd', $date));
+	return repository()->getPlaceMapByDate($date);
 }
 
 function getUserRecord() {
+	global $openApiMember;
 	return repository()->getRecordByVkId($openApiMember['id']);
 }
 
 function getUserPhone() {
-	return repository()->getUserPhoneByVkId($openApiMember['id']);
+	global $openApiMember;
+	$phone = repository()->getUserPhoneByVkId($openApiMember['id']);
+	return ['phone' => $phone];
 }
 
-function removeRecordByToken($token) {
+function addRecord($record) {
+	global $openApiMember;
+	return repository()->addRecord(toAssoc($record), $openApiMember['id']);
+}
+
+function removeRecord($token) {
 	return repository()->removeRecordByToken($token);
+}
+
+function addUser($user) {
+	global $openApiMember;
+	return repository()->addUser(toAssoc($user), $openApiMember['id']);
 }
