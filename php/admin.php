@@ -8,7 +8,7 @@ $repository = new Repository();
 $postdata = file_get_contents("php://input");
 $request = json_decode($postdata);
 
-echo json_encode(executeRequest($request));
+echo json_encode(['data' => executeRequest($request)]);
 
 function executeRequest($param) {
 	session_start();
@@ -23,7 +23,8 @@ function executeRequest($param) {
 			'getAllRecords' => [],
 			'recordsByDate' => ['date'],
 			'getDateStat' => ['dateFrom', 'dateTo'],
-			'removeRecordByToken' => ['token']
+			'addRecord' => ['record'],
+			'removeRecord' => ['token']
 		];
 		if (isset($actions[$action])) {
 			$argNames = $actions[$action];
@@ -55,10 +56,10 @@ function getDateStat($dateFrom, $dateTo) {
 	return Array();
 }
 
-function removeRecordByToken($token) {
-	return repository()->removeRecordByToken($token);
+function addRecord($record) {
+	return repository()->addAdminRecord(toAssoc($record));
 }
 
-function addAdminRecord($record) {
-	return repository()->addAdminRecord($record);
+function removeRecord($token) {
+	return repository()->removeRecordByToken($token);
 }

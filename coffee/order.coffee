@@ -2,7 +2,6 @@
 Constants
 ###
 
-apiId = 5297183
 openTime = 10 * 60 # 10:00
 closeTime = 22 * 60 # 22:00
 timeDelta = 10 # minutes
@@ -13,6 +12,16 @@ serverError = 'Ошибка сервера'
 
 msInDay = 1000 * 3600 * 24
 maxOrderIntervalDays = 7
+
+russianDayNames = [
+	'Пн'
+	'Вт'
+	'Ср'
+	'Чт'
+	'Пт'
+	'Сб'
+	'Вс'
+]
 
 monthNames = [
 	'Январь'
@@ -28,23 +37,6 @@ monthNames = [
 	'Ноябрь'
 	'Декабрь'
 ]
-
-russianDayNames = [
-	'Пн'
-	'Вт'
-	'Ср'
-	'Чт'
-	'Пт'
-	'Сб'
-	'Вс'
-]
-
-# месяц в родительном падеже
-monthNameOf = (index) ->
-	monthName = monthNames[index]
-	switch monthName
-		when "Март", "Август" then monthName + 'а'
-		else monthName.substring(0, monthName.length - 1) + 'я'
 
 ###
 VK functions
@@ -65,9 +57,9 @@ getSessionUser = (session, func) ->
 			user = r.response[0]
 		func(user)
 
-initVk = ->
-	VK.init
-		apiId: apiId
+# initVk = ->
+# 	VK.init
+# 		apiId: apiId
 
 ###
 Data functions
@@ -112,128 +104,11 @@ validateRecord = (record, onSuccess, onFail) ->
 			return
 	onSuccess()
 
-###
-GUI functions
-###
-
-app = angular.module 'orderApp', []
-	.filter 'dateFormat', ->
-		(input, aliases = false) ->
-			if input
-				dateStr = "#{input.getDate()} #{monthNameOf(input.getMonth())}"
-				if aliases
-					dateStr = 'Завтра' if input.getTime() - new Date().getTime() < msInDay
-					dateStr = 'Сегодня' if input.getTime() - new Date().getTime() < 0
-				dateStr
-			else
-				'?'
-
-	.filter 'timeFormat', ->
-		(input) ->
-			if input
-				temp = parseInt(input)
-				hour = Math.floor temp / 60
-				minute = temp - 60 * hour
-				"#{hour}:" + if minute == 0 then "00" else "#{minute}"
-			else
-				'?'
-
-	.filter 'durationFormat', ->
-		(input) ->
-			if input
-				if input <= 60
-					"#{input} минут"
-				else
-					"#{input / 60} часа"
-			else
-				'?'
-
-	.filter 'guestsRentFormat', ->
-		(input) ->
-			if parseInt(input) == 10
-				'Аренда'
-			else
-				input
-
-	.directive 'myButtonfield', ($parse) ->
-		(scope, element, attrs, controller) ->
-			ngModel = $parse(attrs.ngModel)
-			$ ->
-				element.find('[type=radio]').each ->
-					$(@).button()
-
-				scope.$watch attrs.myButtonfield, ->
-					element.find('[type=radio]').each (index) ->
-						if not eval("scope.#{attrs.myButtonfield}")[index]
-							if $(@).is(':checked')
-								console.log 'ok'
-								$(@).attr 'checked', false
-								eval("scope.#{attrs.ngModel} = null")
-							$(@).attr 'checked', false
-							$(@).button 'disable'
-						else
-							$(@).button 'enable'
-					element.find('[type=radio]').each (index) ->
-						$(@).button 'refresh'
-
-				element.on 'change', '[type=radio]', ->
-					element.find('[type=radio]').each (index) ->
-						$(@).button 'refresh'
-
-	.directive 'myButtonset', ($parse) ->
-		(scope, element, attrs, controller) ->
-			ngModel = $parse(attrs.ngModel)
-			$ ->
-				element.buttonset()
-				element.on 'change', '[type=radio]', ->
-					element.buttonset 'refresh'
-
-	.directive 'myButton', ($parse) ->
-		(scope, element) ->
-			$ ->
-				element.button()
-
-			
-	.directive 'myDatepicker', ($parse) ->
-		(scope, element, attrs, controller) ->
-			ngModel = $parse(attrs.ngModel)
-			console.log 'scope', scope
-			$ ->
-				element.datepicker
-					showOn:"both"
-					changeYear:true
-					changeMonth:true
-					dateFormat:'yy-mm-dd'
-					maxDate: new Date()
-					yearRange: '1920:2012'
-					onSelect: (dateText, inst) ->
-						scope.$apply (scope) ->
-							ngModel.assign(scope, dateText)
-
-	.directive 'myVk', ($parse) ->
-		(scope, element, attrs) ->
-			ngModel = $parse(attrs.ngModel)
-			$ ->
-				initVk()
-
-				element.on 'click', ->
-					checkLoginStatus ->
-							VK.Auth.logout()
-						, ->
-							VK.Auth.login()
-	
-				VK.Observer.subscribe 'auth.logout', ->
-					scope.$apply (scope) ->
-						ngModel.assign scope, false
-
-				VK.Observer.subscribe 'auth.login', ->
-					scope.$apply (scope) ->
-						ngModel.assign scope, true
 
 
 
-
-app.controller 'OrderCtrl', ($scope, $http) ->
+angular.module 'orderApp', ['myFormats', 'myDirectives']
+.controller 'OrderCtrl', ($scope, $http) ->
 	$scope.hours = [10..21]
 	$scope.minutes = (i * 10 for i in [0..5])
 
@@ -292,13 +167,20 @@ app.controller 'OrderCtrl', ($scope, $http) ->
 	$scope.placeIsLoading = true
 
 	postRequest = (requestOptions) ->
+		onError = if requestOptions.error
+				requestOptions.error
+			else
+				(response) ->
+					console.log 'postRequest error: ' + response
 		$http.post '/php/user.php', requestOptions.data
 		.then (response) ->
-			if requestOptions.success
-				requestOptions.success response.data.data
+			if typeof(response.data) == 'object'
+				if requestOptions.success
+					requestOptions.success response.data.data
+			else
+				onError 'response.data has type ' + typeof(response.data) + '. It is ' + response.data
 		.catch (response) ->
-			if requestOptions.error
-				requestOptions.error response
+			onError response
 		.finally ->
 			if requestOptions.finally
 				requestOptions.finally()
@@ -311,6 +193,7 @@ app.controller 'OrderCtrl', ($scope, $http) ->
 				action: 'getPlaceMapByDate'
 				date: posixDate
 			success: (response) ->
+				console.log 'place', response
 				$scope.place = response
 				$scope.placeIsLoading = false
 
@@ -388,18 +271,9 @@ app.controller 'OrderCtrl', ($scope, $http) ->
 	dayNames.unshift dayNames[dayNames.length - 1]
 	now = new Date()
 	closed = now.getHours() * 60 + now.getMinutes() >= closeTime
-	$('#datepicker').datepicker(
-		monthNames: monthNames
-		dayNamesMin: dayNames
-		firstDay: 1
+	$scope.datepickerOptions =
 		minDate: dateDaysLater(if closed then 1 else 0)
 		maxDate: dateDaysLater(maxOrderIntervalDays)
-		onSelect: (date) ->
-			$scope.$apply ($scope) ->
-				$scope.order.date = new Date(date)
-	)
-
-	$scope.order.date = $('#datepicker').datepicker 'getDate'
 
 	$scope.vkLoggedIn = false
 	$scope.vkButtonText = 'Войти через VK'

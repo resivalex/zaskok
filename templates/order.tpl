@@ -24,7 +24,7 @@
 				</div>
 			</div>
 			<div class="date-title">Дата - {{order.date | dateFormat:true}}</div>
-			<div id="datepicker"></div>
+			<div id="datepicker" my-datepicker="datepickerOptions" ng-model="order.date"></div>
 		</div>
 		<div class="recall">
 			<div class="time-title">Время - {{order.time | timeFormat}}</div>

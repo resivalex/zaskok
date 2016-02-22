@@ -24,9 +24,7 @@
 	}
 
 	#datepicker, #time-table, #guests-count, #more-count, #duration-count {
-		-webkit-user-select: none;
-		-moz-user-select: none;
-		-ms-user-select: none;
+		@extend .no-select;
 	}
 
 	#datepicker {

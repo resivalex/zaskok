@@ -51,10 +51,6 @@ function executeRequest($param) {
 	}
 }
 
-function toAssoc($obj) {
-	return json_decode(json_encode($obj), true);
-}
-
 function getPlaceMapByDate($date) {
 	return repository()->getPlaceMapByDate($date);
 }
@@ -72,7 +68,7 @@ function getUserPhone() {
 
 function addRecord($record) {
 	global $openApiMember;
-	return repository()->addRecord(toAssoc($record), $openApiMember['id']);
+	return repository()->addUserRecord(toAssoc($record), $openApiMember['id']);
 }
 
 function removeRecord($token) {

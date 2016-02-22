@@ -84,11 +84,13 @@ class Repository {
 		return $token;
 	}
 
-	private function separateDateTime(&$arr) {
+	private function separateDateTime($arr) {
 		$datetime = $arr['datetime'];
 		unset($arr['datetime']);
 		$arr['date'] = date('Y-m-d', $datetime);
 		$arr['time'] = date('H:i:s', $datetime);
+
+		return $arr;
 	}
 
 	private function areRecordsOverflow($posixDate) {
@@ -102,7 +104,22 @@ class Repository {
 		return false;
 	}
 
-	function addRecord($record, $vkId) {
+	private function addRecord($record) {
+		$data = $this->separateDateTime($record);
+
+		$token = $this->getRandomToken();
+		$data['token'] = $token;
+		$this->sql->query('INSERT INTO records SET ?u', $data);
+
+		if ($this->areRecordsOverflow($record['datetime'])) {
+			$this->removeRecordByToken($token);
+			return "Выбранное место уже занято.";	
+		}
+
+		return $record + ['token' => $token];
+	}
+
+	function addUserRecord($record, $vkId) {
 		if (!($user = $this->getUserByVkId($vkId))) {
 			return "Не найден пользователь. Вы авторизованы?";
 		}
@@ -113,25 +130,27 @@ class Repository {
 		}
 		$userId = $user['id'];
 		$phone = $record['phone'];
-		$token = $this->getRandomToken();
 
 		$data = $this->sql->filterArray($record, ['guests', 'duration', 'phone', 'datetime']);
-		$datetime = $data['datetime'];
-		$this->separateDateTime($data);
-		$data['token'] = $token;
 		$data['user_id'] = $userId;
 
-		$this->sql->query('INSERT INTO records SET ?u', $data);
-
-		if ($this->areRecordsOverflow($datetime)) {
-			$this->removeRecordByToken($token);
-			return "Выбранное место уже занято.";
+		$result = $this->addRecord($data);
+		if (gettype($result) == 'string') {
+			return $result;
 		}
 
 		$this->sql->query('UPDATE users SET ?u WHERE id=?i',
-			['last_record_token' => $token, 'phone' => $phone], $userId);
+			['last_record_token' => $result['token'], 'phone' => $phone], $userId);
 
-		return $record + ['token' => $token];
+		return $result;
+	}
+
+	function addAdminRecord($record) {
+		$data = $this->sql->filterArray($record,
+				['guests', 'duration', 'phone', 'datetime', 'userName']);
+		$this->replaceKey($data, 'userName', 'user_name');
+
+		return $this->addRecord($data);
 	}
 
 	function getAllRecords() {
@@ -145,6 +164,7 @@ class Repository {
 				token, user_name AS userName
 			FROM records
 			LEFT JOIN users ON user_id = users.id
+			ORDER BY records.id
 SQL
 		);
 	}
@@ -163,13 +183,14 @@ SQL
 		$date = date('Y-m-d', $posixDate);
 		$records = $this->getRecordsByDate($date);
 
+		$place = [];
 		for ($i = 0; $i < 72; $i++) {
 			$place[] = 0;
 		}
 		foreach ($records as $record) {
 			$index = (strtotime($record['time']) - strtotime('10:00:00')) / 60 / 10;
 			$steps = $record['duration'] / 10;
-			for ($i = $index; $i < $index + $steps; $i++) {
+			for ($i = $index; $i < $index + $steps && $i < 72; $i++) {
 				$place[$i] += $record['guests'];
 			}
 		}
@@ -180,12 +201,12 @@ SQL
 	function removeRecordByToken($token) {
 		return $this->sql->query('DELETE FROM records WHERE token=?s' , $token);
 	}
-
-	function addAdminRecord($record) {
-		$data = $this->sql->filterArray($record, []);
-	}
 };
 
 function repository() {
 	return new Repository();
+}
+
+function toAssoc($obj) {
+	return json_decode(json_encode($obj), true);
 }
