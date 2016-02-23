@@ -124,28 +124,9 @@ angular.module 'orderApp', ['myFormats', 'myDirectives']
 	$scope.place = (0 for i in [1..72])
 
 	$scope.$watchGroup ['order.guests', 'order.duration', 'place'], ->
-		temp = new Array(72, false)
-
-		guests = $scope.order.guests
-		duration = parseInt $scope.order.duration
-		date = $scope.order.date
-		isToday = date.getDate() == (new Date()).getDate() && date.getMonth() == (new Date()).getMonth()
-		minutesNow = (new Date()).getHours() * 60 + (new Date()).getMinutes()
-
-		for index in [0...72]
-			enabled = on 
-			time = openTime + index * timeDelta
-			if time + duration > closeTime
-				enabled = off
-			if isToday && time < minutesNow
-				enabled = off
-			countInDelta = duration / timeDelta
-			for i in [index...Math.min(index + countInDelta, $scope.place.length)]
-				if $scope.place[i] + guests > maxGuests
-					enabled = off
-			temp[index] = enabled
-
-		$scope.availableTime = temp
+		$scope.availableTime =
+			window.availablePlaces $scope.place,
+					$scope.order.date, $scope.order.guests, $scope.order.duration
 
 	$scope.$watch 'order.duration', (duration) ->
 		$('#duration-count').buttonset()
@@ -187,11 +168,10 @@ angular.module 'orderApp', ['myFormats', 'myDirectives']
 
 	reloadTimeTable = (date) ->
 		$scope.placeIsLoading = true
-		posixDate = Math.round date.getTime() / 1000
 		postRequest
 			data:
 				action: 'getPlaceMapByDate'
-				date: posixDate
+				date: window.toPosixDate date
 			success: (response) ->
 				console.log 'place', response
 				$scope.place = response
@@ -220,7 +200,7 @@ angular.module 'orderApp', ['myFormats', 'myDirectives']
 			guests: $scope.order.guests
 			duration: $scope.order.duration
 			datetime: if $scope.order.date and $scope.order.time
-					Math.round($scope.order.date.getTime() / 1000) + $scope.order.time * 60
+					window.toPosixDate($scope.order.date) + $scope.order.time * 60
 				else 0
 			phone: $scope.order.phone
 		console.log record

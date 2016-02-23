@@ -1,4 +1,32 @@
 app = angular.module 'adminApp', ['myFormats', 'myDirectives']
+.factory 'shared', ->
+	date = null
+	dateFns = []
+	recFns = []
+
+	onDateChange = (fn) ->
+		dateFns.push fn
+
+	setDate = (dt) ->
+		date = dt
+		fn(date) for fn in dateFns
+
+	getDate = -> date
+
+	recordsChanged = ->
+		fn() for fn in recFns
+
+	onRecordsChanged = (fn) ->
+		recFns.push fn
+
+	{
+		onDateChange
+		setDate
+		getDate
+		recordsChanged
+		onRecordsChanged
+	}
+
 
 postRequest = ($http, requestOptions) ->
 	onError = if requestOptions.error
@@ -19,12 +47,22 @@ postRequest = ($http, requestOptions) ->
 		if requestOptions.finally
 			requestOptions.finally()
 
-app.controller 'ReportCtrl', ($scope, $http) ->
+app.controller 'ReportCtrl', ['$scope', '$http', 'shared', ($scope, $http, shared) ->
 	$scope.records = []
-				
+	$scope.users = []
+
+	$scope.reports = [
+			name: 'Записи'
+		,
+			name: 'Пользователи'
+	]
+	$scope.currentReport = index: 0
+
 	refreshReport = ->
 		postRequest $http,
-			data: action: 'getAllRecords'
+			data:
+				action: 'getRecordsByDate'
+				date: window.toPosixDate shared.getDate()
 			success: (response) ->
 				records = []
 				for index, record of response
@@ -37,6 +75,12 @@ app.controller 'ReportCtrl', ($scope, $http) ->
 
 				$scope.records = records
 
+		postRequest $http,
+			data:
+				action: 'getUsers'
+			success: (response) ->
+				$scope.users = response
+
 	refreshReport()
 
 	$scope.removeRecord = ->
@@ -45,10 +89,17 @@ app.controller 'ReportCtrl', ($scope, $http) ->
 				data:
 					action: 'removeRecord'
 					token: @.record.token
+				finally: ->
+					refreshReport()
+					shared.recordsChanged()
 
-app.controller 'AddRecordCtrl', ($scope, $http) ->
+	shared.onDateChange refreshReport
+]
+
+app.controller 'AddRecordCtrl', ['$scope', '$http', 'shared', ($scope, $http, shared) ->
 	$scope.datepickerOptions = {}
 	$scope.record =
+		date: new Date()
 		guests: 2
 		duration: 30
 
@@ -57,9 +108,40 @@ app.controller 'AddRecordCtrl', ($scope, $http) ->
 	$scope.hours = [10...22]
 	$scope.minutes = (i for i in [0...60] by 10)
 
-	$scope.$watch 'record.guests', (guests) ->
-		if guests == 10
-			$scope.record.duration = Math.max $scope.record.duration, 60
+	# $scope.$watch 'record.guests', (guests) ->
+	# 	if guests == 10
+	# 		$scope.record.duration = Math.max $scope.record.duration, 60
+
+	$scope.place = (0 for i in [0...72])
+	$scope.availableTime = (false for i in $scope.place)
+
+	refreshPlaces = (date) ->
+		$http.post '/php/user.php',
+			action: 'getPlaceMapByDate',
+			date: window.toPosixDate date
+		.then (response) ->
+			$scope.place = response.data.data
+
+	shared.setDate new Date()
+
+	setInterval ->
+			refreshPlaces shared.getDate()
+		, 10000
+
+	$scope.$watch 'record.date', (date) ->
+		refreshPlaces date
+		shared.setDate date
+
+	shared.onRecordsChanged ->
+		refreshPlaces shared.getDate()
+
+	$scope.$watchGroup ['place', 'record.date', 'record.guests', 'record.duration'], ->
+		$scope.availableTime = window.availablePlaces $scope.place,
+			$scope.record.date, $scope.record.guests, $scope.record.duration, true
+
+	$scope.$watch 'availableTime', ->
+		if $scope.record.time and not $scope.availableTime[($scope.record.time - 10 * 60) / 10]
+			$scope.record.time = null
 
 	$scope.save = ->
 		record = $scope.record
@@ -73,7 +155,7 @@ app.controller 'AddRecordCtrl', ($scope, $http) ->
 				data:
 					action: 'addRecord'
 					record:
-						datetime: Math.round(record.date.getTime() / 1000) + record.time * 60
+						datetime: window.toPosixDate(record.date) + record.time * 60
 						guests: record.guests
 						duration: record.duration
 						userName: record.name
@@ -90,3 +172,7 @@ app.controller 'AddRecordCtrl', ($scope, $http) ->
 					$scope.note = 'Произошла ошибка'
 				finally: ->
 					$scope.isSaving = false
+					$scope.record.time = null
+					shared.setDate shared.getDate()
+					shared.recordsChanged()
+]

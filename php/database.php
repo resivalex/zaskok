@@ -153,7 +153,7 @@ class Repository {
 		return $this->addRecord($data);
 	}
 
-	function getAllRecords() {
+	function getRecords($condition = 'TRUE') {
 		return $this->sql->getAll(
 <<<SQL
 			SELECT date, time, guests, duration,
@@ -164,24 +164,19 @@ class Repository {
 				token, user_name AS userName
 			FROM records
 			LEFT JOIN users ON user_id = users.id
+			WHERE ?p
 			ORDER BY records.id
 SQL
-		);
+		, $condition);
 	}
 
-	function getRecordsByDate($date) {
-		return $this->sql->getAll(
-<<<SQL
-			SELECT guests, time, duration
-			FROM records
-			WHERE date=?s
-SQL
-		, $date);
+	function getRecordsByDate($posixDate) {
+		$condition = $this->sql->parse("date = ?s", date('Y-m-d', $posixDate));
+		return $this->getRecords($condition);
 	}
 
 	function getPlaceMapByDate($posixDate) {
-		$date = date('Y-m-d', $posixDate);
-		$records = $this->getRecordsByDate($date);
+		$records = $this->getRecordsByDate($posixDate);
 
 		$place = [];
 		for ($i = 0; $i < 72; $i++) {
@@ -200,6 +195,16 @@ SQL
 
 	function removeRecordByToken($token) {
 		return $this->sql->query('DELETE FROM records WHERE token=?s' , $token);
+	}
+
+	function getUsers() {
+		return $this->sql->getAll(
+<<<SQL
+			SELECT reg_date AS regDate, first_name AS firstName, last_name AS lastName, domain, phone
+			FROM users
+			ORDER BY reg_date DESC
+SQL
+		);
 	}
 };
 

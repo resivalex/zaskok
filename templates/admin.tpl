@@ -9,15 +9,23 @@
 <div class="add-record clearfix" ng-controller="AddRecordCtrl">
 	<div class="date-time">
 		<div id="datepicker" my-datepicker="datepickerOptions" ng-model="record.date"></div>
-		<table class="time-grid">
-			<tr ng-repeat="hour in hours">
-				<td ng-repeat="minute in minutes">
-					<input type="radio" id="time{{hour}}-{{minute}}"
-						ng-model="record.time" ng-value="hour * 60 + minute" ng-disabled="hour < 13">
-					<label for="time{{hour}}-{{minute}}">{{hour * 60 + minute | timeFormat}}</label>
-				</td>
-			</tr>
-		</table>
+		<div class="time-box">
+			<table class="time-grid" ng-model="availableTime">
+				<tr ng-init="hIndex = $index" ng-repeat="hour in hours">
+					<td ng-init="cellIndex = hIndex * 6 + $index" ng-repeat="minute in minutes">
+						<input type="radio" id="time{{cellIndex}}"
+							ng-model="record.time" ng-value="hour * 60 + minute"
+							ng-disabled="!availableTime[cellIndex]">
+						<label for="time{{cellIndex}}">{{hour * 60 + minute | timeFormat}}</label>
+						<label class="place" ng-show="place[cellIndex] != 0">{{place[cellIndex]}}</label>
+					</td>
+				</tr>
+			</table>
+			<label ng-show="false" class="auto-refresh">
+				<input type="checkbox" ng-model="autoRefresh">
+				Обновлять каждую минуту
+			</label>
+		</div>
 	</div>
 	<table class="add-form">
 		<tr>
@@ -67,27 +75,42 @@
 
 <div class="report" ng-controller="ReportCtrl">
 	<div class="line-select">
-		<div class="cell" ng-repeat="reportName in ['All records', 'Week statistics']">
-			<input type="radio" id="report{{$index}}" ng-model="reportAbc">
-			<label for="report{{$index}}">{{reportName}}</label>
+		<div class="cell" ng-repeat="report in reports">
+			<input type="radio" id="{{report.name}}" ng-model="currentReport.index" ng-value="$index">
+			<label for="{{report.name}}">{{report.name}}</label>
 		</div>
 	</div>
-	<table class="records" ng-show="records.length">
-		<tr ng-init="titles = ['Дата', 'Время', 'Кол-во', 'Длительность', 'Пользователь', 'Телефон', 'Действие']">
-			<td ng-repeat="title in titles">{{title}}</td>
-		</tr>
-		<tr ng-repeat="record in records">
-			<td>{{record.date}}</td>
-			<td>{{record.time}}</td>
-			<td>{{record.guests}}</td>
-			<td>{{record.duration}}</td>
-			<td ng-show="record.firstName"><a href="http://vk.com/{{record.domain}}">{{record.user}}</a></td>
-			<td ng-show="!record.firstName">{{record.user}}</td>
-			<td>{{record.phone}}</td>
-			<td class="delete"><button ng-click="removeRecord()">Удалить</button></td>
-		</tr>
-	</table>
-	<label ng-show="records.length == 0">Нет записей</label>
+	<div ng-show="currentReport.index == 0">
+		<table class="records" ng-show="records.length">
+			<tr ng-init="recordTitles = ['Дата', 'Время', 'Кол-во', 'Длительность', 'Пользователь', 'Телефон', 'Действие']">
+				<td ng-repeat="title in recordTitles">{{title}}</td>
+			</tr>
+			<tr ng-repeat="record in records | orderBy:'':true">
+				<td>{{record.date}}</td>
+				<td>{{record.time}}</td>
+				<td>{{record.guests}}</td>
+				<td>{{record.duration}}</td>
+				<td ng-show="record.firstName"><a href="http://vk.com/{{record.domain}}">{{record.user}}</a></td>
+				<td ng-show="!record.firstName">{{record.user}}</td>
+				<td>{{record.phone}}</td>
+				<td class="delete"><button ng-click="removeRecord()">Удалить</button></td>
+			</tr>
+		</table>
+		<label ng-show="records.length == 0">Нет записей</label>
+	</div>
+	<div ng-show="currentReport.index == 1">
+		<table class="users" ng-show="users.length">
+			<tr ng-init="userTitles = ['Дата регистрации', 'Пользователь', 'Телефон']">
+				<td ng-repeat="title in userTitles">{{title}}</td>
+			</tr>
+			<tr ng-repeat="user in users">
+				<td>{{user.regDate}}</td>
+				<td><a href="http://vk.com/{{user.domain}}">{{user.firstName}} {{user.lastName}}</a></td>
+				<td>{{user.phone}}</td>
+			</tr>
+		</table>
+		<label ng-show="users.length == 0">Нет пользователей</label>
+	</div>
 </div>
 
 </div>

@@ -86,29 +86,6 @@ angular.module 'myFormats', []
 					tail += "а"
 			num + tail
 
-.filter 'tenIsAvailable', ->
-	(index, place, date, guests, duration) ->
-		enabled = on 
-
-		isToday = date.getDate() == (new Date()).getDate() && date.getMonth() == (new Date()).getMonth()
-		minutesNow = (new Date()).getHours() * 60 + (new Date()).getMinutes()
-
-		openTime = 10 * 60
-		closeTime = 22 * 60
-		timeDelta = 10
-
-		time = openTime + index * timeDelta
-		if time + duration > closeTime
-			enabled = off
-		if isToday && time < minutesNow
-			enabled = off
-		countInDelta = duration / timeDelta
-		for i in [index...Math.min(index + countInDelta, $scope.place.length)]
-			if $scope.place[i] + guests > maxGuests
-				enabled = off
-
-		return enabled
-
 angular.module 'myDirectives', []
 .directive 'myButtonfield', ($parse) ->
 	(scope, element, attrs, controller) ->
@@ -188,3 +165,38 @@ angular.module 'myDirectives', []
 			scope.$apply ($scope) ->
 				ngModel.assign scope, element.datepicker 'getDate'
 
+
+window.availablePlaces = (place, date, guests, duration, ignoreTime = false) ->
+	temp = new Array 72
+
+	openTime = 10 * 60 # 10:00
+	closeTime = 22 * 60 # 22:00
+	timeDelta = 10 # minutes
+	maxGuests = 10
+
+	isToday = date.getDate() == (new Date()).getDate() && date.getMonth() == (new Date()).getMonth()
+	minutesNow = (new Date()).getHours() * 60 + (new Date()).getMinutes()
+
+	for index in [0...72]
+		enabled = on 
+		time = openTime + index * timeDelta
+		if time + duration > closeTime
+			enabled = off
+
+		if not ignoreTime
+			if isToday && time < minutesNow
+				enabled = off
+
+		countInDelta = duration / timeDelta
+		for i in [index...Math.min(index + countInDelta, place.length)]
+			if place[i] + guests > maxGuests
+				enabled = off
+		temp[index] = enabled
+
+	temp
+
+window.toPosixDate = (date) ->
+	if date instanceof Date
+		Math.round date.getTime() / 1000
+	else
+		0

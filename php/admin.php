@@ -21,10 +21,12 @@ function executeRequest($param) {
 
 		$actions = [
 			'getAllRecords' => [],
+			'getRecordsByDate' => ['date'],
 			'recordsByDate' => ['date'],
 			'getDateStat' => ['dateFrom', 'dateTo'],
 			'addRecord' => ['record'],
-			'removeRecord' => ['token']
+			'removeRecord' => ['token'],
+			'getUsers' => []
 		];
 		if (isset($actions[$action])) {
 			$argNames = $actions[$action];
@@ -45,7 +47,7 @@ function executeRequest($param) {
 }
 
 function getAllRecords() {
-	return repository()->getAllRecords();
+	return repository()->getRecords();
 }
 
 function recordsByDate($date) {
@@ -62,4 +64,12 @@ function addRecord($record) {
 
 function removeRecord($token) {
 	return repository()->removeRecordByToken($token);
+}
+
+function getRecordsByDate($date) {
+	return repository()->getRecordsByDate($date);
+}
+
+function getUsers() {
+	return repository()->getUsers();
 }

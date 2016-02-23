@@ -1,5 +1,6 @@
 <?php
 require('../smarty/libs/Smarty.class.php');
+require_once('../keys.php');
 
 $smarty = new Smarty();
 
@@ -17,7 +18,7 @@ if (isset($_SESSION['isAdmin'])) {
 	$isAdmin = true;
 } else {
 	if (isset($_POST['password'])) {
-		if ($_POST['password'] == 'patented') {
+		if ($_POST['password'] == ADMIN_PASSWORD) {
 	    	$_SESSION['isAdmin'] = true;
 	    	header('Location: /log.php');
 	    } else {

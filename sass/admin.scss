@@ -8,23 +8,40 @@ body {
 	a {
 		color: black;
 	}
+
+	input {
+		color: black;
+		font-family: Verdana;
+	}
 }
 
 .login-form {
 	border: solid 1px black;
 	display: table;
 	margin: 10px auto;
-	padding: 10px;
+	padding: 0;
 
 	input {
-		font-size: 20px;
+		border: none;
+		padding: 5px;
+
+		&[type=submit] {
+			background: black;
+			color: white;
+			outline: solid 1px black;
+		}
 	}
+}
+
+.wrong-password {
+	font-size: 12px;
+	text-align: center;
 }
 
 header {
 	@extend .clearfix;
 
-	padding-bottom: 30px;
+	padding-bottom: 10px;
 	width: 100%;
 
 	.page-title {
@@ -42,18 +59,19 @@ header {
 	padding-bottom: 20px;
 }
 
-.report {
-	@extend .to-center;
-	display: table;
-}
-
-.records {
+.report-table {
 	border-collapse: collapse;
 
 	td {
 		border: solid 1px black;
 		padding: 3px;
+	}
+}
 
+.records {
+	@extend .report-table;
+
+	td {
 		&.delete {
 			padding: 0;
 		}
@@ -63,6 +81,10 @@ header {
 		font-size: 14px;
 		width: 100%;
 	}
+}
+
+.users {
+	@extend .report-table;
 }
 
 .radio-label {
@@ -76,7 +98,8 @@ header {
 	}
 
 	input[type=radio][disabled] + label {
-		text-decoration: line-through;
+		background-color: #ccc;
+		// text-decoration: line-through;
 	}
 
 	label {
@@ -87,17 +110,34 @@ header {
 
 }
 
-.time-grid {
+.time-box {
 	@extend .radio-label;
 	@extend .no-select;
 
-	border-collapse: collapse;
-	display: inline-block;
 	float: left;
+
+	table {
+		border-collapse: collapse;
+	}
+
+	label {
+		padding-right: 15px;
+	}
 
 	td {
 		border: solid 1px black;
 		padding: 0;
+		position: relative;
+
+		.place {
+			background-color: black;
+			color: white;
+			font-size: 8px;
+			padding: 2px;
+			position: absolute;
+			right: 0;
+			top: 0;
+		}
 	}
 }
 
