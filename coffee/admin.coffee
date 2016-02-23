@@ -4,7 +4,7 @@ app = angular.module 'adminApp', ['myFormats', 'myDirectives']
 	dateFns = []
 	recFns = []
 
-	onDateChange = (fn) ->
+	onDateChanged = (fn) ->
 		dateFns.push fn
 
 	setDate = (dt) ->
@@ -20,7 +20,7 @@ app = angular.module 'adminApp', ['myFormats', 'myDirectives']
 		recFns.push fn
 
 	{
-		onDateChange
+		onDateChanged
 		setDate
 		getDate
 		recordsChanged
@@ -93,7 +93,8 @@ app.controller 'ReportCtrl', ['$scope', '$http', 'shared', ($scope, $http, share
 					refreshReport()
 					shared.recordsChanged()
 
-	shared.onDateChange refreshReport
+	shared.onDateChanged refreshReport
+	shared.onRecordsChanged refreshReport
 ]
 
 app.controller 'AddRecordCtrl', ['$scope', '$http', 'shared', ($scope, $http, shared) ->
@@ -107,10 +108,6 @@ app.controller 'AddRecordCtrl', ['$scope', '$http', 'shared', ($scope, $http, sh
 
 	$scope.hours = [10...22]
 	$scope.minutes = (i for i in [0...60] by 10)
-
-	# $scope.$watch 'record.guests', (guests) ->
-	# 	if guests == 10
-	# 		$scope.record.duration = Math.max $scope.record.duration, 60
 
 	$scope.place = (0 for i in [0...72])
 	$scope.availableTime = (false for i in $scope.place)
@@ -126,6 +123,7 @@ app.controller 'AddRecordCtrl', ['$scope', '$http', 'shared', ($scope, $http, sh
 
 	setInterval ->
 			refreshPlaces shared.getDate()
+			shared.recordsChanged()
 		, 10000
 
 	$scope.$watch 'record.date', (date) ->
