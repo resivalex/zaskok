@@ -1,5 +1,12 @@
 @import "common";
 
+$mobile-minimum: 320px;
+$mobile: 480px;
+$very-small: 590px;
+$small: 768px;
+$medium: 992px; 
+$large: 1200px;
+
 // navigation menu
 nav {
 	background-color: $nav-color;
@@ -7,7 +14,7 @@ nav {
 	text-align: center;
 	top: 0;
 	width: 100%;
-	min-width: 960px;
+	// min-width: 960px;
 	z-index: 1000;
 
 	a.menu-logo {
@@ -20,6 +27,18 @@ nav {
 		// height: 44px;
 		// margin: 0 20px;
 		width: 120px;
+
+		@media (max-width: $small - 1) {
+			width: 90px;
+		}
+
+		@media (max-width: $very-small - 1) {
+			width: 60px;
+		}
+
+		@media (max-width: $mobile - 1) {
+			display: none;
+		}
 
 		&:hover, &.active {
 			background-color: $nav-color;
@@ -50,6 +69,21 @@ nav {
 
 		transition: background-color;
 		transition-duration: 0.3s;
+
+		@media (max-width: $small - 1) {
+			font-size: 17px;
+			padding: 8px 14px;
+		}
+
+		@media (max-width: $very-small - 1) {
+			font-size: 14px;
+			padding: 6px 11px;
+		}
+
+		@media (max-width: $mobile - 1) {
+			font-size: 12px;
+			padding: 5px 8px;
+		}
 
 		&:hover {
 			background-color: $hover-color;
@@ -85,7 +119,26 @@ h2 {
 	padding-top: 30px;
 	padding-bottom: 20px;
 	text-align: center;
-	width: 960px;
+	width: 80%;
+	// width: 960px;
+
+	@media (max-width: $small - 1) {
+		font-size: 32px;
+		padding-top: 24px;
+		padding-bottom: 16px;
+	}
+
+	@media (max-width: $very-small - 1) {
+		font-size: 28px;
+		padding-top: 18px;
+		padding-bottom: 12px;
+	}
+
+	@media (max-width: $mobile - 1) {
+		font-size: 24px;
+		padding-top: 15px;
+		padding-bottom: 10px;
+	}
 }
 
 h3 {

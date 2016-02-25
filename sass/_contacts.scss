@@ -7,6 +7,10 @@
 		font-size: 20px;
 		margin: 0 20px 20px;
 
+		@media (max-width: $mobile - 1) {
+			font-size: 18px;
+		}
+
 		img {
 			height: 35px;
 			top: 2px;
@@ -35,4 +39,8 @@
 
 #map {
 	height: 400px;
+
+	@media (max-width: $mobile - 1) {
+		height: 250px;
+	}
 }

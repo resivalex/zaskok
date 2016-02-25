@@ -1,7 +1,8 @@
 {extends file="layout.tpl"}
 {block name=title}ZAскок — Батутный центр{/block}
 {block name=head_includes}
-	<link rel="stylesheet" type="text/css" href="css/landing.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="css/landing.css">
 	<link type="text/css" rel="stylesheet" href="light-gallery/css/lightgallery.css" />
 {/block}
 {block name=body_includes}

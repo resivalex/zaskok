@@ -62,6 +62,10 @@ footer {
 		display: inline-block;
 		padding: 5px 15px;
 		text-align: center;
+
+		@media (max-width: $mobile - 1) {
+			font-size: 16px;
+		}
 	}
 
 	.developer {

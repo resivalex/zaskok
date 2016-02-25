@@ -1,22 +1,22 @@
 .about-container {
 	margin: 0 auto;
 	padding-bottom: 30px;
-	width: 960px;
+	max-width: 960px;
 }
 
-.sample {
-	background-image: url("../img/sample.jpg");
-	background-size: cover;
-	box-shadow: 3px 3px 10px black;
-	float: right;
-	height: 400px;
-	width: 19.5%;
-}
+// .sample {
+// 	background-image: url("../img/sample.jpg");
+// 	background-size: cover;
+// 	box-shadow: 3px 3px 10px black;
+// 	float: right;
+// 	height: 400px;
+// 	width: 19.5%;
+// }
 
 .youtube {
 	clear: both;
 	margin: 0 auto;
-	width: 800px;
+	max-width: 800px;
 
 	position: relative;
 
@@ -57,15 +57,9 @@
 	width: 100%;
 
 	&:nth-child(even) {
-		padding-left: 5%;
-
-		.image {
-			// float: right;
-		}
-
-		.text {
-			// float: left;
-			width: 75%;
+		@media (min-width: $small) {
+			padding-left: 5%;
+			width: 95%;
 		}
 	}
 
@@ -73,16 +67,24 @@
 		// border-bottom: solid 1px gray;
 		font-size: 20px;
 		text-align: left;
+
+		@media (max-width: $mobile - 1) {
+			font-size: 16px;;
+		}
 	}
 
 	ul {
-		list-style-type: none;
+		// list-style-type: none;
 		padding: 0 0 20px;
 	}
 
 	li {
 		font-size: 16px;
 		padding: 2px 0;
+
+		@media (max-width: $small - 1) {
+			font-size: 14px;
+		}
 	}
 
 	.image {
@@ -92,11 +94,38 @@
 		float: left;
 		height: 150px;
 		width: 19.9%;
+		min-width: 120px;
+
+		@media (max-width: $medium - 1) {
+			height: 130px;
+		}
+
+		@media (max-width: $small - 1) {
+			height: 120px;
+		}
+
+		@media (max-width: $very-small - 1) {
+			height: 110px;
+		}
+
+		@media (max-width: $mobile - 1) {
+			height: 100px;
+		}
 	}
 
 	.text {
-		float: right;
+		float: left;
 		width: 80%;
+
+		@media (max-width: $small - 1) {
+			width: 70%;
+		}
+
+		@media (max-width: $mobile - 1) {
+			padding-left: 5%;
+			padding-right: 5%;
+			width: 90%;
+		}
 	}
 
 	.children-image {

@@ -107,6 +107,13 @@ class Repository {
 	private function addRecord($record) {
 		$data = $this->separateDateTime($record);
 
+		if (strtotime($data['time']) < strtotime('10:00:00')) {
+			return "Ещё не открыто";
+		}
+		if (strtotime($data['time']) + $record['duration'] * 60 > strtotime('22:00:00')) {
+			return "Уже закрыто";
+		}
+
 		$token = $this->getRandomToken();
 		$data['token'] = $token;
 		$this->sql->query('INSERT INTO records SET ?u', $data);

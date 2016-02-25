@@ -3,6 +3,8 @@
 require_once('debug.php');
 require_once('check.php');
 require_once('database.php');
+	
+date_default_timezone_set('Europe/Samara');
 
 $repository = new Repository();
 
@@ -51,6 +53,9 @@ function executeRequest($param) {
 	}
 }
 
+function notifyByEmail($subject, $message) {
+}
+
 function getPlaceMapByDate($date) {
 	return repository()->getPlaceMapByDate($date);
 }
@@ -68,10 +73,15 @@ function getUserPhone() {
 
 function addRecord($record) {
 	global $openApiMember;
-	return repository()->addUserRecord(toAssoc($record), $openApiMember['id']);
+	$result = repository()->addUserRecord(toAssoc($record), $openApiMember['id']);
+	if (gettype($result) != 'string') {
+		notifyByEmail('Add record', var_export($record, true));
+	}
+	return $result;
 }
 
 function removeRecord($token) {
+	notifyByEmail('Remove record', 'Some record was removed');
 	return repository()->removeRecordByToken($token);
 }
 

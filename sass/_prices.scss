@@ -3,7 +3,7 @@
 		display: table;
 		margin: 0 auto;
 		padding-bottom: 20px;
-		width: 960px;
+		max-width: 960px;
 	}
 
 	.stars {
@@ -17,11 +17,19 @@
 	margin-bottom: 30px;
 	width: 49.9%;
 
+	@media (max-width: $very-small - 1) {
+		width: 90%;
+		float: none;
+		margin-left: auto;
+		margin-right: auto;
+	}
+
 	table {
 		border: solid 3px $hover-color;
 		border-collapse: collapse;
 		margin: 0 auto;
 		padding: 5px;
+		white-space: nowrap;
 		width: 90%;
 
 		tr {
@@ -35,6 +43,10 @@
 				font-size: 14px;
 				font-weight: bold;
 				text-align: center;
+
+				@media (max-width: $mobile - 1) {
+					font-size: 12px;
+				}
 			}
 
 			&:hover {
@@ -47,11 +59,33 @@
 			color: white;
 			padding: 10px;
 			font-size: 24px;
+
+			@media (max-width: $small - 1) {
+				font-size: 20px;
+				padding: 7px;
+			}
+
+			@media (max-width: $very-small - 1) {
+				font-size: 18px;
+				padding: 5px;
+			}
+
+			@media (max-width: $mobile - 1) {
+				font-size: 16px;
+			}
 		}
 
 		td {
 			font-size: 20px;
 			padding: 4px 20px;
+
+			@media (max-width: $small - 1) {
+				font-size: 16px;
+			}
+
+			@media (max-width: $mobile - 1) {
+				font-size: 14px;
+			}
 
 			&:first-child {
 				padding-right: 5px;
@@ -87,6 +121,10 @@
 
 	&.holidays {
 		float: right;
+
+		@media (max-width: $very-small - 1) {
+			float: none;
+		}
 	}
 
 	&.holidays, &.workdays {

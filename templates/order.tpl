@@ -1,6 +1,23 @@
 {literal}
 <div id="order-content" ng-app="orderApp" ng-controller="OrderCtrl">
 	<div class="to-center clearfix">
+		<div id="instruction">
+			Для записи обязательно авторизоваться на сайте<br/>
+			и указать свой контактный телефон.<br/>
+			<br/>
+			Ниже выберите детали заявки
+			<ul>
+				<li>День посещения</li>
+				<li>Точное количество человек</li>
+				<li>Длительность посещения</li>
+				<li>Точное время прибытия</li>
+				<li>Нажмите "Оставить заявку"</li>
+			</ul>
+		</div>
+		<div class="login-container">
+			<div class="vk-button" my-vk ng-model="vkLoggedIn">{{vkButtonText}}</div>
+			<input class="phone" type="text" placeholder="Номер телефона" ng-model="order.phone"/>
+		</div>
 		<div class="date-container">
 			<div class="guests-title">Количество человек - {{order.guests}}</div>
 			<div class="guests-container" my-buttonset>
@@ -60,9 +77,5 @@
 			<button id="cancel-button" ng-click="removeRecord()" my-button>Отменить заявку</button>
 		</td></tr>
 	</table>
-	<div class="login-container">
-		<div class="vk-button" my-vk ng-model="vkLoggedIn">{{vkButtonText}}</div>
-		<input class="phone" type="text" placeholder="Номер телефона" ng-model="order.phone"/>
-	</div>
 </div>
 {/literal}

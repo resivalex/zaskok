@@ -2,6 +2,8 @@
 
 require_once('debug.php');
 require_once('database.php');
+	
+date_default_timezone_set('Europe/Samara');
 
 $repository = new Repository();
 

@@ -1,5 +1,13 @@
 navHeight = -> $('nav').height()
 
+isMobile = navigator.userAgent.match(/Android/i) or
+	navigator.userAgent.match(/webOS/i) or
+	navigator.userAgent.match(/iPhone/i) or
+	navigator.userAgent.match(/iPad/i) or
+	navigator.userAgent.match(/iPod/i) or
+	navigator.userAgent.match(/BlackBerry/i) or
+	navigator.userAgent.match(/Windows Phone/i)
+
 updateView = ->
 	# make float menu
 	$('.under-nav').css 'height', navHeight()
@@ -99,41 +107,34 @@ $ ->
 			left: (Math.random() - 0.5) * popupShift
 			top: (Math.random() - 0.5) * popupShift
 
-	$('.rand-popup').each ->
-		el = @
-		onVisibilityChanged(el,
-			-> TweenMax.to el, 0.6 + Math.random() * 0.4, xyRandOffset(0)
-			,
-			-> TweenMax.to el, 0.6 + Math.random() * 0.4, xyRandOffset(100)
-		)
+	if not isMobile and window.innerWidth >= 600
+		$('.rand-popup').each ->
+			el = @
+			onVisibilityChanged(el,
+				-> TweenMax.to el, 0.6 + Math.random() * 0.4, xyRandOffset(0)
+				,
+				-> TweenMax.to el, 0.6 + Math.random() * 0.4, xyRandOffset(100)
+			)
 
-	# animate facts
-	$('.fact').each ->
-		el = @
-		onVisibilityChanged(@,
-			# -> TweenMax.to el, 1, x: 0,
-			# -> TweenMax.to el, 0, x: $(document).width() / 4
-			-> TweenMax.to el, 1, css: opacity: 1,
-			-> TweenMax.to el, 0, css: opacity: 0
-		)
+		# animate facts
+		$('.fact').each ->
+			el = @
+			onVisibilityChanged(@,
+				# -> TweenMax.to el, 1, x: 0,
+				# -> TweenMax.to el, 0, x: $(document).width() / 4
+				-> TweenMax.to el, 1, css: opacity: 1,
+				-> TweenMax.to el, 0, css: opacity: 0
+			)
 
-	$('.fade-out').each ->
-		el = @
-		onVisibilityChanged(@,
-			-> TweenMax.to el, 1, css: opacity: 1,
-			-> TweenMax.to el, 0, css: opacity: 0
-		)
+		$('.fade-out').each ->
+			el = @
+			onVisibilityChanged(@,
+				-> TweenMax.to el, 1, css: opacity: 1,
+				-> TweenMax.to el, 0, css: opacity: 0
+			)
 
-	# # youtube
-	# $('.youtube').each ->
-	# 	el = @
-	# 	onVisibilityChanged(@,
-	# 		-> TweenMax.to el, 1, css: opacity: 1,
-	# 		-> TweenMax.to el, 0, css: opacity: 0
-	# 	)
 		
 
-	# hover logo element
 	$('.menu-logo')
 		.on 'click', ->
 			$('html, body').animate scrollTop: 0, 500

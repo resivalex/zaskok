@@ -1,7 +1,9 @@
 .gallery {
 	margin: 0 auto 20px;
+	max-width: 960px;
+	width: 80%;
 	// text-align: justify;
-	width: 960px;
+	// width: 960px;
 
 	// .thumb-container {
 	// 	display: inline-block;
@@ -10,12 +12,21 @@
 
 	.thumb {
 		border-radius: 5px;
-		border: solid 3px white;
-		width: 120px;
-		height: 120px;
+		// border: solid 3px white;
+		width: 24%;
+		// height: 14%;
+
+		@media (max-width: $small - 1) {
+			width: 23%;
+		}
+
+		@media (max-width: $mobile - 1) {
+			width: 30%;
+		}
 	}
 
 	a {
+		margin: 0;
 		text-decoration: none;
 	}
 }
