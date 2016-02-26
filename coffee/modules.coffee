@@ -167,6 +167,7 @@ angular.module 'myDirectives', []
 
 
 window.availablePlaces = (place, date, guests, duration, ignoreTime = false) ->
+	timeZoneDelta = -240 - new Date().getTimezoneOffset()
 	temp = new Array 72
 
 	openTime = 10 * 60 # 10:00
@@ -184,7 +185,7 @@ window.availablePlaces = (place, date, guests, duration, ignoreTime = false) ->
 			enabled = off
 
 		if not ignoreTime
-			if isToday && time < minutesNow
+			if isToday && time < minutesNow - timeZoneDelta
 				enabled = off
 
 		countInDelta = duration / timeDelta
@@ -195,8 +196,14 @@ window.availablePlaces = (place, date, guests, duration, ignoreTime = false) ->
 
 	temp
 
-window.toPosixDate = (date) ->
+window.toSamaraDate = (date) ->
+	timeZoneDelta = -240 - new Date().getTimezoneOffset()
 	if date instanceof Date
-		Math.round date.getTime() / 1000
+		Math.round date.getTime() / 1000 + timeZoneDelta * 60
 	else
 		0
+
+window.fromSamaraDate = (posixTime) ->
+	timeZoneDelta = -240 - new Date().getTimezoneOffset()
+	if typeof(posixTime) == 'number'
+		return new Date((posixTime - timeZoneDelta * 60) * 1000)

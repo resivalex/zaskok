@@ -10,7 +10,8 @@ durationIntervals = [10, 30, 60, 120]
 formatError = 'Не удалось распознать ответ'
 serverError = 'Ошибка сервера'
 
-msInDay = 1000 * 3600 * 24
+secInDay = 3600 * 24
+msInDay = secInDay * 1000
 maxOrderIntervalDays = 7
 
 russianDayNames = [
@@ -81,11 +82,11 @@ validateRecord = (record, onSuccess, onFail) ->
 			msg: "Неверно указана длительность"
 		,
 			func: ->
-				nowPosixMsec = (new Date()).getTime()
-				recordMs = record.datetime * 1000
-				min = Math.floor(nowPosixMsec / msInDay) * msInDay
-				max = nowPosixMsec + (maxOrderIntervalDays + 1) * msInDay
-				min < recordMs && recordMs < max
+				nowSamaraTime = window.toSamaraDate new Date()
+				recordTime = window.toSamaraDate new Date(record.datetime * 1000)
+				min = Math.floor(nowSamaraTime / secInDay) * secInDay
+				max = nowSamaraTime + (maxOrderIntervalDays + 1) * secInDay
+				min < recordTime && recordTime < max
 			msg: "Не выбрано время"
 		,
 			func: -> record.phone != ''
@@ -111,6 +112,7 @@ angular.module 'orderApp', ['myFormats', 'myDirectives']
 .controller 'OrderCtrl', ($scope, $http) ->
 	$scope.hours = [10..21]
 	$scope.minutes = (i * 10 for i in [0..5])
+	$scope.timeDelta = -240 - new Date().getTimezoneOffset()
 
 	$scope.order =
 		guests: 2
@@ -152,7 +154,7 @@ angular.module 'orderApp', ['myFormats', 'myDirectives']
 				requestOptions.error
 			else
 				(response) ->
-					console.log 'postRequest error: ' + response
+					console.log 'postRequest error: ', response
 		$http.post '/php/user.php', requestOptions.data
 		.then (response) ->
 			if typeof(response.data) == 'object'
@@ -171,7 +173,7 @@ angular.module 'orderApp', ['myFormats', 'myDirectives']
 		postRequest
 			data:
 				action: 'getPlaceMapByDate'
-				date: window.toPosixDate date
+				date: window.toSamaraDate date
 			success: (response) ->
 				console.log 'place', response
 				$scope.place = response
@@ -183,7 +185,7 @@ angular.module 'orderApp', ['myFormats', 'myDirectives']
 
 	setRecord = (record) ->
 		if typeof(record) == 'object'
-			dt = new Date(record.datetime * 1000)
+			dt = window.fromSamaraDate(record.datetime)
 			$scope.record =
 				date: dt
 				time: dt.getHours() * 60 + dt.getMinutes()
@@ -200,7 +202,7 @@ angular.module 'orderApp', ['myFormats', 'myDirectives']
 			guests: $scope.order.guests
 			duration: $scope.order.duration
 			datetime: if $scope.order.date and $scope.order.time
-					window.toPosixDate($scope.order.date) + $scope.order.time * 60
+					window.toSamaraDate($scope.order.date) + $scope.order.time * 60
 				else 0
 			phone: $scope.order.phone
 		console.log record

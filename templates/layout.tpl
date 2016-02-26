@@ -2,8 +2,8 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 	{block name=head_includes}{/block}
+	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 	<title>{block name=title}Default title{/block}</title>
 </head>
 <body>

@@ -46,6 +46,11 @@
 		<div class="recall">
 			<div class="time-title">Время - {{order.time | timeFormat}}</div>
 			<div class="time-table-container">
+				<div class="warning" ng-init="timeDelta"
+						ng-show="timeDelta != 0">
+					Ваше время в другом часовом поясе!
+					<span ng-show="timeDelta > 0">+</span>{{timeDelta}} минут
+				</div>
 				<table id="time-table" my-buttonfield="availableTime" ng-model="order.time">
 					<tr ng-repeat="hour in hours" ng-model="availableTime">
 						<td ng-repeat="minute in minutes">
@@ -69,8 +74,8 @@
 	<table class="record" ng-show="record">
 		<tr><td colspan="2">Вы записаны</td></tr>
 		<tr><td>Дата</td><td>{{record.date | dateFormat}}</td></tr>
-		<tr><td>Количество человек</td><td>{{record.guests | guestsRentFormat}}</td></tr>
 		<tr><td>Время</td><td>{{record.time | timeFormat}}</td></tr>
+		<tr><td>Количество человек</td><td>{{record.guests | guestsRentFormat:true}}</td></tr>
 		<tr><td>Длительность</td><td>{{record.duration | durationFormat}}</td></tr>
 		<tr><td>Контактный телефон</td><td>{{record.phone}}</td></tr>
 		<tr><td colspan="2">

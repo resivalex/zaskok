@@ -21,10 +21,6 @@
 					</td>
 				</tr>
 			</table>
-			<label ng-show="false" class="auto-refresh">
-				<input type="checkbox" ng-model="autoRefresh">
-				Обновлять каждую минуту
-			</label>
 		</div>
 	</div>
 	<table class="add-form">

@@ -62,7 +62,7 @@ app.controller 'ReportCtrl', ['$scope', '$http', 'shared', ($scope, $http, share
 		postRequest $http,
 			data:
 				action: 'getRecordsByDate'
-				date: window.toPosixDate shared.getDate()
+				date: window.toSamaraDate shared.getDate()
 			success: (response) ->
 				records = []
 				for index, record of response
@@ -115,7 +115,7 @@ app.controller 'AddRecordCtrl', ['$scope', '$http', 'shared', ($scope, $http, sh
 	refreshPlaces = (date) ->
 		$http.post '/php/user.php',
 			action: 'getPlaceMapByDate',
-			date: window.toPosixDate date
+			date: window.toSamaraDate date
 		.then (response) ->
 			$scope.place = response.data.data
 
@@ -153,7 +153,7 @@ app.controller 'AddRecordCtrl', ['$scope', '$http', 'shared', ($scope, $http, sh
 				data:
 					action: 'addRecord'
 					record:
-						datetime: window.toPosixDate(record.date) + record.time * 60
+						datetime: window.toSamaraDate(record.date) + record.time * 60
 						guests: record.guests
 						duration: record.duration
 						userName: record.name

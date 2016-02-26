@@ -27,7 +27,7 @@ begin
 	                              # something else than default.
 	    :user => FtpOptions.user,
 	    :password => FtpOptions.password,
-	    :remote => "public_html",
+	    :remote => FtpOptions.path,
 	    :verbose => false,        # if true you get all outputs
 	    :quiet => false,          # if true outputs only on exceptions.
 	    :remote_delete => true    # delete the remote file if local file is deleted (defaults to true)

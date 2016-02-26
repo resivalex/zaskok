@@ -16,13 +16,25 @@ class Repository {
 			'charset' => 'utf8']);
 	}
 
-	private function getRecordByToken($token) {
-		return $this->sql->getRow('SELECT * FROM records WHERE token=?s', $token);
+	private function joinDateTime($date, $time) {
+		return strtotime($date.' '.$time);
+	}
+
+	function getRecordByToken($token) {
+		$record = $this->sql->getRow('SELECT * FROM records WHERE token=?s', $token);
+		if ($record) {
+			$record['datetime'] = $this->joinDateTime($record['date'], $record['time']);
+			unset($record['date']);
+			unset($record['time']);
+		}
+
+		return $record;
 	}
 
 	private function getActualRecordByToken($token) {
 		if ($record = $this->getRecordByToken($token)) {
-			$datetime = strtotime($record['date'].' '.$record['time']);
+			$datetime = $record['datetime'];
+			$datetime += $record['duration'] * 60;
 			if ($datetime > time()) {
 				return $record;
 			}
@@ -31,21 +43,9 @@ class Repository {
 		return false;
 	}
 
-	function getRecordByVkId($vkId) {
-		if ($user = $this->getUserByVkId($vkId)) {
-			if ($record = $this->getActualRecordByToken($user['last_record_token'])) {
-				$date = $record['date'];
-				$time = $record['time'];
-				unset($record['date']);
-				unset($record['time']);
-				$datetime = strtotime($date) + (strtotime($time) - strtotime('00:00:00'));
-				$record['datetime'] = $datetime;
-
-				return $record;
-			}
-		}
-
-		return false;
+	function getActualRecordByVkId($vkId) {
+		$user = $this->getUserByVkId($vkId);
+		return $this->getActualRecordByToken($user['last_record_token']);
 	}
 
 	function getUserPhoneByVkId($vkId) {
@@ -72,7 +72,7 @@ class Repository {
 		return $this->sql->query('INSERT IGNORE INTO users SET ?u', $data);
 	}
 
-	private function getUserByVkId($vkId) {
+	function getUserByVkId($vkId) {
 		return $this->sql->getRow('SELECT * FROM users WHERE vk_id=?s', $vkId);
 	}
 
