@@ -1,240 +1,240 @@
 @import "common";
 
 body {
-	color: black;
-	font-size: 14px;
-	padding: 8px;
+    color: black;
+    font-size: 14px;
+    padding: 8px;
 
-	a {
-		color: black;
-	}
+    a {
+        color: black;
+    }
 
-	input {
-		color: black;
-		font-family: Verdana;
-	}
+    input {
+        color: black;
+        font-family: Verdana;
+    }
 }
 
 .login-form {
-	border: solid 1px black;
-	display: table;
-	margin: 10px auto;
-	padding: 0;
+    border: solid 1px black;
+    display: table;
+    margin: 10px auto;
+    padding: 0;
 
-	input {
-		border: none;
-		padding: 5px;
+    input {
+        border: none;
+        padding: 5px;
 
-		&[type=submit] {
-			background: black;
-			color: white;
-			outline: solid 1px black;
-		}
-	}
+        &[type=submit] {
+            background: black;
+            color: white;
+            outline: solid 1px black;
+        }
+    }
 }
 
 .wrong-password {
-	font-size: 12px;
-	text-align: center;
+    font-size: 12px;
+    text-align: center;
 }
 
 header {
-	@extend .clearfix;
+    @extend .clearfix;
 
-	padding-bottom: 10px;
-	width: 100%;
+    padding-bottom: 10px;
+    width: 100%;
 
-	.page-title {
-		float: left;
-	}
+    .page-title {
+        float: left;
+    }
 
-	.logout {
-		float: right;
-	}
+    .logout {
+        float: right;
+    }
 }
 
 .date-time {
-	@extend .clearfix;
+    @extend .clearfix;
 
-	padding-bottom: 20px;
+    padding-bottom: 20px;
 }
 
 .report-table {
-	border-collapse: collapse;
+    border-collapse: collapse;
 
-	td {
-		border: solid 1px black;
-		padding: 3px;
-	}
+    td {
+        border: solid 1px black;
+        padding: 3px;
+    }
 }
 
 .records {
-	@extend .report-table;
+    @extend .report-table;
 
-	td {
-		&.delete {
-			padding: 0;
-		}
-	}
+    td {
+        &.delete {
+            padding: 0;
+        }
+    }
 
-	button {
-		font-size: 14px;
-		width: 100%;
-	}
+    button {
+        font-size: 14px;
+        width: 100%;
+    }
 }
 
 .users {
-	@extend .report-table;
+    @extend .report-table;
 }
 
 .radio-label {
-	input[type=radio] {
-		display: none;
-	}
+    input[type=radio] {
+        display: none;
+    }
 
-	input[type=radio]:checked + label {
-		background-color: black;
-		color: white;
-	}
+    input[type=radio]:checked + label {
+        background-color: black;
+        color: white;
+    }
 
-	input[type=radio][disabled] + label {
-		background-color: #ccc;
-		// text-decoration: line-through;
-	}
+    input[type=radio][disabled] + label {
+        background-color: #ccc;
+        // text-decoration: line-through;
+    }
 
-	label {
-		cursor: pointer;
-		display: block;
-		padding: 3px 5px;
-	}
+    label {
+        cursor: pointer;
+        display: block;
+        padding: 3px 5px;
+    }
 
 }
 
 .time-box {
-	@extend .radio-label;
-	@extend .no-select;
+    @extend .radio-label;
+    @extend .no-select;
 
-	float: left;
+    float: left;
 
-	table {
-		border-collapse: collapse;
-	}
+    table {
+        border-collapse: collapse;
+    }
 
-	label {
-		padding-right: 15px;
-	}
+    label {
+        padding-right: 15px;
+    }
 
-	td {
-		border: solid 1px black;
-		padding: 0;
-		position: relative;
+    td {
+        border: solid 1px black;
+        padding: 0;
+        position: relative;
 
-		.place {
-			background-color: black;
-			color: white;
-			font-size: 8px;
-			padding: 2px;
-			position: absolute;
-			right: 0;
-			top: 0;
-		}
-	}
+        .place {
+            background-color: black;
+            color: white;
+            font-size: 8px;
+            padding: 2px;
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+    }
 }
 
 #datepicker {
-	@extend .no-select;
+    @extend .no-select;
 
-	float: left;
-	margin-right: 20px;
+    float: left;
+    margin-right: 20px;
 
-	.ui-datepicker {
-		border-color: black;
-	}
+    .ui-datepicker {
+        border-color: black;
+    }
 
-	.ui-corner-all {
-		border-radius: 0;
-	}
+    .ui-corner-all {
+        border-radius: 0;
+    }
 
-	.ui-datepicker-header {
-		background: white;
-		border-color: black;
-	}
+    .ui-datepicker-header {
+        background: white;
+        border-color: black;
+    }
 
-	.ui-state-default {
-		background: white;
-		border-color: black;
-		color: black;
-	}
+    .ui-state-default {
+        background: white;
+        border-color: black;
+        color: black;
+    }
 
-	.ui-state-highlight {
-		background: #ccc;
-		border-color: black;
-	}
+    .ui-state-highlight {
+        background: #ccc;
+        border-color: black;
+    }
 
-	.ui-state-active {
-		background: black;
-		color: white;
-	}
+    .ui-state-active {
+        background: black;
+        color: white;
+    }
 
-	.ui-datepicker-prev-hover, .ui-datepicker-next-hover {
-		background: white;
-		border-color: black;
-	}
+    .ui-datepicker-prev-hover, .ui-datepicker-next-hover {
+        background: white;
+        border-color: black;
+    }
 }
 
 .add-form {
-	input {
-		border: solid 1px black;
-		font-size: 14px;
-		padding: 4px;
-		width: 100%;
+    input {
+        border: solid 1px black;
+        font-size: 14px;
+        padding: 4px;
+        width: 100%;
 
-		&:focus {
-			border: solid 1px black;
-			box-shadow: 0 0 1px black;
-		}
-	}
+        &:focus {
+            border: solid 1px black;
+            box-shadow: 0 0 1px black;
+        }
+    }
 }
 
 .line-select {
-	@extend .no-select;
+    @extend .no-select;
 
-	.cell {
-		@extend .radio-label;
+    .cell {
+        @extend .radio-label;
 
-		border: solid 1px black;
-		border-right-style: none;
-		display: inline-block;
+        border: solid 1px black;
+        border-right-style: none;
+        display: inline-block;
 
-		&:last-child {
-			border-right-style: solid;
-		}
+        &:last-child {
+            border-right-style: solid;
+        }
 
-		label {
-			padding: 5px 10px;
-		}
-	}
+        label {
+            padding: 5px 10px;
+        }
+    }
 }
 
 .record-card {
-	border-collapse: collapse;
-	margin-bottom: 5px;
+    border-collapse: collapse;
+    margin-bottom: 5px;
 
-	td {
-		border: solid 1px black;
-		padding: 5px;
-		
-		&:last-child {
-			padding: 0;
-		}
-	}
+    td {
+        border: solid 1px black;
+        padding: 5px;
+        
+        &:last-child {
+            padding: 0;
+        }
+    }
 
-	button {
-		font-size: 14px;
-		padding: 4px;
-	}
+    button {
+        font-size: 14px;
+        padding: 4px;
+    }
 }
 
 .note {
-	margin-bottom: 10px;
+    margin-bottom: 10px;
 }

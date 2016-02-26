@@ -1,46 +1,46 @@
 .contacts-container {
-	display: table;
-	margin: 0 auto;
+    display: table;
+    margin: 0 auto;
 
-	table.contacts {
-		display: inline-block;
-		font-size: 20px;
-		margin: 0 20px 20px;
+    table.contacts {
+        display: inline-block;
+        font-size: 20px;
+        margin: 0 20px 20px;
 
-		@media (max-width: $mobile - 1) {
-			font-size: 18px;
-		}
+        @media (max-width: $mobile - 1) {
+            font-size: 18px;
+        }
 
-		img {
-			height: 35px;
-			top: 2px;
-			position: relative;
-			width: 35px;
-		}
+        img {
+            height: 35px;
+            top: 2px;
+            position: relative;
+            width: 35px;
+        }
 
-		td {
+        td {
 
-			&:first-child {
-				color: black;
-				font-size: 40px;
-				// font-weight: bold;
-			}
-		}
-	}
+            &:first-child {
+                color: black;
+                font-size: 40px;
+                // font-weight: bold;
+            }
+        }
+    }
 
-	a {
-		color: $text-color;
+    a {
+        color: $text-color;
 
-		&:hover {
-			color: black;
-		}
-	}
+        &:hover {
+            color: black;
+        }
+    }
 }
 
 #map {
-	height: 400px;
+    height: 400px;
 
-	@media (max-width: $mobile - 1) {
-		height: 250px;
-	}
+    @media (max-width: $mobile - 1) {
+        height: 250px;
+    }
 }

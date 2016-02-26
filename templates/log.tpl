@@ -1,15 +1,15 @@
 {extends file="layout.tpl"}
 {block name=title}Журнал{/block}
 {block name=head_includes}
-	<link rel="stylesheet" type="text/css" href="css/admin.css">
+  <link rel="stylesheet" type="text/css" href="css/admin.css">
 {/block}
 {block name=body_includes}
-	<script src="js/admin.js"></script>
+  <script src="js/admin.js"></script>
 {/block}
 {block name=body}
 {if $isAdmin}
-	{include file='admin.tpl'}
+  {include file='admin.tpl'}
 {else}
-	{include file='login-form.tpl'}
+  {include file='login-form.tpl'}
 {/if}
 {/block}

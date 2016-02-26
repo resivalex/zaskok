@@ -9,141 +9,141 @@ $large: 1200px;
 
 // navigation menu
 nav {
-	background-color: $nav-color;
-	box-shadow: 0 0 5px black;
-	text-align: center;
-	top: 0;
-	width: 100%;
-	// min-width: 960px;
-	z-index: 1000;
+    background-color: $nav-color;
+    box-shadow: 0 0 5px black;
+    text-align: center;
+    top: 0;
+    width: 100%;
+    // min-width: 960px;
+    z-index: 1000;
 
-	a.menu-logo {
-		background-image: url("../img/small-logo.png");
-		background-size: 80%;
-		background-position: center center;
-		background-repeat: no-repeat;
-		cursor: pointer;
-		color: rgba(0, 0, 0, 0);
-		// height: 44px;
-		// margin: 0 20px;
-		width: 120px;
+    a.menu-logo {
+        background-image: url("../img/small-logo.png");
+        background-size: 80%;
+        background-position: center center;
+        background-repeat: no-repeat;
+        cursor: pointer;
+        color: rgba(0, 0, 0, 0);
+        // height: 44px;
+        // margin: 0 20px;
+        width: 120px;
 
-		@media (max-width: $small - 1) {
-			width: 90px;
-		}
+        @media (max-width: $small - 1) {
+            width: 90px;
+        }
 
-		@media (max-width: $very-small - 1) {
-			width: 60px;
-		}
+        @media (max-width: $very-small - 1) {
+            width: 60px;
+        }
 
-		@media (max-width: $mobile - 1) {
-			display: none;
-		}
+        @media (max-width: $mobile - 1) {
+            display: none;
+        }
 
-		&:hover, &.active {
-			background-color: $nav-color;
-		}
-	}
+        &:hover, &.active {
+            background-color: $nav-color;
+        }
+    }
 
-	ul {
-		display: table;
-		list-style-type: none;
-		margin: 0 auto;
-		padding: 0;
-	}
+    ul {
+        display: table;
+        list-style-type: none;
+        margin: 0 auto;
+        padding: 0;
+    }
 
-	li {
-		float: left;
-		margin: 0;
-		padding: 0;
-	}
+    li {
+        float: left;
+        margin: 0;
+        padding: 0;
+    }
 
-	a {
-		background: $nav-color;
-		box-sizing: border-box;
-		color: white;
-		display: block;
-		margin: 0;
-		padding: 10px 20px;
-		text-decoration: none;
+    a {
+        background: $nav-color;
+        box-sizing: border-box;
+        color: white;
+        display: block;
+        margin: 0;
+        padding: 10px 20px;
+        text-decoration: none;
 
-		transition: background-color;
-		transition-duration: 0.3s;
+        transition: background-color;
+        transition-duration: 0.3s;
 
-		@media (max-width: $small - 1) {
-			font-size: 17px;
-			padding: 8px 14px;
-		}
+        @media (max-width: $small - 1) {
+            font-size: 17px;
+            padding: 8px 14px;
+        }
 
-		@media (max-width: $very-small - 1) {
-			font-size: 14px;
-			padding: 6px 11px;
-		}
+        @media (max-width: $very-small - 1) {
+            font-size: 14px;
+            padding: 6px 11px;
+        }
 
-		@media (max-width: $mobile - 1) {
-			font-size: 12px;
-			padding: 5px 8px;
-		}
+        @media (max-width: $mobile - 1) {
+            font-size: 12px;
+            padding: 5px 8px;
+        }
 
-		&:hover {
-			background-color: $hover-color;
-			border-bottom: solid 3px white;
-		}
+        &:hover {
+            background-color: $hover-color;
+            border-bottom: solid 3px white;
+        }
 
-		&.active {
-			background-color: $hover-color;
-			border-bottom: solid 3px white;
-		}
-	}
+        &.active {
+            background-color: $hover-color;
+            border-bottom: solid 3px white;
+        }
+    }
 }
 
 .rand-popup {
-	position: relative;
+    position: relative;
 }
 
 // landing sections
 section.card {
-	display: block;
-	// clearfix effect
-	overflow: hidden;
+    display: block;
+    // clearfix effect
+    overflow: hidden;
 
-	&:nth-of-type(odd) {
-		background-color: #eee;
-	}
+    &:nth-of-type(odd) {
+        background-color: #eee;
+    }
 }
 
 h2 {
-	border-bottom: solid 1px gray;
-	font-size: 36px;
-	margin: 0 auto 20px;
-	padding-top: 30px;
-	padding-bottom: 20px;
-	text-align: center;
-	width: 80%;
-	// width: 960px;
+    border-bottom: solid 1px gray;
+    font-size: 36px;
+    margin: 0 auto 20px;
+    padding-top: 30px;
+    padding-bottom: 20px;
+    text-align: center;
+    width: 80%;
+    // width: 960px;
 
-	@media (max-width: $small - 1) {
-		font-size: 32px;
-		padding-top: 24px;
-		padding-bottom: 16px;
-	}
+    @media (max-width: $small - 1) {
+        font-size: 32px;
+        padding-top: 24px;
+        padding-bottom: 16px;
+    }
 
-	@media (max-width: $very-small - 1) {
-		font-size: 28px;
-		padding-top: 18px;
-		padding-bottom: 12px;
-	}
+    @media (max-width: $very-small - 1) {
+        font-size: 28px;
+        padding-top: 18px;
+        padding-bottom: 12px;
+    }
 
-	@media (max-width: $mobile - 1) {
-		font-size: 24px;
-		padding-top: 15px;
-		padding-bottom: 10px;
-	}
+    @media (max-width: $mobile - 1) {
+        font-size: 24px;
+        padding-top: 15px;
+        padding-bottom: 10px;
+    }
 }
 
 h3 {
-	margin: 0 auto;
-	text-align: center;
+    margin: 0 auto;
+    text-align: center;
 }
 
 @import "summary";

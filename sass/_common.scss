@@ -4,26 +4,26 @@ $light-color: #ccf;
 $text-color: #445;
 
 body {
-	color: $text-color;
-	font-family: Verdana;
-	font-size: 20px;
-	margin: 0;
+    color: $text-color;
+    font-family: Verdana;
+    font-size: 20px;
+    margin: 0;
 }
 
 .clearfix {
-	display: table;
-	clear: both;
-	content: ' ';
+    display: table;
+    clear: both;
+    content: ' ';
 }
 
 .to-center {
-	display: table;
-	margin-left: auto;
-	margin-right: auto;
+    display: table;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .no-select {
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
 }

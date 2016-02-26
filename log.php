@@ -15,16 +15,16 @@ $isAdmin = false;
 $isWrongPassword = false;
 
 if (isset($_SESSION['isAdmin'])) {
-	$isAdmin = true;
+    $isAdmin = true;
 } else {
-	if (isset($_POST['password'])) {
-		if ($_POST['password'] == ADMIN_PASSWORD) {
-	    	$_SESSION['isAdmin'] = true;
-	    	header('Location: /log.php');
-	    } else {
-	    	$isWrongPassword = true;
-	    }
-	}
+    if (isset($_POST['password'])) {
+        if ($_POST['password'] == ADMIN_PASSWORD) {
+            $_SESSION['isAdmin'] = true;
+            header('Location: /log.php');
+        } else {
+            $isWrongPassword = true;
+        }
+    }
 }
 
 $smarty->assign('isWrongPassword', $isWrongPassword);

@@ -1,147 +1,147 @@
 #prices {
-	.container {
-		display: table;
-		margin: 0 auto;
-		padding-bottom: 20px;
-		max-width: 960px;
-	}
+    .container {
+        display: table;
+        margin: 0 auto;
+        padding-bottom: 20px;
+        max-width: 960px;
+    }
 
-	.stars {
-		color: black;
-	}
+    .stars {
+        color: black;
+    }
 }
 
 .pricelist {
-	box-sizing: border-box;
-	float: left;
-	margin-bottom: 30px;
-	width: 49.9%;
+    box-sizing: border-box;
+    float: left;
+    margin-bottom: 30px;
+    width: 49.9%;
 
-	@media (max-width: $very-small - 1) {
-		width: 90%;
-		float: none;
-		margin-left: auto;
-		margin-right: auto;
-	}
+    @media (max-width: $very-small - 1) {
+        width: 90%;
+        float: none;
+        margin-left: auto;
+        margin-right: auto;
+    }
 
-	table {
-		border: solid 3px $hover-color;
-		border-collapse: collapse;
-		margin: 0 auto;
-		padding: 5px;
-		white-space: nowrap;
-		width: 90%;
+    table {
+        border: solid 3px $hover-color;
+        border-collapse: collapse;
+        margin: 0 auto;
+        padding: 5px;
+        white-space: nowrap;
+        width: 90%;
 
-		tr {
-			&:nth-child(odd) {
-				background-color: $light-color;
-			}
+        tr {
+            &:nth-child(odd) {
+                background-color: $light-color;
+            }
 
-			&.time td {
-				background-color: $hover-color;
-				color: white;
-				font-size: 14px;
-				font-weight: bold;
-				text-align: center;
+            &.time td {
+                background-color: $hover-color;
+                color: white;
+                font-size: 14px;
+                font-weight: bold;
+                text-align: center;
 
-				@media (max-width: $mobile - 1) {
-					font-size: 12px;
-				}
-			}
+                @media (max-width: $mobile - 1) {
+                    font-size: 12px;
+                }
+            }
 
-			&:hover {
-				color: black;
-			}
-		}
+            &:hover {
+                color: black;
+            }
+        }
 
-		th {
-			background-color: $hover-color;
-			color: white;
-			padding: 10px;
-			font-size: 24px;
+        th {
+            background-color: $hover-color;
+            color: white;
+            padding: 10px;
+            font-size: 24px;
 
-			@media (max-width: $small - 1) {
-				font-size: 20px;
-				padding: 7px;
-			}
+            @media (max-width: $small - 1) {
+                font-size: 20px;
+                padding: 7px;
+            }
 
-			@media (max-width: $very-small - 1) {
-				font-size: 18px;
-				padding: 5px;
-			}
+            @media (max-width: $very-small - 1) {
+                font-size: 18px;
+                padding: 5px;
+            }
 
-			@media (max-width: $mobile - 1) {
-				font-size: 16px;
-			}
-		}
+            @media (max-width: $mobile - 1) {
+                font-size: 16px;
+            }
+        }
 
-		td {
-			font-size: 20px;
-			padding: 4px 20px;
+        td {
+            font-size: 20px;
+            padding: 4px 20px;
 
-			@media (max-width: $small - 1) {
-				font-size: 16px;
-			}
+            @media (max-width: $small - 1) {
+                font-size: 16px;
+            }
 
-			@media (max-width: $mobile - 1) {
-				font-size: 14px;
-			}
+            @media (max-width: $mobile - 1) {
+                font-size: 14px;
+            }
 
-			&:first-child {
-				padding-right: 5px;
-			}
+            &:first-child {
+                padding-right: 5px;
+            }
 
-			&:last-child {
-				text-align: right;
-				padding-left: 5px;
-			}
+            &:last-child {
+                text-align: right;
+                padding-left: 5px;
+            }
 
-			sup {
-				font-size: 0.8em;
-			}
-		}
-	}
+            sup {
+                font-size: 0.8em;
+            }
+        }
+    }
 
-	&.sertificate {
-		// top: 0;
-		
-		// table {
-		// 	// width: 100%;
-		// }
+    &.sertificate {
+        // top: 0;
+        
+        // table {
+        //  // width: 100%;
+        // }
 
-		img {
-			width: 100%;
-		}
+        img {
+            width: 100%;
+        }
 
-		// td.picture {
-		// 	padding: 0;
-		// 	padding-top: 5px;
-		// }
-	}
+        // td.picture {
+        //  padding: 0;
+        //  padding-top: 5px;
+        // }
+    }
 
-	&.holidays {
-		float: right;
+    &.holidays {
+        float: right;
 
-		@media (max-width: $very-small - 1) {
-			float: none;
-		}
-	}
+        @media (max-width: $very-small - 1) {
+            float: none;
+        }
+    }
 
-	&.holidays, &.workdays {
-		tr:last-child {
-			border-top: solid 1px $hover-color;
-		}
-	}
+    &.holidays, &.workdays {
+        tr:last-child {
+            border-top: solid 1px $hover-color;
+        }
+    }
 }
 
 p.note {
-	clear: both;
-	margin: 0;
-	padding: 0 0 5px;
-	text-align: center;
-	width: 960px;
+    clear: both;
+    margin: 0;
+    padding: 0 0 5px;
+    text-align: center;
+    width: 960px;
 
-	&:first-of-type {
-		padding-top: 20px;
-	}
+    &:first-of-type {
+        padding-top: 20px;
+    }
 }
