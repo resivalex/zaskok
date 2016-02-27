@@ -7,7 +7,7 @@
         font-size: 20px;
         margin: 0 20px 20px;
 
-        @media (max-width: $mobile - 1) {
+        @include less($mobile) {
             font-size: 18px;
         }
 
@@ -23,7 +23,6 @@
             &:first-child {
                 color: black;
                 font-size: 40px;
-                // font-weight: bold;
             }
         }
     }
@@ -40,7 +39,7 @@
 #map {
     height: 400px;
 
-    @media (max-width: $mobile - 1) {
+    @include less($mobile) {
         height: 250px;
     }
 }

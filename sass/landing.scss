@@ -1,11 +1,13 @@
 @import "common";
 
-$mobile-minimum: 320px;
-$mobile: 480px;
-$very-small: 590px;
-$small: 768px;
-$medium: 992px; 
-$large: 1200px;
+$mobile-minimum:    320px;
+$mobile:            480px;
+$very-small:        590px;
+$small:             768px;
+$medium:            992px; 
+$large:            1200px;
+
+$max-content-width: 960px;
 
 // navigation menu
 nav {
@@ -14,29 +16,28 @@ nav {
     text-align: center;
     top: 0;
     width: 100%;
-    // min-width: 960px;
     z-index: 1000;
 
     a.menu-logo {
-        background-image: url("../img/small-logo.png");
-        background-size: 80%;
-        background-position: center center;
-        background-repeat: no-repeat;
+        background: {
+            image: url("../img/small-logo.png");
+            size: 80%;
+            position: center center;
+            repeat: no-repeat;
+        }
         cursor: pointer;
         color: rgba(0, 0, 0, 0);
-        // height: 44px;
-        // margin: 0 20px;
         width: 120px;
 
-        @media (max-width: $small - 1) {
+        @include less($small) {
             width: 90px;
         }
 
-        @media (max-width: $very-small - 1) {
+        @include less($very-small) {
             width: 60px;
         }
 
-        @media (max-width: $mobile - 1) {
+        @include less($mobile) {
             display: none;
         }
 
@@ -70,41 +71,37 @@ nav {
         transition: background-color;
         transition-duration: 0.3s;
 
-        @media (max-width: $small - 1) {
+        @include less($small) {
             font-size: 17px;
             padding: 8px 14px;
         }
 
-        @media (max-width: $very-small - 1) {
+        @include less($very-small) {
             font-size: 14px;
             padding: 6px 11px;
         }
 
-        @media (max-width: $mobile - 1) {
+        @include less($mobile) {
             font-size: 12px;
             padding: 5px 8px;
         }
 
-        &:hover {
-            background-color: $hover-color;
-            border-bottom: solid 3px white;
-        }
-
-        &.active {
+        &:hover, &.active {
             background-color: $hover-color;
             border-bottom: solid 3px white;
         }
     }
 }
 
+// offset animated elements
 .rand-popup {
     position: relative;
 }
 
 // landing sections
-section.card {
+section {
+    font-size: 16px;
     display: block;
-    // clearfix effect
     overflow: hidden;
 
     &:nth-of-type(odd) {
@@ -120,21 +117,20 @@ h2 {
     padding-bottom: 20px;
     text-align: center;
     width: 80%;
-    // width: 960px;
 
-    @media (max-width: $small - 1) {
+    @include less($small) {
         font-size: 32px;
         padding-top: 24px;
         padding-bottom: 16px;
     }
 
-    @media (max-width: $very-small - 1) {
+    @include less($very-small) {
         font-size: 28px;
         padding-top: 18px;
         padding-bottom: 12px;
     }
 
-    @media (max-width: $mobile - 1) {
+    @include less($mobile) {
         font-size: 24px;
         padding-top: 15px;
         padding-bottom: 10px;

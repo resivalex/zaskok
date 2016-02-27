@@ -1,14 +1,13 @@
 #order-content {
     margin: 0 auto;
-    max-width: 960px;
+    max-width: $max-content-width;
 
     #instruction {
         border-bottom: solid 1px #aaa;
         font-size: 14px;
         padding-bottom: 10px;
-        // text-align: center;
 
-        @media (max-width: $small - 1) {
+        @include less($small) {
             padding-left: 3%;
             padding-right: 3%;
         }
@@ -23,15 +22,15 @@
         margin-top: 15px;
         margin-bottom: 5px;
 
-        @media (max-width: $medium - 1) {
+        @include less($medium) {
             font-size: 20px;
         }
 
-        @media (max-width: $small - 1) {
+        @include less($small) {
             font-size: 24px;
         }
 
-        @media (max-width: $mobile - 1) {
+        @include less($mobile) {
             font-size: 20px;
         }
     }
@@ -40,14 +39,14 @@
         float: left;
         margin: 0 10px;
 
-        @media (max-width: $small - 1) {
+        @include less($small) {
             float: none;
             margin-left: auto;
             margin-right: auto;
             padding-left: 5%;
         }
 
-        @media (max-width: $mobile - 1) {
+        @include less($mobile) {
             padding-left: auto;
         }
     }
@@ -69,15 +68,15 @@
     #datepicker {
         font-size: 0.9em;
 
-        @media (max-width: $medium - 1) {
+        @include less($medium) {
             font-size: 0.8em;
         }
 
-        @media (max-width: $small - 1) {
+        @include less($small) {
             font-size: 1em;
         }
 
-        @media (max-width: $mobile - 1) {
+        @include less($mobile) {
             font-size: 0.7em;
         }
 
@@ -90,7 +89,7 @@
         margin-bottom: 0;
 
         input[type=radio] {
-            // display: none;
+            display: none;
         }
     }
 
@@ -101,15 +100,15 @@
     #guests-count, #more-count, #duration-count {
         font-size: 16px;
 
-        @media (max-width: $medium - 1) {
+        @include less($medium) {
             font-size: 14px;
         }
 
-        @media (max-width: $small - 1) {
+        @include less($small) {
             font-size: 18px;
         }
 
-        @media (max-width: $mobile - 1) {
+        @include less($mobile) {
             font-size: 12px;
         }
     }
@@ -123,17 +122,11 @@
 
     #order-button {
         box-sizing: border-box;
-        height: 50px;
-        padding: 5px;
         display: block;
         border-radius: 3px;
 
-        @media (max-width: $medium - 1) {
+        @include less($mobile) {
             font-size: 0.8em;
-        }
-
-        @media (max-width: $small - 1) {
-            font-size: 1em;
         }
     }
 
@@ -146,9 +139,9 @@
         }
 
         .loading {
+            @extend .cover;
+
             background-color: rgba(255, 255, 255, 0.5);
-            left: 0; right: 0; top: 0; bottom: 0;
-            position: absolute;
 
             .text {
                 position: absolute;
@@ -164,15 +157,15 @@
         margin-bottom: 30px;
         font-size: 14px;
 
-        @media (max-width: $medium - 1) {
+        @include less($medium) {
             font-size: 12px;
         }
 
-        @media (max-width: $small - 1) {
+        @include less($small) {
             font-size: 16px;
         }
 
-        @media (max-width: $mobile - 1) {
+        @include less($mobile) {
             font-size: 10px;
         }
         
@@ -196,33 +189,42 @@
 
         padding: 20px;
 
-        .vk-button {
-            background-color: #46a;
-            border: solid 3px #359;
+        .login-tool {
             box-sizing: border-box;
-            color: white;
-            cursor: pointer;
-            display: inline-block;
+            border: solid 3px #359;
             float: left;
             font-size: 24px;
             height: 50px;
-            line-height: 100%;
-            padding: 8px;
 
-            @media (max-width: $medium - 1) {
+            @include less($medium) {
                 font-size: 20px;
                 height: 44px;
             }
 
-            @media (max-width: $small - 1) {
-                padding: 8px;
+            @include less($small) {
                 height: 40px;
+                font-size: 18px;
                 text-align: center;
                 width: 100%;
             }
 
-            @media (max-width: $mobile - 1) {
+            @include less($mobile) {
                 font-size: 16px;
+            }
+        }
+
+        .vk-button {
+            @extend .login-tool;
+
+            background-color: #46a;
+            color: white;
+            cursor: pointer;
+            display: inline-block;
+            line-height: 100%;
+            padding: 8px;
+
+            @include less($small) {
+                padding: 8px;
             }
 
             &:hover {
@@ -231,15 +233,12 @@
         }
 
         .phone {
+            @extend .login-tool;
+
             background-color: #eee;
-            border: solid 3px #359;
             border-left: none;
-            box-sizing: border-box;
             color: #444;
-            float: left;
-            font-size: 24px;
             font-weight: bold;
-            height: 50px;
             padding: 5px;
             text-align: center;
             
@@ -247,22 +246,10 @@
                 background-color: white;
             }
 
-            @media (max-width: $medium - 1) {
-                font-size: 20px;
-                height: 44px;
-            }
-
-            @media (max-width: $small - 1) {
+            @include less($small) {
                 border-left: solid 3px #359;
                 border-top: none;
-                font-size: 18px;
-                height: 40px;
                 padding: 3px;
-                width: 100%;
-            }
-
-            @media (max-width: $mobile - 1) {
-                font-size: 16px;
             }
         }
     }
@@ -271,7 +258,7 @@
         font-size: 14px;
         max-width: 350px;
 
-        @media (max-width: $medium - 1) {
+        @include less($medium) {
             font-size: 12px;
             max-width: 300px;
         }
@@ -282,11 +269,11 @@
         border-collapse: collapse;
         margin: 20px auto 10px;
 
-        @media (max-width: $very-small - 1) {
+        @include less($very-small) {
             font-size: 16px;
         }
 
-        @media (max-width: $mobile - 1) {
+        @include less($mobile) {
             font-size: 12px;
         }
 
@@ -323,7 +310,6 @@
 
         button {
             display: block;
-            // font-size: 30px;
             width: 100%;
         }
 

@@ -8,6 +8,7 @@ $smarty->setCompileDir('smarty/compile');
 $smarty->setCacheDir('smarty/cache');
 $smarty->setConfigDir('smarty/config');
 
+
 $sections = [];
 
 $sections['about'] = array(
@@ -51,7 +52,6 @@ foreach ($files as $file) {
         $slides[] = 'img/slider/'.$file;
     }
 }
-// print_r($slides);
 
 $facts = [
     'we_are' => [

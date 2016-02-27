@@ -1,17 +1,8 @@
 .about-container {
     margin: 0 auto;
     padding-bottom: 30px;
-    max-width: 960px;
+    max-width: $max-content-width;
 }
-
-// .sample {
-//  background-image: url("../img/sample.jpg");
-//  background-size: cover;
-//  box-shadow: 3px 3px 10px black;
-//  float: right;
-//  height: 400px;
-//  width: 19.5%;
-// }
 
 .youtube {
     clear: both;
@@ -28,11 +19,8 @@
     }
 
     .player {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
+        @extend .cover;
+
         iframe {
             width: 100%;
             height: 100%;
@@ -64,17 +52,15 @@
     }
 
     h3 {
-        // border-bottom: solid 1px gray;
         font-size: 20px;
         text-align: left;
 
-        @media (max-width: $mobile - 1) {
+        @include less($mobile) {
             font-size: 16px;;
         }
     }
 
     ul {
-        // list-style-type: none;
         padding: 0 0 20px;
     }
 
@@ -82,7 +68,7 @@
         font-size: 16px;
         padding: 2px 0;
 
-        @media (max-width: $small - 1) {
+        @include less($small) {
             font-size: 14px;
         }
     }
@@ -96,19 +82,19 @@
         width: 19.9%;
         min-width: 120px;
 
-        @media (max-width: $medium - 1) {
+        @include less($medium) {
             height: 130px;
         }
 
-        @media (max-width: $small - 1) {
+        @include less($small) {
             height: 120px;
         }
 
-        @media (max-width: $very-small - 1) {
+        @include less($very-small) {
             height: 110px;
         }
 
-        @media (max-width: $mobile - 1) {
+        @include less($mobile) {
             height: 100px;
         }
     }
@@ -117,11 +103,11 @@
         float: left;
         width: 80%;
 
-        @media (max-width: $small - 1) {
+        @include less($small) {
             width: 70%;
         }
 
-        @media (max-width: $mobile - 1) {
+        @include less($mobile) {
             padding-left: 5%;
             padding-right: 5%;
             width: 90%;

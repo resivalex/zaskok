@@ -3,7 +3,7 @@
         display: table;
         margin: 0 auto;
         padding-bottom: 20px;
-        max-width: 960px;
+        max-width: $max-content-width;
     }
 
     .stars {
@@ -17,7 +17,7 @@
     margin-bottom: 30px;
     width: 49.9%;
 
-    @media (max-width: $very-small - 1) {
+    @include less($very-small) {
         width: 90%;
         float: none;
         margin-left: auto;
@@ -44,7 +44,7 @@
                 font-weight: bold;
                 text-align: center;
 
-                @media (max-width: $mobile - 1) {
+                @include less($mobile) {
                     font-size: 12px;
                 }
             }
@@ -60,17 +60,17 @@
             padding: 10px;
             font-size: 24px;
 
-            @media (max-width: $small - 1) {
+            @include less($small) {
                 font-size: 20px;
                 padding: 7px;
             }
 
-            @media (max-width: $very-small - 1) {
+            @include less($very-small) {
                 font-size: 18px;
                 padding: 5px;
             }
 
-            @media (max-width: $mobile - 1) {
+            @include less($mobile) {
                 font-size: 16px;
             }
         }
@@ -79,11 +79,11 @@
             font-size: 20px;
             padding: 4px 20px;
 
-            @media (max-width: $small - 1) {
+            @include less($small) {
                 font-size: 16px;
             }
 
-            @media (max-width: $mobile - 1) {
+            @include less($mobile) {
                 font-size: 14px;
             }
 
@@ -103,26 +103,15 @@
     }
 
     &.sertificate {
-        // top: 0;
-        
-        // table {
-        //  // width: 100%;
-        // }
-
         img {
             width: 100%;
         }
-
-        // td.picture {
-        //  padding: 0;
-        //  padding-top: 5px;
-        // }
     }
 
     &.holidays {
         float: right;
 
-        @media (max-width: $very-small - 1) {
+        @include less($very-small) {
             float: none;
         }
     }

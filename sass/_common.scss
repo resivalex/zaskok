@@ -1,4 +1,4 @@
-$nav-color: #000;//#88f;
+$nav-color: #000;
 $hover-color: #66f;
 $light-color: #ccf;
 $text-color: #445;
@@ -26,4 +26,18 @@ body {
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
+}
+
+.cover {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+@mixin less($size) {
+    @media (max-width: $size - 1) {
+        @content;
+    }
 }
