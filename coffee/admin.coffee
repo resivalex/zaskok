@@ -1,23 +1,23 @@
 app = angular.module 'adminApp', ['myFormats', 'myDirectives']
-.factory 'shared', ->
+.factory 'refreshService', ->
     date = null
-    dateFns = []
-    recFns = []
+    dateFuncs = []
+    recordFuncs = []
 
     onDateChanged = (fn) ->
-        dateFns.push fn
+        dateFuncs.push fn
 
     setDate = (dt) ->
         date = dt
-        fn(date) for fn in dateFns
+        fn(date) for fn in dateFuncs
 
     getDate = -> date
 
     recordsChanged = ->
-        fn() for fn in recFns
+        fn() for fn in recordFuncs
 
     onRecordsChanged = (fn) ->
-        recFns.push fn
+        recordFuncs.push fn
 
     {
         onDateChanged
@@ -47,7 +47,7 @@ postRequest = ($http, requestOptions) ->
         if requestOptions.finally
             requestOptions.finally()
 
-app.controller 'ReportCtrl', ['$scope', '$http', 'shared', ($scope, $http, shared) ->
+app.controller 'ReportCtrl', ['$scope', '$http', 'refreshService', ($scope, $http, refreshService) ->
     $scope.records = []
     $scope.users = []
 
@@ -62,7 +62,7 @@ app.controller 'ReportCtrl', ['$scope', '$http', 'shared', ($scope, $http, share
         postRequest $http,
             data:
                 action: 'getRecordsByDate'
-                date: window.toSamaraDate shared.getDate()
+                date: window.toSamaraDate refreshService.getDate()
             success: (response) ->
                 records = []
                 for index, record of response
@@ -91,13 +91,13 @@ app.controller 'ReportCtrl', ['$scope', '$http', 'shared', ($scope, $http, share
                     token: @.record.token
                 finally: ->
                     refreshReport()
-                    shared.recordsChanged()
+                    refreshService.recordsChanged()
 
-    shared.onDateChanged refreshReport
-    shared.onRecordsChanged refreshReport
+    refreshService.onDateChanged refreshReport
+    refreshService.onRecordsChanged refreshReport
 ]
 
-app.controller 'AddRecordCtrl', ['$scope', '$http', 'shared', ($scope, $http, shared) ->
+app.controller 'AddRecordCtrl', ['$scope', '$http', 'refreshService', ($scope, $http, refreshService) ->
     $scope.datepickerOptions = {}
     $scope.record =
         date: new Date()
@@ -119,19 +119,19 @@ app.controller 'AddRecordCtrl', ['$scope', '$http', 'shared', ($scope, $http, sh
         .then (response) ->
             $scope.place = response.data.data
 
-    shared.setDate new Date()
+    refreshService.setDate new Date()
 
     setInterval ->
-            refreshPlaces shared.getDate()
-            shared.recordsChanged()
+            refreshPlaces refreshService.getDate()
+            refreshService.recordsChanged()
         , 10000
 
     $scope.$watch 'record.date', (date) ->
         refreshPlaces date
-        shared.setDate date
+        refreshService.setDate date
 
-    shared.onRecordsChanged ->
-        refreshPlaces shared.getDate()
+    refreshService.onRecordsChanged ->
+        refreshPlaces refreshService.getDate()
 
     $scope.$watchGroup ['place', 'record.date', 'record.guests', 'record.duration'], ->
         $scope.availableTime = window.availablePlaces $scope.place,
@@ -171,6 +171,6 @@ app.controller 'AddRecordCtrl', ['$scope', '$http', 'shared', ($scope, $http, sh
                 finally: ->
                     $scope.isSaving = false
                     $scope.record.time = null
-                    shared.setDate shared.getDate()
-                    shared.recordsChanged()
+                    refreshService.setDate refreshService.getDate()
+                    refreshService.recordsChanged()
 ]

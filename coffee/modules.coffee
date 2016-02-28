@@ -165,18 +165,16 @@ angular.module 'myDirectives', []
             scope.$apply ($scope) ->
                 ngModel.assign scope, element.datepicker 'getDate'
 
+timeZoneDelta = -240 - new Date().getTimezoneOffset()
 
 window.availablePlaces = (place, date, guests, duration, ignoreTime = false) ->
-    timeZoneDelta = -240 - new Date().getTimezoneOffset()
-    temp = new Array 72
-
     openTime = 10 * 60 # 10:00
     closeTime = 22 * 60 # 22:00
     timeDelta = 10 # minutes
     maxGuests = 10
 
     isToday = date.getDate() == (new Date()).getDate() && date.getMonth() == (new Date()).getMonth()
-    minutesNow = (new Date()).getHours() * 60 + (new Date()).getMinutes()
+    samaraMinutesNow = (new Date()).getHours() * 60 + (new Date()).getMinutes() - timeZoneDelta
 
     for index in [0...72]
         enabled = on 
@@ -185,25 +183,21 @@ window.availablePlaces = (place, date, guests, duration, ignoreTime = false) ->
             enabled = off
 
         if not ignoreTime
-            if isToday && time < minutesNow - timeZoneDelta
+            if isToday && time < samaraMinutesNow
                 enabled = off
 
         countInDelta = duration / timeDelta
         for i in [index...Math.min(index + countInDelta, place.length)]
             if place[i] + guests > maxGuests
                 enabled = off
-        temp[index] = enabled
-
-    temp
+        enabled
 
 window.toSamaraDate = (date) ->
-    timeZoneDelta = -240 - new Date().getTimezoneOffset()
     if date instanceof Date
         Math.round date.getTime() / 1000 + timeZoneDelta * 60
     else
         0
 
 window.fromSamaraDate = (posixTime) ->
-    timeZoneDelta = -240 - new Date().getTimezoneOffset()
     if typeof(posixTime) == 'number'
         return new Date((posixTime - timeZoneDelta * 60) * 1000)

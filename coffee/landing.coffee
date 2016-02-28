@@ -32,12 +32,10 @@ $ ->
             id = $sections.eq(index).attr('id')
             $activeLink = $("nav a[href='##{id}']")
 
-
     activateSection = (index) ->
         $activeLink = activeLink(index)
         
-        zoom = 0.9
-        tuk = ->
+        knock = ->
             tl = new TimelineMax()
             tl.add TweenMax.to $activeLink, 0.1,
                 css:
@@ -48,7 +46,7 @@ $ ->
 
         TweenMax.to $activeLink, 0.2,
             className: '+=active'
-            onComplete: tuk
+            onComplete: knock
 
     deactivateSection = (index) ->
         $activeLink = activeLink(index)
@@ -61,7 +59,7 @@ $ ->
 
     # when active section has changed
     $sections.each (index) ->
-        waypoint = new Waypoint(
+        new Waypoint(
             element: @
             handler: (direction) ->
                 deactivateSection curIndex
@@ -93,35 +91,26 @@ $ ->
             offset: -$(el).height() + navHeight()
         )
 
-    # animate elements with class 'popup'
-    popupShift = 100
-    # $('.popup').each ->
-    #   el = @
-    #   onVisibilityChanged(@,
-    #       -> TweenMax.to el, 0.6 + Math.random() * 0.4, y: 0,
-    #       -> TweenMax.to el, 0, y: popupShift,
-    #   )
-
-    xyRandOffset = (popupShift) ->
-        css:
-            left: (Math.random() - 0.5) * popupShift
-            top: (Math.random() - 0.5) * popupShift
-
     if not isMobile and window.innerWidth >= 600
+        # animate elements with class 'popup'
+        popupShift = 100
+        xyRandOffset = (popupShift) ->
+            css:
+                left: (Math.random() - 0.5) * popupShift
+                top: (Math.random() - 0.5) * popupShift
+
         $('.rand-popup').each ->
             el = @
             onVisibilityChanged(el,
-                -> TweenMax.to el, 0.6 + Math.random() * 0.4, xyRandOffset(0)
+                -> TweenMax.to el, 0.6 + Math.random() * 0.4, xyRandOffset 0
                 ,
-                -> TweenMax.to el, 0.6 + Math.random() * 0.4, xyRandOffset(100)
+                -> TweenMax.to el, 0.6 + Math.random() * 0.4, xyRandOffset 100
             )
 
         # animate facts
         $('.fact').each ->
             el = @
             onVisibilityChanged(@,
-                # -> TweenMax.to el, 1, x: 0,
-                # -> TweenMax.to el, 0, x: $(document).width() / 4
                 -> TweenMax.to el, 1, css: opacity: 1,
                 -> TweenMax.to el, 0, css: opacity: 0
             )
@@ -132,11 +121,10 @@ $ ->
                 -> TweenMax.to el, 1, css: opacity: 1,
                 -> TweenMax.to el, 0, css: opacity: 0
             )
-
-        
+       
 
     $('.menu-logo')
         .on 'click', ->
             $('html, body').animate scrollTop: 0, 500
 
-    $('.gallery').lightGallery(thumbnail: true)
+    $('.gallery').lightGallery thumbnail: true

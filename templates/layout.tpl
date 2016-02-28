@@ -7,6 +7,7 @@
   <title>{block name=title}Default title{/block}</title>
 </head>
 <body>
+  {block name=body}{/block}
   <!-- EcmaScript5 support for old browsers -->
   <script type="text/javascript" src="js/lib/es5-sham.min.js"></script>
   <!-- jQuery -->
@@ -29,7 +30,6 @@
   <!-- My AngularJS modules -->
   <script src="/js/modules.js"></script>
   {block name=body_includes}{/block}
-  {block name=body}{/block}
 
 </body>
 </html>
